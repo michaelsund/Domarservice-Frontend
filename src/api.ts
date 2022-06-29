@@ -16,9 +16,9 @@ const retrieveToken = async () => {
 const saveToken = (token: string) => {
   localStorage.setItem('token', token);
 };
-// const clearToken = () => {
-//   localStorage.removeItem('token');
-// };
+const clearToken = () => {
+  localStorage.removeItem('token');
+};
 
 // Add token to the request headers
 const fetchJSONWithToken = async (url: string, options = {}) => {
@@ -29,6 +29,7 @@ const fetchJSONWithToken = async (url: string, options = {}) => {
     optionsWithToken = merge({}, options, {
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
     });
   }
@@ -60,8 +61,8 @@ const refreshToken = async () => {
     .catch((error) => {
       // If we failed by any reason in refreshing, just clear the token,
       // it's not that big of a deal
-      // clearToken();
-      console.log('catched error, but not deleting expired token from localstorage');
+      clearToken();
+      console.log('catched error, clearing token');
       throw error;
     });
 };

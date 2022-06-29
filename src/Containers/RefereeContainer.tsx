@@ -15,10 +15,6 @@ const RefereeContainer = () => {
   const handleFetch = () => {
     apiFetch('/referee/2', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // 'Authorization': `bearer ${token}`
-      }
     })
     .then((response: any) => setReferee(response.body.data));
   };
