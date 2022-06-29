@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TopMenu from "./Components/TopMenu";
+import IndexContainer from "./Containers/IndexContainer";
+import LoginContainer from "./Containers/LoginContainer";
+import RefereeContainer from "./Containers/RefereeContainer";
+import { AuthContext } from "./Context/AuthContext";
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState('');
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContext.Provider value={{ token, setToken }}>
+      <BrowserRouter>
+        <TopMenu />
+        <Routes>
+          <Route path="/" element={<IndexContainer />} />
+          <Route path="/referee" element={<RefereeContainer />} />
+          <Route path="/login" element={<LoginContainer />} />
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
-}
+};
 
 export default App;
