@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext, AuthContextType } from '../Context/AuthContext';
+import { apiFetch } from '../api';
 import { CountyType } from '../types/CountyType';
 import { CountyDto } from '../types/Dto/CountyDto';
 import { RefereeSportDto } from '../types/Dto/RefereeSportDto';
@@ -9,21 +10,17 @@ import { SportType } from '../types/SportType';
 
 const RefereeContainer = () => {
   const [referee, setReferee] = useState<RefereeDto>();
-  const { token } = useContext(AuthContext) as AuthContextType;
+  // const { token } = useContext(AuthContext) as AuthContextType;
 
   const handleFetch = () => {
-    fetch('/referee/2', {
+    apiFetch('/referee/2', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `bearer ${token}`
+        // 'Authorization': `bearer ${token}`
       }
     })
-      .then((response) => response.json())
-      .then(jsonResponse => {
-        setReferee(jsonResponse.data)
-      })
-      .catch(err => console.log(err));
+    .then((response: any) => setReferee(response.body.data));
   };
 
   useEffect(() => {
