@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../Helpers/ApiFetch';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
@@ -8,6 +9,7 @@ import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 
 const RefereeContainer = () => {
+  const navigate = useNavigate();
   const [referee, setReferee] = useState<RefereeDto>();
 
   const handleFetch = () => {
@@ -16,18 +18,20 @@ const RefereeContainer = () => {
     })
       .then((response: any) => setReferee(response.body.data))
       .catch((err: any) => {
-        console.log('ApiFetch returned error!!!!');
+        console.log(err);
+        if (err.status === 401) {
+          navigate('/login');
+        }
       });
   };
 
   useEffect(() => {
     handleFetch();
-    console.log('i fire once');
   }, []);
 
   return (
     <div style={{ width: '20%', display: 'flex', flexDirection: 'column' }}>
-      {referee !== undefined ? (
+      {referee !== undefined && (
         <div>
           <h2>
             {referee?.surname} {referee?.lastname}
@@ -47,8 +51,6 @@ const RefereeContainer = () => {
             ))}
           </ul>
         </div>
-      ) : (
-        <p>No referee data!</p>
       )}
     </div>
   );

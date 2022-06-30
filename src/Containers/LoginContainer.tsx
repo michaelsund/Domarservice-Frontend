@@ -45,6 +45,7 @@ const LoginContainer = () => {
           console.log(data.data)
           // setToken(data.data.token);
           localStorage.setItem('token', data.data.token)
+          
         } else {
           console.log('Auth failed')
         }
