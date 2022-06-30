@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../Helpers/ApiFetch';
 import { CountyType } from '../Types/CountyType';
@@ -12,13 +12,12 @@ const RefereeContainer = () => {
   const navigate = useNavigate();
   const [referee, setReferee] = useState<RefereeDto>();
 
-  const handleFetch = () => {
+  const handleLogin = () => {
     apiFetch('/referee/2', {
       method: 'GET',
     })
       .then((response: any) => setReferee(response.body.data))
       .catch((err: any) => {
-        console.log(err);
         if (err.status === 401) {
           navigate('/login');
         }
@@ -26,7 +25,7 @@ const RefereeContainer = () => {
   };
 
   useEffect(() => {
-    handleFetch();
+    handleLogin();
   }, []);
 
   return (
