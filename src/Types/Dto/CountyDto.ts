@@ -1,4 +1,4 @@
-import { CountyType } from "../CountyType";
+import { CountyType } from '../CountyType';
 
 export interface CountyDto {
   id: number;

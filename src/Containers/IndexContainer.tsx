@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const IndexContainer = () => {
   return (
@@ -6,6 +6,6 @@ const IndexContainer = () => {
       <h1>Index</h1>
     </div>
   );
-}
+};
 
 export default IndexContainer;

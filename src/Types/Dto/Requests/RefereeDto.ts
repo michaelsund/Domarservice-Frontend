@@ -1,5 +1,5 @@
-import { CountyDto } from "../CountyDto";
-import { RefereeSportDto } from "../RefereeSportDto";
+import { CountyDto } from '../CountyDto';
+import { RefereeSportDto } from '../RefereeSportDto';
 
 export interface RefereeDto {
   id: number;
@@ -8,5 +8,5 @@ export interface RefereeDto {
   sports: RefereeSportDto[];
   countys: CountyDto[];
   // Schedules: ScheduleDto[];
-  // Countys: 
+  // Countys:
 }
