@@ -1,33 +1,12 @@
-import React, { Component, useState, useContext } from 'react'
-import { AuthContext, AuthContextType } from '../Context/AuthContext'
+import React, { Component, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginContainer = () => {
-  const [email, setEmail] = useState('admin@osund.com')
-  const [password, setPassword] = useState('!Oneverycomplexpassword123')
-  // const { token, setToken } = useContext(AuthContext) as AuthContextType;
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('admin@osund.com');
+  const [password, setPassword] = useState('!Oneverycomplexpassword123');
 
   const handleLogin = () => {
-    // fetch('/authenticate/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     username: email,
-    //     password
-    //   })
-    // })
-    //   .then((response) => response.json())
-    //   .then(data => {
-    //     if (data.success) {
-    //       console.log('Auth success');
-    //       console.log(data.data.token);
-    //       setToken(data.data.token)
-    //     } else {
-    //       console.log('Auth failed');
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
     fetch('/authenticate/login', {
       method: 'POST',
       headers: {
@@ -41,17 +20,16 @@ const LoginContainer = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          console.log('Auth success')
-          console.log(data.data)
-          // setToken(data.data.token);
-          localStorage.setItem('token', data.data.token)
-          
+          console.log('Auth success');
+          console.log(data.data);
+          localStorage.setItem('token', data.data.token);
+          navigate(-1);
         } else {
-          console.log('Auth failed')
+          console.log('Auth failed');
         }
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div style={{ width: '20%', display: 'flex', flexDirection: 'column' }}>
@@ -64,7 +42,7 @@ const LoginContainer = () => {
       <button onClick={() => handleLogin()}>Login</button>
       <p>The context token is: {localStorage.getItem('token')}</p>
     </div>
-  )
-}
+  );
+};
 
-export default LoginContainer
+export default LoginContainer;
