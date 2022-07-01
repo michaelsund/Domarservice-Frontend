@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../Helpers/Axios';
+import useAxiosPrivate from '../Hooks/useAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
 import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
-import useRefreshToken from '../Hooks/UseRefreshToken';
-import useAuth from '../Hooks/UseAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const RefereeContainer = () => {
   // const navigate = useNavigate();
   const [referee, setReferee] = useState<RefereeDto>();
-  const refresh = useRefreshToken();
-  const { auth }: any = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let isMounted = true;
@@ -21,16 +21,14 @@ const RefereeContainer = () => {
 
     const getReferee = async () => {
       try {
-        const response = await axios.get('/referee/2', {
+        const response = await axiosPrivate.get('/referee/2', {
           signal: controller.signal,
-          headers: {
-            Authorization: `Bearer ${auth.token}`
-          }
         });
         console.log(response.data);
         isMounted && setReferee(response.data.data);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -65,7 +63,6 @@ const RefereeContainer = () => {
           </ul>
         </div>
       )}
-      <button onClick={() => refresh()}>Refresh token</button>
     </div>
   );
 };
