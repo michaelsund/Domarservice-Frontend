@@ -1,34 +1,36 @@
-import React, { Component, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from '../Helpers/Axios';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const LoginContainer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('admin@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
+  // @ts-expect-error cannot find typing for from
+  const fromUrl = location.state?.from?.pathname || '/';
 
   const handleLogin = () => {
-    fetch('/authenticate/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: email,
-        password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          console.log('Auth success');
-          console.log(data.data);
-          localStorage.setItem('token', data.data.token);
-          navigate(-1);
-        } else {
-          console.log('Auth failed');
-        }
+    axios
+      .post(
+        '/authenticate/login',
+        {
+          username: email,
+          password,
+        },
+        { withCredentials: true },
+      )
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem('token', response.data.data.token);
+        navigate(fromUrl, { replace: true });
+        // navigate(-1);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
   };
 
   return (
@@ -40,6 +42,7 @@ const LoginContainer = () => {
       <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
       <br />
       <button onClick={() => handleLogin()}>Login</button>
+      <button onClick={() => handleLogout()}>Logout</button>
       <p>The context token is: {localStorage.getItem('token')}</p>
     </div>
   );

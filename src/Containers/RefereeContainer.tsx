@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { apiFetch } from '../Helpers/ApiFetch';
+import useAxiosPrivate from '../Hooks/useAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
 import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const RefereeContainer = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [referee, setReferee] = useState<RefereeDto>();
-
-  const handleLogin = () => {
-    apiFetch('/referee/2', {
-      method: 'GET',
-    })
-      .then((response: any) => setReferee(response.body.data))
-      .catch((err: any) => {
-        if (err.status === 401) {
-          navigate('/login');
-        }
-      });
-  };
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    handleLogin();
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getReferee = async () => {
+      try {
+        const response = await axiosPrivate.get('/referee/2', {
+          signal: controller.signal,
+        });
+        console.log(response.data);
+        isMounted && setReferee(response.data.data);
+      } catch (error: any) {
+        console.log(error);
+        navigate('/login', { state: { from: location }, replace: true });
+      }
+    };
+
+    getReferee();
+
+    return () => {
+      isMounted = false;
+      controller.abort;
+    };
   }, []);
 
   return (
