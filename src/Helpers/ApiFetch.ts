@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import merge from 'lodash/merge';
 import { configureRefreshFetch, fetchJSON } from 'refresh-fetch';
 
@@ -14,6 +15,7 @@ const clearToken = () => {
 
 const fetchJSONWithToken = async (url: string, options = {}) => {
   const token = await retrieveToken();
+  const navigate = useNavigate();
 
   let optionsWithToken = options;
   if (token != null) {
@@ -27,7 +29,8 @@ const fetchJSONWithToken = async (url: string, options = {}) => {
   return fetchJSON(url, optionsWithToken);
 };
 
-const shouldRefreshToken = (error: any) => error.response.status === 401;
+// const shouldRefreshToken = (error: any) => error.response.status === 401;
+const shouldRefreshToken = (error: any) => false;
 
 const refreshToken = async () => {
   const token = await retrieveToken();

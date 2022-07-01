@@ -1,31 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { apiFetch } from '../Helpers/ApiFetch';
+import axios from '../Helpers/Axios';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
 import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
+import useRefreshToken from '../Hooks/UseRefreshToken';
+import useAuth from '../Hooks/UseAuth';
 
 const RefereeContainer = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [referee, setReferee] = useState<RefereeDto>();
-
-  const handleLogin = () => {
-    apiFetch('/referee/2', {
-      method: 'GET',
-    })
-      .then((response: any) => setReferee(response.body.data))
-      .catch((err: any) => {
-        if (err.status === 401) {
-          navigate('/login');
-        }
-      });
-  };
+  const refresh = useRefreshToken();
+  const { auth }: any = useAuth();
 
   useEffect(() => {
-    handleLogin();
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getReferee = async () => {
+      try {
+        const response = await axios.get('/referee/2', {
+          signal: controller.signal,
+          headers: {
+            Authorization: `Bearer ${auth.token}`
+          }
+        });
+        console.log(response.data);
+        isMounted && setReferee(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getReferee();
+
+    return () => {
+      isMounted = false;
+      controller.abort;
+    };
   }, []);
 
   return (
@@ -51,6 +65,7 @@ const RefereeContainer = () => {
           </ul>
         </div>
       )}
+      <button onClick={() => refresh()}>Refresh token</button>
     </div>
   );
 };

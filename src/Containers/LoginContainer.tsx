@@ -1,13 +1,15 @@
 import React, { Component, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../Hooks/UseAuth';
 
 const LoginContainer = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('admin@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
+  const { auth, setAuth }: any = useAuth();
 
   const handleLogin = () => {
-    fetch('/authenticate/login', {
+    fetch('https://localhost:5001/authenticate/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,9 +23,7 @@ const LoginContainer = () => {
       .then((data) => {
         if (data.success) {
           console.log('Auth success');
-          console.log(data.data);
-          localStorage.setItem('token', data.data.token);
-          navigate(-1);
+          setAuth({ token: data.data.token });
         } else {
           console.log('Auth failed');
         }
@@ -40,7 +40,7 @@ const LoginContainer = () => {
       <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
       <br />
       <button onClick={() => handleLogin()}>Login</button>
-      <p>The context token is: {localStorage.getItem('token')}</p>
+      <p>The context token is: {auth.token}</p>
     </div>
   );
 };
