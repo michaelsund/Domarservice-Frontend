@@ -42,7 +42,7 @@ const LoginContainer = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col text-gray-900 dark:text-white">
       <span>Username</span>
       <input type='email' value={email} onChange={(e) => setEmail(e.target.value)}></input>
       <br />

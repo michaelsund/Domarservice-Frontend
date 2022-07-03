@@ -26,7 +26,6 @@ const RefereeContainer = () => {
         const response = await axiosPrivate.get('/referee/2', {
           signal: controller.signal,
         });
-        console.log(response.data);
         isMounted && setReferee(response.data.data);
         setLoading(false);
       } catch (error: any) {
@@ -45,7 +44,7 @@ const RefereeContainer = () => {
   }, []);
 
   return (
-    <div style={{ width: '20%', display: 'flex', flexDirection: 'column' }}>
+    <div className="flex flex-col text-gray-900 dark:text-white">
       {loading ? (
         <LoadingSpinner />
       ) : (

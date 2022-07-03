@@ -4,7 +4,7 @@ import { Card } from '../Components/Card';
 
 const IndexContainer = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col text-gray-900 dark:text-white">
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <Card>
         <a href="#">
