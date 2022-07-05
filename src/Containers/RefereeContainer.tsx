@@ -44,7 +44,7 @@ const RefereeContainer = () => {
   }, []);
 
   return (
-    <div className="flex flex-col text-gray-900 dark:text-white">
+    <div className="flex flex-col px-4 text-gray-900 dark:text-white">
       {loading ? (
         <LoadingSpinner />
       ) : (

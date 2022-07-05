@@ -7,16 +7,16 @@ import { ThemeProvider } from './Context/ThemeContext';
 
 const App = () => {
   return (
-    <div className='container mx-auto px-4'>
+    <main className="container md:px-0 max-w-10xl mx-auto overflow-hidden">
       <ThemeProvider>
         <BrowserRouter>
           <TopMenu />
           <Routes>
-            <Route path='/' element={<IndexContainer />} />
-            <Route path='/referee' element={<RefereeContainer />} />
-            <Route path='/login' element={<LoginContainer />} />
+            <Route path="/" element={<IndexContainer />} />
+            <Route path="/referee" element={<RefereeContainer />} />
+            <Route path="/login" element={<LoginContainer />} />
             <Route
-              path='*'
+              path="*"
               element={
                 <main style={{ padding: '1rem' }}>
                   <p>There is nothing here!</p>
@@ -26,7 +26,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    </div>
+    </main>
   );
 };
 

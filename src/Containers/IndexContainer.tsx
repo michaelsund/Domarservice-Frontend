@@ -4,8 +4,8 @@ import { Card } from '../Components/Card';
 
 const IndexContainer = () => {
   return (
-    <div className="flex flex-col text-gray-900 dark:text-white">
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+    <div className="flex flex-col px-4 text-gray-900 dark:text-white">
+      {/* <h1 className="text-3xl font-bold underline">Hello world!</h1> */}
       <Card>
         <a href="#">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
