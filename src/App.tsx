@@ -7,7 +7,7 @@ import { ThemeProvider } from './Context/ThemeContext';
 
 const App = () => {
   return (
-    <main className="container md:px-0 max-w-10xl mx-auto overflow-hidden">
+    <main className="container md:px-0 max-w-10xl mx-auto overflow-hidden break-words">
       <ThemeProvider>
         <BrowserRouter>
           <TopMenu />

@@ -1,8 +1,6 @@
 import axios from '../Helpers/Axios';
-import { useNavigate } from 'react-router-dom';
 
 const useRefreshToken = () => {
-  const navigate = useNavigate();
 
   const refresh = async () => {
     console.log('refreshing token');
