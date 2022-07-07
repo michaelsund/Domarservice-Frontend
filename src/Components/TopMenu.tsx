@@ -9,6 +9,7 @@ const TopMenu = () => {
       <Link to='/referee'>Testdomare</Link>
       <Link className="flex-1" to='/login'>Logga in</Link>
       <ToggleTheme className="w-12" />
+      {/* <GetUserName className="w-12" /> */}
     </div>
   );
 };
