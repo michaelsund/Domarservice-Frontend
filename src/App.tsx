@@ -3,6 +3,7 @@ import TopMenu from './Components/TopMenu';
 import IndexContainer from './Containers/IndexContainer';
 import LoginContainer from './Containers/LoginContainer';
 import RefereeContainer from './Containers/RefereeContainer';
+import CompanyContainer from './Containers/CompanyContainer';
 import { ThemeProvider } from './Context/ThemeContext';
 
 const App = () => {
@@ -13,7 +14,8 @@ const App = () => {
           <TopMenu />
           <Routes>
             <Route path="/" element={<IndexContainer />} />
-            <Route path="/referee" element={<RefereeContainer />} />
+            <Route path="/referee/:id" element={<RefereeContainer />} />
+            <Route path="/company/:id" element={<CompanyContainer />} />
             <Route path="/login" element={<LoginContainer />} />
             <Route
               path="*"

@@ -3,18 +3,20 @@ import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
-import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
+import { SimpleCompanyDto } from '../Types/Dto/Requests/SimpleCompanyDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
+import { SimpleUserDto } from '../Types/Dto/Requests/SimpleUserDto';
+import { CompanyAndUsersDto } from '../Types/Dto/Requests/CompanyAndUsersDto';
 
-const RefereeContainer = () => {
+const CompanyContainer = () => {
   const { id } = useParams();
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [referee, setReferee] = useState<RefereeDto>();
+  const [company, setCompany] = useState<CompanyAndUsersDto>();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,10 +28,10 @@ const RefereeContainer = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(`/referee/${id}`, {
+        const response = await axiosPrivate.get(`/company/${id}/withusers`, {
           signal: controller.signal,
         });
-        isMounted && setReferee(response.data.data);
+        isMounted && setCompany(response.data.data);
         setLoading(false);
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
@@ -38,8 +40,8 @@ const RefereeContainer = () => {
           navigate('/login', { state: { from: location }, replace: true });
         } else {
           setError(true);
-          setErrorMsg(error.response.data.message);
           console.log(error);
+          setErrorMsg(error.response.data.message);
         }
       }
     };
@@ -59,23 +61,21 @@ const RefereeContainer = () => {
       ) : error ? (
         <p>{errorMsg}</p>
       ) : (
-        referee !== undefined && (
+        company !== undefined && (
           <div>
             <h2>
-              {referee?.surname} {referee?.lastname}
+              {company?.id}: {company?.name}
             </h2>
-            <h4>Sporter</h4>
+            <p>Stad: {company?.city}</p>
+            <p>Län: {CountyType[company?.county]}</p>
+            <p>Email: {company?.email}</p>
+            <br/>
+            <p>Kontaktpersoner</p>
             <ul>
-              {referee.sports.map((sport: RefereeSportDto) => (
-                <li key={`sport- ${sport.sportType}-${sport.refereeType}`}>
-                  {SportType[sport.sportType]} - {RefereeType[sport.refereeType]}
+              {company?.users?.map((user: SimpleUserDto) => (
+                <li key={user.email}>
+                  {user.surname} {user.lastname} {user.email}
                 </li>
-              ))}
-            </ul>
-            <h4>Län</h4>
-            <ul>
-              {referee.countys.map((county: CountyDto) => (
-                <li key={`county- ${county.countyType}`}>{CountyType[county.countyType]}</li>
               ))}
             </ul>
           </div>
@@ -85,4 +85,4 @@ const RefereeContainer = () => {
   );
 };
 
-export default RefereeContainer;
+export default CompanyContainer;
