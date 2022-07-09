@@ -2,6 +2,7 @@ import React from 'react';
 
 interface IProps {
   text: string;
+  secondary?: boolean;
   onClick?: () => void;
   disabled?: boolean;
   shadow?: boolean;
@@ -13,8 +14,9 @@ export const Button = (props: IProps) => {
   return (
     <button
       className={`group relative flex justify-center py-2 px-4 border border-transparent shadow-sm
-      ${props.shadow && 'shadow-slate-400 hover:shadow-slate-400 hover:shadow-md'} hover:bg-primaryHover
-      dark:hover:shadow-none dark:shadow-none text-sm font-medium rounded-full text-white bg-primary
+      ${props.shadow && 'shadow-slate-400 hover:shadow-slate-400 hover:shadow-md'}
+      dark:hover:shadow-none dark:shadow-none text-sm font-medium rounded-full
+      ${props.secondary ? 'hover:bg-secondaryHover text-black bg-secondary' : 'hover:bg-primaryHover text-white bg-primary'}
       disabled:bg-slate-500 transition-all duration-200 ${ hasValidChildren && 'pl-11' }`}
       disabled={props.disabled}
       onClick={props.onClick}

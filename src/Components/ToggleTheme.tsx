@@ -9,12 +9,12 @@ const ToggleTheme = (props: IProps) => {
   const { theme, setTheme }: any = useContext(ThemeContext);
 
   return (
-    <div className={`flex items-center cursor-pointer ${props.className}`}>
+    <div className={`self-center cursor-pointer ${props.className}`}>
       {theme === 'dark' ? (
         <div onClick={() => setTheme('light')}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 fill-primary-800"
+            className="h-5 w-5 fill-primary"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -25,7 +25,7 @@ const ToggleTheme = (props: IProps) => {
         <div onClick={() => setTheme('dark')}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 fill-primary-800"
+            className="h-5 w-5 fill-black"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

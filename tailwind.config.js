@@ -15,6 +15,8 @@ module.exports = {
       colors: {
         primary: colors.sky[900],
         primaryHover: colors.sky[800],
+        secondary: colors.amber[300],
+        secondaryHover: colors.amber[200],
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
