@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-100 dark:bg-stone-800 leading-normal tracking-normal;
+  @apply bg-slate-100 dark:bg-dark leading-normal tracking-normal;
 }

@@ -13,6 +13,7 @@ module.exports = {
         'hero-pattern': 'linear-gradient(to right bottom, rgba(0, 0, 0, 0.9), rgba(43, 108, 176, 0)), url("/src/Images/hockey1.jpg")',
       },
       colors: {
+        dark: colors.stone[800],
         primary: colors.sky[900],
         primaryHover: colors.sky[800],
         secondary: colors.amber[300],
