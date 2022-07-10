@@ -6,10 +6,14 @@ import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
 import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { LoadingSpinner } from '../Components/LoadingSpinner';
 
 const RefereeContainer = () => {
-  // const navigate = useNavigate();
+  const { id } = useParams();
+  const [error, setError] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [referee, setReferee] = useState<RefereeDto>();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -20,15 +24,23 @@ const RefereeContainer = () => {
     const controller = new AbortController();
 
     const getReferee = async () => {
+      setLoading(true);
       try {
-        const response = await axiosPrivate.get('/referee/2', {
+        const response = await axiosPrivate.get(`/referee/${id}`, {
           signal: controller.signal,
         });
-        console.log(response.data);
         isMounted && setReferee(response.data.data);
+        setLoading(false);
       } catch (error: any) {
-        console.log(error);
-        navigate('/login', { state: { from: location }, replace: true });
+        console.log(`Response status: ${error.response?.status}`);
+        setLoading(false);
+        if (error.response.status !== 500) {
+          navigate('/login', { state: { from: location }, replace: true });
+        } else {
+          setError(true);
+          setErrorMsg(error.response.data.message);
+          console.log(error);
+        }
       }
     };
 
@@ -41,27 +53,33 @@ const RefereeContainer = () => {
   }, []);
 
   return (
-    <div style={{ width: '20%', display: 'flex', flexDirection: 'column' }}>
-      {referee !== undefined && (
-        <div>
-          <h2>
-            {referee?.surname} {referee?.lastname}
-          </h2>
-          <h4>Sporter</h4>
-          <ul>
-            {referee.sports.map((sport: RefereeSportDto) => (
-              <li key={`sport- ${sport.sportType}-${sport.refereeType}`}>
-                {SportType[sport.sportType]} - {RefereeType[sport.refereeType]}
-              </li>
-            ))}
-          </ul>
-          <h4>Län</h4>
-          <ul>
-            {referee.countys.map((county: CountyDto) => (
-              <li key={`county- ${county.countyType}`}>{CountyType[county.countyType]}</li>
-            ))}
-          </ul>
-        </div>
+    <div className="flex flex-col px-4 text-gray-900 dark:text-white">
+      {loading ? (
+        <LoadingSpinner />
+      ) : error ? (
+        <p>{errorMsg}</p>
+      ) : (
+        referee !== undefined && (
+          <div>
+            <h2>
+              {referee?.surname} {referee?.lastname}
+            </h2>
+            <h4>Sporter</h4>
+            <ul>
+              {referee.sports.map((sport: RefereeSportDto) => (
+                <li key={`sport- ${sport.sportType}-${sport.refereeType}`}>
+                  {SportType[sport.sportType]} - {RefereeType[sport.refereeType]}
+                </li>
+              ))}
+            </ul>
+            <h4>Län</h4>
+            <ul>
+              {referee.countys.map((county: CountyDto) => (
+                <li key={`county- ${county.countyType}`}>{CountyType[county.countyType]}</li>
+              ))}
+            </ul>
+          </div>
+        )
       )}
     </div>
   );

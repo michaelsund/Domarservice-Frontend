@@ -1,11 +1,6 @@
 import axios from 'axios';
 
 export default axios.create({
-  // proxy: {
-  //   host: 'https://localhost:5001',
-  //   port: 5001,
-  // },
-  // baseURL: 'https://localhost:5001',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
