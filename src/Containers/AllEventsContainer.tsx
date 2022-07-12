@@ -9,7 +9,7 @@ import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 
-const RefereeContainer = () => {
+const AllEventsContainer = () => {
   const { id } = useParams();
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -34,7 +34,7 @@ const RefereeContainer = () => {
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setLoading(false);
-        if (error.response.status === 401 || error.response.status === 400) {
+        if (error.response.status !== 500) {
           navigate('/login', { state: { from: location }, replace: true });
         } else {
           setError(true);
@@ -44,7 +44,7 @@ const RefereeContainer = () => {
       }
     };
 
-    getReferee();
+    // getReferee();
 
     return () => {
       isMounted = false;
@@ -57,10 +57,7 @@ const RefereeContainer = () => {
       {loading ? (
         <LoadingSpinner />
       ) : error ? (
-        <div>
-          <h1>Tusan! något gick fel.</h1>
-          <p>{errorMsg}</p>
-        </div>
+        <p>{errorMsg}</p>
       ) : (
         referee !== undefined && (
           <div>
@@ -88,4 +85,4 @@ const RefereeContainer = () => {
   );
 };
 
-export default RefereeContainer;
+export default AllEventsContainer;

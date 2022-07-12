@@ -5,6 +5,7 @@ import RefereeContainer from './Containers/RefereeContainer';
 import CompanyContainer from './Containers/CompanyContainer';
 import { ThemeProvider } from './Context/ThemeContext';
 import { Nav } from './Components/Nav';
+import AllEventsContainer from './Containers/AllEventsContainer';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Nav>
             <Routes>
               <Route path="/" element={<IndexContainer />} />
+              <Route path="/matcher" element={<AllEventsContainer />} />
               <Route path="/referee/:id" element={<RefereeContainer />} />
               <Route path="/company/:id" element={<CompanyContainer />} />
               <Route path="/login" element={<LoginContainer />} />

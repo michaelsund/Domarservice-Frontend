@@ -1,5 +1,5 @@
 import axios from '../Helpers/Axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
@@ -7,7 +7,10 @@ import { LoadingSpinner } from '../Components/LoadingSpinner';
 const LoginContainer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>();
   const [email, setEmail] = useState('admin@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
   // @ts-expect-error cannot find typing for from
@@ -15,6 +18,8 @@ const LoginContainer = () => {
 
   const handleLogin = () => {
     setLoading(true);
+    setError(false);
+    setErrorMsg('');
     axios
       .post(
         '/authenticate/login',
@@ -32,6 +37,8 @@ const LoginContainer = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(true);
+        setErrorMsg(err.response.data.message);
         setLoading(false);
       });
   };
@@ -40,6 +47,19 @@ const LoginContainer = () => {
     localStorage.removeItem('token');
     navigate('/');
   };
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token: string | null = localStorage.getItem('token');
+      if (token !== null) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, [])
 
   return (
     <div className="flex flex-col items-center justify-center text-gray-900 dark:text-white">
@@ -63,6 +83,7 @@ const LoginContainer = () => {
           <input
             className="my-2 text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-none focus:ring-none focus:ring-0 sm:text-sm"
             placeholder="Epost"
+            disabled={loggedIn}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -87,13 +108,14 @@ const LoginContainer = () => {
           <input
             className="my-2 text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-none focus:ring-none focus:ring-0 sm:text-sm"
             placeholder="Lösenord"
+            disabled={loggedIn}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
         </label>
         <div className="flex flex-col space-y-2 mt-2 mb-2">
-          <Button text="Logga in" shadow disabled={loading} onClick={() => handleLogin()}>
+          <Button text="Logga in" shadow disabled={loading || loggedIn} onClick={() => handleLogin()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -109,7 +131,7 @@ const LoginContainer = () => {
               />
             </svg>
           </Button>
-          <Button text="Logga ut" shadow disabled={loading} onClick={() => handleLogout()}>
+          <Button text="Logga ut" shadow disabled={loading || !loggedIn} onClick={() => handleLogout()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -127,7 +149,10 @@ const LoginContainer = () => {
           </Button>
           {loading && <LoadingSpinner />}
         </div>
-        <p>Token: {localStorage.getItem('token')}</p>
+        <div className="flex justify-center">
+          {error && <p>{errorMsg}</p>}
+        </div>
+        {/* <p>Token: {localStorage.getItem('token')}</p> */}
       </div>
     </div>
   );
