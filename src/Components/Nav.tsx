@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ToggleTheme from './ToggleTheme';
+import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
 
 interface IProps {
   children?: any;
@@ -19,17 +20,19 @@ export const Nav = (props: IProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-16">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <img
+              <div className="flex flex-row items-center justify-center">
+                {/* <img
                   className="h-8 w-8"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                   alt="Workflow"
-                />
+                /> */}
+                <RefereeShirtSvg className="h-10 w-10 mr-4" />
+                <p className="font-extralight text-xl">Domarservice</p>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4 dark:text-slate-50">
                   <Link className="font-light text-base" to="/">Hem</Link>
-                  <Link className="font-light text-base" to="/matcher">Alla matcher</Link>
+                  {/* <Link className="font-light text-base" to="/matcher">Alla matcher</Link> */}
                   <Link className="font-light text-base" to="/referee/1">Domare 1</Link>
                   <Link className="font-light text-base" to="/company/1">Förening 1</Link>
                   <Link className="font-light text-base border-primary border-2 text-black dark:text-slate-50 py-1 px-4 rounded-full" to="/login">

@@ -6,15 +6,18 @@ import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
 import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
+import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
+import moment from 'moment';
+import { Button } from '../Components/Button';
 
 const AllEventsContainer = () => {
-  const { id } = useParams();
+  const [page, setPage] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [referee, setReferee] = useState<RefereeDto>();
+  const [matches, setMatches] = useState<ExtendedCompanyEventDto[]>([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,13 +26,13 @@ const AllEventsContainer = () => {
     let isMounted = true;
     const controller = new AbortController();
 
-    const getReferee = async () => {
+    const getFirstPage = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(`/referee/${id}`, {
+        const response = await axiosPrivate.get(`/companyevent/all/${page}`, {
           signal: controller.signal,
         });
-        isMounted && setReferee(response.data.data);
+        isMounted && setMatches(response.data.data);
         setLoading(false);
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
@@ -44,13 +47,57 @@ const AllEventsContainer = () => {
       }
     };
 
-    // getReferee();
+    getFirstPage();
 
     return () => {
       isMounted = false;
       controller.abort;
     };
   }, []);
+
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const controller = new AbortController();
+
+  //   const getFirstPage = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axiosPrivate.get(`/companyevent/all/${page}`, {
+  //         signal: controller.signal,
+  //       });
+  //       isMounted && setMatches(response.data.data);
+  //       setError(false);
+  //       setLoading(false);
+  //     } catch (error: any) {
+  //       console.log(`Response status: ${error.response?.status}`);
+  //       setLoading(false);
+  //       if (error.response.status !== 500) {
+  //         navigate('/login', { state: { from: location }, replace: true });
+  //       } else {
+  //         setError(true);
+  //         setErrorMsg(error.response.data.message);
+  //         console.log(error);
+  //       }
+  //     }
+  //   };
+
+  //   getFirstPage();
+
+  //   return () => {
+  //     isMounted = false;
+  //     controller.abort;
+  //   };
+  // }, [page]);
+
+  const nextPage = () => {
+    setPage(page + 1);
+  };
+
+  const previousPage = () => {
+    if (page !== 1) {
+      setPage(page - 1);
+    }
+  };
 
   return (
     <div className="flex flex-col px-4 text-gray-900 dark:text-white">
@@ -59,28 +106,25 @@ const AllEventsContainer = () => {
       ) : error ? (
         <p>{errorMsg}</p>
       ) : (
-        referee !== undefined && (
+        matches.length > 0 && (
           <div>
-            <h2>
-              {referee?.surname} {referee?.lastname}
-            </h2>
-            <h4>Sporter</h4>
+            <h4>Matcher</h4>
             <ul>
-              {referee.sports.map((sport: RefereeSportDto) => (
-                <li key={`sport- ${sport.sportType}-${sport.refereeType}`}>
-                  {SportType[sport.sportType]} - {RefereeType[sport.refereeType]}
+              {matches.map((match: ExtendedCompanyEventDto) => (
+                <li key={`match- ${match.id}`}>
+                  <p>
+                    <b>{match.id}{' '}</b>{moment(match.date).format('YYYY-MM-DD')} {match.name} {match.location}
+                  </p>
                 </li>
-              ))}
-            </ul>
-            <h4>Län</h4>
-            <ul>
-              {referee.countys.map((county: CountyDto) => (
-                <li key={`county- ${county.countyType}`}>{CountyType[county.countyType]}</li>
               ))}
             </ul>
           </div>
         )
       )}
+      <div className="flex flex-row space-x-2 pt-8">
+        <Button text="Tillbaka" onClick={() => previousPage()} disabled={page === 1} />
+        <Button text="Nästa" onClick={() => nextPage()} disabled={error} />
+      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const LoginContainer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
-  const [email, setEmail] = useState('admin@osund.com');
+  const [email, setEmail] = useState('michael@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
   // @ts-expect-error cannot find typing for from
   const fromUrl = location.state?.from?.pathname || '/';
@@ -83,7 +83,7 @@ const LoginContainer = () => {
           <input
             className="my-2 text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-none focus:ring-none focus:ring-0 sm:text-sm"
             placeholder="Epost"
-            disabled={loggedIn}
+            // disabled={loggedIn}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
@@ -108,14 +108,14 @@ const LoginContainer = () => {
           <input
             className="my-2 text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-none focus:ring-none focus:ring-0 sm:text-sm"
             placeholder="Lösenord"
-            disabled={loggedIn}
+            // disabled={loggedIn}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
         </label>
         <div className="flex flex-col space-y-2 mt-2 mb-2">
-          <Button text="Logga in" shadow disabled={loading || loggedIn} onClick={() => handleLogin()}>
+          <Button text="Logga in" shadow onClick={() => handleLogin()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -131,7 +131,7 @@ const LoginContainer = () => {
               />
             </svg>
           </Button>
-          <Button text="Logga ut" shadow disabled={loading || !loggedIn} onClick={() => handleLogout()}>
+          <Button text="Logga ut" shadow onClick={() => handleLogout()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -152,7 +152,7 @@ const LoginContainer = () => {
         <div className="flex justify-center">
           {error && <p>{errorMsg}</p>}
         </div>
-        {/* <p>Token: {localStorage.getItem('token')}</p> */}
+        <p>Token: {localStorage.getItem('token')}</p>
       </div>
     </div>
   );
