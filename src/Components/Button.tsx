@@ -15,7 +15,7 @@ export const Button = (props: IProps) => {
     <button
       className={`group relative flex justify-center py-2 px-4 border border-transparent shadow-sm
       ${props.shadow && 'shadow-slate-400 hover:shadow-slate-400 hover:shadow-md'}
-      dark:hover:shadow-none dark:shadow-none text-sm font-medium rounded-full
+      dark:hover:shadow-none dark:shadow-none uppercase text-sm font-medium rounded-full
       ${props.secondary ? 'hover:bg-secondaryHover text-black bg-secondary' : 'hover:bg-primaryHover text-white bg-primary'}
       disabled:bg-slate-500 transition-all duration-200 ${ hasValidChildren && 'pl-11' }`}
       disabled={props.disabled}

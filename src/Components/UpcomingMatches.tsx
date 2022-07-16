@@ -4,6 +4,7 @@ import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { SportType } from '../Types/SportType';
+import { EventCard } from './EventCard';
 import { LoadingSpinner } from './LoadingSpinner';
 
 export const UpcomingMatches = () => {
@@ -46,27 +47,16 @@ export const UpcomingMatches = () => {
       controller.abort;
     };
   }, []);
-  return (
-    <div className="grid grid-flow-col gap-4">
-      {loading ? (
-        <LoadingSpinner className="w-full" />
-      ) : error ? (
-        <p>{errorMsg}</p>
-      ) : (
-        matches.length > 0 &&
+  return loading ? (
+    <LoadingSpinner className="w-full" />
+  ) : error ? (
+    <p>{errorMsg}</p>
+  ) : (
+    <div className="container w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-cols-3">
+      {matches.length > 0 &&
         matches.map((match: ExtendedCompanyEventDto) => (
-          <div key={match.id} className="h-52 p-6 bg-white rounded-2xl">
-            <p>
-              {match.company.name} i {CountyType[match.company.county]} {match.company.city}
-            </p>
-            <p>{match.name}</p>
-            <p>{match.location}</p>
-            <p>Domare: {match.refereeTypesForEvent.length}</p>
-            <p>Sport: {SportType[match.sportType]}</p>
-            <p>{moment(match.date).format('YYYY-MM-DD')}</p>
-          </div>
-        ))
-      )}
+          <EventCard key={match.id} companyEvent={match} />
+        ))}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { ReactComponent as MoneySvg } from '../Images/money.svg';
 import { ReactComponent as RefereeSvg } from '../Images/referee.svg';
 import { ReactComponent as SecureSvg } from '../Images/secure.svg';
 import { UpcomingMatches } from '../Components/UpcomingMatches';
+import { Link } from 'react-router-dom';
 
 const IndexContainer = () => {
   return (
@@ -64,6 +65,11 @@ const IndexContainer = () => {
       <div className="container mx-auto mt-24 text-center w-full">
         <h1 className="text-4xl mb-14 font-bold tracking-tight uppercase">Kommande matcher</h1>
         <UpcomingMatches />
+        <div className="w-full my-20 flex justify-center">
+          <Link to="/matcher">
+            <Button shadow text="Se alla matcher" />
+          </Link>
+        </div>
       </div>
     </div>
   );

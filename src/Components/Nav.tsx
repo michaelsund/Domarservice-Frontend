@@ -27,12 +27,12 @@ export const Nav = (props: IProps) => {
                   alt="Workflow"
                 /> */}
                 <RefereeShirtSvg className="h-10 w-10 mr-4" />
-                <p className="font-extralight text-xl">Domarservice</p>
+                <p className="font-extralight text-xl dark:text-white">Domarservice</p>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4 dark:text-slate-50">
                   <Link className="font-light text-base" to="/">Hem</Link>
-                  {/* <Link className="font-light text-base" to="/matcher">Alla matcher</Link> */}
+                  <Link className="font-light text-base" to="/matcher">Alla matcher</Link>
                   <Link className="font-light text-base" to="/referee/1">Domare 1</Link>
                   <Link className="font-light text-base" to="/company/1">Förening 1</Link>
                   <Link className="font-light text-base border-primary border-2 text-black dark:text-slate-50 py-1 px-4 rounded-full" to="/login">

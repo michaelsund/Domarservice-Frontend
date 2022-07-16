@@ -26,7 +26,7 @@ const AllEventsContainer = () => {
     let isMounted = true;
     const controller = new AbortController();
 
-    const getFirstPage = async () => {
+    const getPage = async () => {
       setLoading(true);
       try {
         const response = await axiosPrivate.get(`/companyevent/all/${page}`, {
@@ -34,6 +34,7 @@ const AllEventsContainer = () => {
         });
         isMounted && setMatches(response.data.data);
         setLoading(false);
+        setError(false);
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setLoading(false);
@@ -47,47 +48,13 @@ const AllEventsContainer = () => {
       }
     };
 
-    getFirstPage();
+    getPage();
 
     return () => {
       isMounted = false;
       controller.abort;
     };
-  }, []);
-
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
-
-  //   const getFirstPage = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axiosPrivate.get(`/companyevent/all/${page}`, {
-  //         signal: controller.signal,
-  //       });
-  //       isMounted && setMatches(response.data.data);
-  //       setError(false);
-  //       setLoading(false);
-  //     } catch (error: any) {
-  //       console.log(`Response status: ${error.response?.status}`);
-  //       setLoading(false);
-  //       if (error.response.status !== 500) {
-  //         navigate('/login', { state: { from: location }, replace: true });
-  //       } else {
-  //         setError(true);
-  //         setErrorMsg(error.response.data.message);
-  //         console.log(error);
-  //       }
-  //     }
-  //   };
-
-  //   getFirstPage();
-
-  //   return () => {
-  //     isMounted = false;
-  //     controller.abort;
-  //   };
-  // }, [page]);
+  }, [page]);
 
   const nextPage = () => {
     setPage(page + 1);
@@ -113,7 +80,8 @@ const AllEventsContainer = () => {
               {matches.map((match: ExtendedCompanyEventDto) => (
                 <li key={`match- ${match.id}`}>
                   <p>
-                    <b>{match.id}{' '}</b>{moment(match.date).format('YYYY-MM-DD')} {match.name} {match.location}
+                    <b>{match.id} </b>
+                    {moment(match.date).format('YYYY-MM-DD')} {match.name} {match.location}
                   </p>
                 </li>
               ))}
