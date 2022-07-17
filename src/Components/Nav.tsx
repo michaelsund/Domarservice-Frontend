@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ToggleTheme from './ToggleTheme';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
+import { Button } from './Button';
 
 interface IProps {
   children?: any;
@@ -35,11 +36,11 @@ export const Nav = (props: IProps) => {
                   <Link className="font-light text-base" to="/matcher">Alla matcher</Link>
                   <Link className="font-light text-base" to="/referee/1">Domare 1</Link>
                   <Link className="font-light text-base" to="/company/1">Förening 1</Link>
-                  <Link className="font-light text-base border-primary border-2 text-black dark:text-slate-50 py-1 px-4 rounded-full" to="/login">
-                    Logga in
+                  <Link to="/login">
+                    <Button filled={false} text="Logga in" />
                   </Link>
-                  <Link className="font-light text-base bg-primary border-primary border-2 text-slate-50 py-1 px-4 rounded-full" to="/login">
-                    Registrera
+                  <Link to="/login">
+                    <Button filled text="Registrera" />
                   </Link>
                   <ToggleTheme />
                 </div>
