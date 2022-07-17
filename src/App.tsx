@@ -6,32 +6,33 @@ import CompanyContainer from './Containers/CompanyContainer';
 import { ThemeProvider } from './Context/ThemeContext';
 import { Nav } from './Components/Nav';
 import AllEventsContainer from './Containers/AllEventsContainer';
+import { Footer } from './Components/Footer';
 
 const App = () => {
   return (
-    <main className="md:px-0 max-w-10xl mx-auto overflow-hidden break-words">
+    <div className="flex flex-col h-screen justify-between break-words">
       <ThemeProvider>
         <BrowserRouter>
-          <Nav>
-            <Routes>
-              <Route path="/" element={<IndexContainer />} />
-              <Route path="/matcher" element={<AllEventsContainer />} />
-              <Route path="/referee/:id" element={<RefereeContainer />} />
-              <Route path="/company/:id" element={<CompanyContainer />} />
-              <Route path="/login" element={<LoginContainer />} />
-              <Route
-                path="*"
-                element={
-                  <main style={{ padding: '1rem' }}>
-                    <p>There is nothing here!</p>
-                  </main>
-                }
-              />
-            </Routes>
-          </Nav>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<IndexContainer />} />
+            <Route path="/matcher" element={<AllEventsContainer />} />
+            <Route path="/referee/:id" element={<RefereeContainer />} />
+            <Route path="/company/:id" element={<CompanyContainer />} />
+            <Route path="/login" element={<LoginContainer />} />
+            <Route
+              path="*"
+              element={
+                <div style={{ padding: '1rem' }}>
+                  <p>There is nothing here!</p>
+                </div>
+              }
+            />
+          </Routes>
+          <Footer />
         </BrowserRouter>
       </ThemeProvider>
-    </main>
+    </div>
   );
 };
 

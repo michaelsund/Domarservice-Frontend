@@ -4,4 +4,5 @@
 
 body {
   @apply bg-slate-100 dark:bg-dark leading-normal tracking-normal;
+  height: 100vh;
 }

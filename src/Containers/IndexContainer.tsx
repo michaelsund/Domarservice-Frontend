@@ -8,20 +8,21 @@ import { ReactComponent as RefereeSvg } from '../Images/referee.svg';
 import { ReactComponent as SecureSvg } from '../Images/secure.svg';
 import { UpcomingMatches } from '../Components/UpcomingMatches';
 import { Link } from 'react-router-dom';
+import Company1 from '../Images/company1.jpg';
+import Referee1 from '../Images/referee1.jpg';
+import { Sponsors } from '../Components/Sponsors';
 
 const IndexContainer = () => {
   return (
     <div className="flex flex-col text-gray-900 dark:text-white">
       <Hero className="flex content-center items-center bg-hero-pattern bg-no-repeat bg-auto bg-center">
         <div className="grid w-full grid-cols-1 gap-4 place-items-center">
-          <a href="#" className="">
-            <h5 className="uppercase mb-2 text-5xl font-bold tracking-tight text-slate-50 dark:text-white">
-              Hitta domare till nästa match!
-            </h5>
-            <h5 className="mb-2 text-lg font-bold tracking-tight text-slate-50 dark:text-white">
-              Domarservice underlättar för föreningar och deras process vid matcher.
-            </h5>
-          </a>
+          <h5 className="uppercase mb-2 text-5xl font-bold tracking-tight text-slate-50 dark:text-white">
+            Hitta domare till nästa match!
+          </h5>
+          <h5 className="mb-2 text-lg font-bold tracking-tight text-slate-50 dark:text-white">
+            Domarservice underlättar för föreningar och deras process vid matcher.
+          </h5>
           <div className="flex flex-row space-x-2">
             <Button text="Registrera" secondary />
             <Button text="Alla matcher" secondary />
@@ -70,6 +71,36 @@ const IndexContainer = () => {
             <Button shadow text="Se alla matcher" />
           </Link>
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 w-full">
+        <div className="relative">
+          <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
+            <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
+              Registrera dig som domare
+            </h1>
+            <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
+              Hitta matcher att döma
+            </h4>
+            <Button text="Registrera" />
+          </div>
+          <img className="object-cover h-80 w-full brightness-50" src={Referee1} alt="" />
+        </div>
+        <div className="relative">
+          <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
+            <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
+              Registrera din förening
+            </h1>
+            <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
+              Hitta domare till föreningens matcher
+            </h4>
+            <Button text="Registrera" />
+          </div>
+          <img className="object-cover h-80 w-full brightness-50" src={Company1} alt="" />
+        </div>
+      </div>
+      <div className="container w-full mx-auto my-24 text-center">
+        <h1 className="text-4xl mb-14 font-bold tracking-tight uppercase">Sponsorer</h1>
+        <Sponsors />
       </div>
     </div>
   );

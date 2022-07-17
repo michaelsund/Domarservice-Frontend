@@ -104,9 +104,9 @@ export const Nav = (props: IProps) => {
           </div>
         </div>
       </nav>
-      <div className="z-0">
+      {/* <div className="z-0">
         {props.children}
-      </div>
+      </div> */}
     </div>
   );
 };
