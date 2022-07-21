@@ -72,6 +72,10 @@ const IndexContainer = () => {
           </Link>
         </div>
       </div>
+      <div className="container w-full mx-auto my-24 text-center">
+        <h1 className="text-4xl mb-14 font-bold tracking-tight uppercase">Sponsorer</h1>
+        <Sponsors />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 w-full">
         <div className="relative">
           <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
@@ -97,10 +101,6 @@ const IndexContainer = () => {
           </div>
           <img className="object-cover h-80 w-full brightness-50" src={Company1} alt="" />
         </div>
-      </div>
-      <div className="container w-full mx-auto my-24 text-center">
-        <h1 className="text-4xl mb-14 font-bold tracking-tight uppercase">Sponsorer</h1>
-        <Sponsors />
       </div>
     </div>
   );

@@ -35,7 +35,9 @@ export const Nav = (props: IProps) => {
                   <Link className="font-light text-base" to="/">Hem</Link>
                   <Link className="font-light text-base" to="/matcher">Alla matcher</Link>
                   <Link className="font-light text-base" to="/referee/1">Domare 1</Link>
+                  <Link className="font-light text-base" to="/referee/2">Domare 2</Link>
                   <Link className="font-light text-base" to="/company/1">Förening 1</Link>
+                  <Link className="font-light text-base" to="/minprofil">Min profil</Link>
                   <Link to="/login">
                     <Button filled={false} text="Logga in" />
                   </Link>
@@ -97,7 +99,9 @@ export const Nav = (props: IProps) => {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/">Hem</Link>
               <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/referee/1">Domare 1</Link>
+              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/referee/2">Domare 2</Link>
               <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/company/1">Förening 1</Link>
+              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/minprofil">Min profil</Link>
               <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/login">
                 Logga in
               </Link>              

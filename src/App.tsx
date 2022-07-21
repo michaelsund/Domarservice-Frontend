@@ -7,6 +7,7 @@ import { ThemeProvider } from './Context/ThemeContext';
 import { Nav } from './Components/Nav';
 import AllEventsContainer from './Containers/AllEventsContainer';
 import { Footer } from './Components/Footer';
+import MyProfileContainer from './Containers/MyProfileContainer';
 
 const App = () => {
   return (
@@ -19,12 +20,13 @@ const App = () => {
             <Route path="/matcher" element={<AllEventsContainer />} />
             <Route path="/referee/:id" element={<RefereeContainer />} />
             <Route path="/company/:id" element={<CompanyContainer />} />
+            <Route path="/minprofil" element={<MyProfileContainer />} />
             <Route path="/login" element={<LoginContainer />} />
             <Route
               path="*"
               element={
                 <div style={{ padding: '1rem' }}>
-                  <p>There is nothing here!</p>
+                  <p>Sidan kunde inte hittas.</p>
                 </div>
               }
             />
