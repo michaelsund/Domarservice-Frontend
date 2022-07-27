@@ -22,7 +22,7 @@ const LoginContainer = () => {
     setErrorMsg('');
     axios
       .post(
-        `${process.env.NODE_ENV !== 'production' && '/api'} /authenticate/login`,
+        `${process.env.NODE_ENV === 'production' && '/api'} /authenticate/login`,
         {
           username: email,
           password,
