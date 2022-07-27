@@ -41,7 +41,7 @@ export const Nav = (props: IProps) => {
                   <Link to="/login">
                     <Button filled={false} text="Logga in" />
                   </Link>
-                  <Link to="/login">
+                  <Link to="/registrera">
                     <Button filled text="Registrera" />
                   </Link>
                   <ToggleTheme />
