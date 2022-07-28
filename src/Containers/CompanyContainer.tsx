@@ -28,9 +28,12 @@ const CompanyContainer = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(`/company/${id}/withusers`, {
-          signal: controller.signal,
-        });
+        const response = await axiosPrivate.get(
+          `${process.env.NODE_ENV === 'production' && '/api'}/company/${id}/withusers`,
+          {
+            signal: controller.signal,
+          },
+        );
         isMounted && setCompany(response.data.data);
         setLoading(false);
       } catch (error: any) {
@@ -69,7 +72,7 @@ const CompanyContainer = () => {
             <p>Stad: {company?.city}</p>
             <p>Län: {CountyType[company?.county]}</p>
             <p>Email: {company?.email}</p>
-            <br/>
+            <br />
             <p>Kontaktpersoner</p>
             <ul>
               {company?.users?.map((user: SimpleUserDto) => (

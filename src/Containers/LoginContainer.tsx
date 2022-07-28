@@ -23,7 +23,7 @@ const LoginContainer = () => {
     setErrorMsg('');
     axios
       .post(
-        `${process.env.NODE_ENV === 'production' && '/api'}'/authenticate/login'`,
+        `${process.env.NODE_ENV === 'production' && '/api'}/authenticate/login`,
         {
           username: email,
           password,
@@ -60,7 +60,7 @@ const LoginContainer = () => {
     };
 
     checkLoginStatus();
-  }, [])
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center text-gray-900 dark:text-white">
@@ -150,9 +150,7 @@ const LoginContainer = () => {
           </Button>
           {loading && <LoadingSpinner />}
         </div>
-        <div className="flex justify-center">
-          {error && <p>{errorMsg}</p>}
-        </div>
+        <div className="flex justify-center">{error && <p>{errorMsg}</p>}</div>
         <p>Token: {localStorage.getItem('token')}</p>
       </div>
     </div>

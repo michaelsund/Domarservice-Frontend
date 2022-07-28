@@ -29,9 +29,12 @@ const AllEventsContainer = () => {
     const getPage = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(`/companyevent/all/${page}`, {
-          signal: controller.signal,
-        });
+        const response = await axiosPrivate.get(
+          `${process.env.NODE_ENV === 'production' && '/api'}/companyevent/all/${page}`,
+          {
+            signal: controller.signal,
+          },
+        );
         isMounted && setMatches(response.data.data);
         setLoading(false);
         setError(false);

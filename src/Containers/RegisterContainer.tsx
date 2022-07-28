@@ -29,7 +29,7 @@ const RegisterContainer = () => {
     setErrorMsg('');
     axios
       .post(
-        '/authenticate/login',
+        `${process.env.NODE_ENV === 'production' && '/api'}/authenticate/login`,
         {
           username: email,
           password,
@@ -75,7 +75,7 @@ const RegisterContainer = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="w-full max-w-lg">
-       <ProgressBar percent={percentDone} />
+        <ProgressBar percent={percentDone} />
         {step === 1 && (
           <Card className="flex flex-col items-center px-8 pt-6 pb-8 mb-4">
             <svg

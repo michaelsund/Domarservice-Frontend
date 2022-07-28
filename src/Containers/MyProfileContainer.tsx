@@ -26,9 +26,12 @@ const MyProfileContainer = () => {
     const getProfile = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get('/authenticate/profile', {
-          signal: controller.signal,
-        });
+        const response = await axiosPrivate.get(
+          `${process.env.NODE_ENV === 'production' && '/api'}/authenticate/profile`,
+          {
+            signal: controller.signal,
+          },
+        );
         isMounted && setProfile(response.data.data);
         setLoading(false);
       } catch (error: any) {

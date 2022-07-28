@@ -26,9 +26,12 @@ const RefereeContainer = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(`/referee/${id}`, {
-          signal: controller.signal,
-        });
+        const response = await axiosPrivate.get(
+          `${process.env.NODE_ENV === 'production' && '/api'}/referee/${id}`,
+          {
+            signal: controller.signal,
+          },
+        );
         isMounted && setReferee(response.data.data);
         setLoading(false);
       } catch (error: any) {

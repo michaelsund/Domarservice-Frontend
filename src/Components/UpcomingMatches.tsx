@@ -21,9 +21,12 @@ export const UpcomingMatches = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get('/companyevent/latest/3', {
-          signal: controller.signal,
-        });
+        const response = await axiosPrivate.get(
+          `${process.env.NODE_ENV === 'production' && '/api'}/companyevent/latest/3`,
+          {
+            signal: controller.signal,
+          },
+        );
         isMounted && setMatches(response.data.data);
         setLoading(false);
       } catch (error: any) {
