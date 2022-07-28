@@ -28,7 +28,7 @@ export const EventCard = (props: IProps) => {
       break;
   }
   return (
-    <div className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl delay-100 dark:bg-black">
+    <div className="relative rounded overflow-hidden shadow-md hover:shadow-2xl delay-100 dark:bg-black">
       <div className="absolute flex flex-col justify-center items-center left-0 top-40 bg-primary h-16 w-16">
         <p className="text-white font-normal text-xl">
           {moment(props.companyEvent.date).format('DD')}

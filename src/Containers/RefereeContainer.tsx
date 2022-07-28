@@ -34,14 +34,32 @@ const RefereeContainer = () => {
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setLoading(false);
-        if (error.response.status === 401 || error.response.status === 400) {
+        if (error.response.status !== 500) {
           navigate('/login', { state: { from: location }, replace: true });
         } else {
           setError(true);
-          setErrorMsg(error.response.data.message);
           console.log(error);
+          setErrorMsg(error.response.data.message);
         }
       }
+      // try {
+      //   const response = await axiosPrivate.get(`/referee/${id}`, {
+      //     signal: controller.signal,
+      //   });
+      //   isMounted && setReferee(response.data.data);
+      //   setLoading(false);
+      //   setError(false);
+      // } catch (error: any) {
+      //   console.log(`Response status: ${error.response?.status}`);
+      //   setLoading(false);
+      //   if (error.response.status === 401 || error.response.status === 400) {
+      //     navigate('/login', { state: { from: location }, replace: true });
+      //   } else {
+      //     setError(true);
+      //     setErrorMsg(error.response.data.message);
+      //     console.log(error);
+      //   }
+      // }
     };
 
     getReferee();
@@ -50,7 +68,7 @@ const RefereeContainer = () => {
       isMounted = false;
       controller.abort;
     };
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col px-4 text-gray-900 dark:text-white">

@@ -52,7 +52,7 @@ export const UpcomingMatches = () => {
   ) : error ? (
     <p>{errorMsg}</p>
   ) : (
-    <div className="container w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-cols-3">
+    <div className="container w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-flow-col">
       {matches.length > 0 &&
         matches.map((match: ExtendedCompanyEventDto) => (
           <EventCard key={match.id} companyEvent={match} />
