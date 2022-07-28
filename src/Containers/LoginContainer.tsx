@@ -7,6 +7,7 @@ import { LoadingSpinner } from '../Components/LoadingSpinner';
 const LoginContainer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  // Should be moved to global context!
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -22,7 +23,7 @@ const LoginContainer = () => {
     setErrorMsg('');
     axios
       .post(
-        '/authenticate/login',
+        `${process.env.NODE_ENV === 'production' && '/api'}'/authenticate/login'`,
         {
           username: email,
           password,
