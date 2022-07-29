@@ -24,8 +24,12 @@ const IndexContainer = () => {
             Domarservice underlättar för föreningar och deras process vid matcher.
           </h5>
           <div className="flex flex-row space-x-2">
-            <Button text="Registrera" secondary />
-            <Button text="Alla matcher" secondary />
+            <Link to="/registrera">
+              <Button text="Registrera" secondary />
+            </Link>
+            <Link to="/matcher">
+              <Button text="Alla matcher" secondary />
+            </Link>
           </div>
         </div>
       </Hero>

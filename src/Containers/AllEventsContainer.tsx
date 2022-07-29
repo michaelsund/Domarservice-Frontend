@@ -11,6 +11,7 @@ import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import moment from 'moment';
 import { Button } from '../Components/Button';
+import { EventCard } from '../Components/EventCard';
 
 const AllEventsContainer = () => {
   const [page, setPage] = useState<number>(1);
@@ -70,25 +71,17 @@ const AllEventsContainer = () => {
   };
 
   return (
-    <div className="flex flex-col px-4 text-gray-900 dark:text-white">
+    <div className="flex flex-col items-center text-gray-900 dark:text-white">
       {loading ? (
         <LoadingSpinner />
       ) : error ? (
         <p>{errorMsg}</p>
       ) : (
         matches.length > 0 && (
-          <div>
-            <h4>Matcher</h4>
-            <ul>
-              {matches.map((match: ExtendedCompanyEventDto) => (
-                <li key={`match- ${match.id}`}>
-                  <p>
-                    <b>{match.id} </b>
-                    {moment(match.date).format('YYYY-MM-DD')} {match.name} {match.location}
-                  </p>
-                </li>
-              ))}
-            </ul>
+          <div className="grid grid-flow-col space-x-4">
+            {matches.map((match: ExtendedCompanyEventDto) => (
+              <EventCard key={match.id} companyEvent={match} />
+            ))}
           </div>
         )
       )}

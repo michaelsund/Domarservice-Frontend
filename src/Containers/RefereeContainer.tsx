@@ -34,6 +34,7 @@ const RefereeContainer = () => {
         );
         isMounted && setReferee(response.data.data);
         setLoading(false);
+        setError(false);
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setLoading(false);
@@ -74,7 +75,7 @@ const RefereeContainer = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-col px-4 text-gray-900 dark:text-white">
+    <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
       {loading ? (
         <LoadingSpinner />
       ) : error ? (
