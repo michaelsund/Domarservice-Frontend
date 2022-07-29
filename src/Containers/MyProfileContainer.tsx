@@ -27,7 +27,7 @@ const MyProfileContainer = () => {
       setLoading(true);
       try {
         const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' && '/api'}/authenticate/profile`,
+          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/authenticate/profile`,
           {
             signal: controller.signal,
           },

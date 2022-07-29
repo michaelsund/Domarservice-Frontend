@@ -12,7 +12,7 @@ const LoginContainer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
-  const [email, setEmail] = useState('michael@osund.com');
+  const [email, setEmail] = useState('admin@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
   // @ts-expect-error cannot find typing for from
   const fromUrl = location.state?.from?.pathname || '/';
@@ -23,7 +23,7 @@ const LoginContainer = () => {
     setErrorMsg('');
     axios
       .post(
-        `${process.env.NODE_ENV === 'production' && '/api'}/authenticate/login`,
+        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/authenticate/login`,
         {
           username: email,
           password,

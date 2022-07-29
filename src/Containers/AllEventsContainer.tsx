@@ -30,7 +30,7 @@ const AllEventsContainer = () => {
       setLoading(true);
       try {
         const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' && '/api'}/companyevent/all/${page}`,
+          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/all/${page}`,
           {
             signal: controller.signal,
           },

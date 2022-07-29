@@ -27,7 +27,7 @@ const RefereeContainer = () => {
       setLoading(true);
       try {
         const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' && '/api'}/referee/${id}`,
+          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/referee/${id}`,
           {
             signal: controller.signal,
           },

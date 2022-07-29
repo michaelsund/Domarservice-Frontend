@@ -22,7 +22,7 @@ export const UpcomingMatches = () => {
       setLoading(true);
       try {
         const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' && '/api'}/companyevent/latest/3`,
+          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/latest/3`,
           {
             signal: controller.signal,
           },
