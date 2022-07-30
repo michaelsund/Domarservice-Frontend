@@ -27,8 +27,8 @@ export const Nav = (props: IProps) => {
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                   alt="Workflow"
                 /> */}
-                <RefereeShirtSvg className="h-10 w-10 mr-4" />
-                <p className="font-extralight text-xl dark:text-white">Domarservice</p>
+                <RefereeShirtSvg className="h-10 w-10 mr-2" />
+                <p className="font-light text-xl dark:text-white">Domarservice</p>
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4 dark:text-slate-50">
