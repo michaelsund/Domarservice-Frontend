@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import ToggleTheme from './ToggleTheme';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
 import { Button } from './Button';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
 
 interface IProps {
   children?: any;
 }
 
 export const Nav = (props: IProps) => {
+  const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useContext(DomarserviceContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClicked = () => {
     setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   return (
@@ -32,18 +41,38 @@ export const Nav = (props: IProps) => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4 dark:text-slate-50">
-                  <Link className="font-light text-base" to="/">Hem</Link>
-                  <Link className="font-light text-base" to="/matcher">Alla matcher</Link>
-                  <Link className="font-light text-base" to="/referee/1">Domare 1</Link>
-                  <Link className="font-light text-base" to="/referee/2">Domare 2</Link>
-                  <Link className="font-light text-base" to="/company/1">Förening 1</Link>
-                  <Link className="font-light text-base" to="/minprofil">Min profil</Link>
-                  <Link to="/login">
-                    <Button filled={false} text="Logga in" />
+                  <Link className="font-light text-base" to="/">
+                    Hem
                   </Link>
-                  <Link to="/registrera">
-                    <Button filled text="Registrera" />
+                  <Link className="font-light text-base" to="/matcher">
+                    Alla matcher
                   </Link>
+                  <Link className="font-light text-base" to="/referee/1">
+                    Domare 1
+                  </Link>
+                  <Link className="font-light text-base" to="/referee/2">
+                    Domare 2
+                  </Link>
+                  <Link className="font-light text-base" to="/company/1">
+                    Förening 1
+                  </Link>
+                  {isLoggedIn && (
+                    <Link className="font-light text-base" to="/minprofil">
+                      Min profil
+                    </Link>
+                  )}
+                  {isLoggedIn ? (
+                    <Button filled={false} text="Logga ut" onClick={() => handleLogout()} />
+                  ) : (
+                    <>
+                      <Link to="/login">
+                        <Button filled={false} text="Logga in" />
+                      </Link>
+                      <Link to="/registrera">
+                        <Button filled text="Registrera" />
+                      </Link>
+                    </>
+                  )}
                   <ToggleTheme />
                 </div>
               </div>
@@ -97,14 +126,50 @@ export const Nav = (props: IProps) => {
         <div hidden={!isOpen}>
           <div className="md:hidden absolute w-full bg-slate-100 border-b-primary border-b-2">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/">Hem</Link>
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/referee/1">Domare 1</Link>
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/referee/2">Domare 2</Link>
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/company/1">Förening 1</Link>
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/minprofil">Min profil</Link>
-              <Link onClick={() => handleLinkClicked()} className="block py-2 ml-4 font-medium text-base" to="/login">
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/"
+              >
+                Hem
+              </Link>
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/referee/1"
+              >
+                Domare 1
+              </Link>
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/referee/2"
+              >
+                Domare 2
+              </Link>
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/company/1"
+              >
+                Förening 1
+              </Link>
+              {isLoggedIn && (
+                <Link
+                  onClick={() => handleLinkClicked()}
+                  className="block py-2 ml-4 font-medium text-base"
+                  to="/minprofil"
+                >
+                  Min profil
+                </Link>
+              )}
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/login"
+              >
                 Logga in
-              </Link>              
+              </Link>
             </div>
           </div>
         </div>

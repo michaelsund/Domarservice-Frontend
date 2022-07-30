@@ -9,32 +9,35 @@ import AllEventsContainer from './Containers/AllEventsContainer';
 import { Footer } from './Components/Footer';
 import MyProfileContainer from './Containers/MyProfileContainer';
 import RegisterContainer from './Containers/RegisterContainer';
+import { DomarserviceContextProvider } from './Context/DomarserviceContext';
 
 const App = () => {
   return (
     <div className="flex flex-col h-screen justify-between break-words">
       <ThemeProvider>
-        <BrowserRouter>
-          <Nav />
-          <Routes>
-            <Route path="/" element={<IndexContainer />} />
-            <Route path="/matcher" element={<AllEventsContainer />} />
-            <Route path="/referee/:id" element={<RefereeContainer />} />
-            <Route path="/company/:id" element={<CompanyContainer />} />
-            <Route path="/minprofil" element={<MyProfileContainer />} />
-            <Route path="/login" element={<LoginContainer />} />
-            <Route path="/registrera" element={<RegisterContainer />} />
-            <Route
-              path="*"
-              element={
-                <div style={{ padding: '1rem' }}>
-                  <p>Sidan kunde inte hittas.</p>
-                </div>
-              }
-            />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
+        <DomarserviceContextProvider>
+          <BrowserRouter>
+            <Nav />
+            <Routes>
+              <Route path="/" element={<IndexContainer />} />
+              <Route path="/matcher" element={<AllEventsContainer />} />
+              <Route path="/referee/:id" element={<RefereeContainer />} />
+              <Route path="/company/:id" element={<CompanyContainer />} />
+              <Route path="/minprofil" element={<MyProfileContainer />} />
+              <Route path="/login" element={<LoginContainer />} />
+              <Route path="/registrera" element={<RegisterContainer />} />
+              <Route
+                path="*"
+                element={
+                  <div style={{ padding: '1rem' }}>
+                    <p>Sidan kunde inte hittas.</p>
+                  </div>
+                }
+              />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </DomarserviceContextProvider>
       </ThemeProvider>
     </div>
   );

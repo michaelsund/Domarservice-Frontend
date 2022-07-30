@@ -1,10 +1,13 @@
 import axios from '../Helpers/Axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
+import { DomarserviceContextType } from '../Types/DomarserviceContextType';
 
 const LoginContainer = () => {
+  const { isLoggedIn, setIsLoggedIn } = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
   // Should be moved to global context!
@@ -12,7 +15,7 @@ const LoginContainer = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
-  const [email, setEmail] = useState('admin@osund.com');
+  const [email, setEmail] = useState('michael@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
   // @ts-expect-error cannot find typing for from
   const fromUrl = location.state?.from?.pathname || '/';
@@ -33,6 +36,7 @@ const LoginContainer = () => {
       .then((response) => {
         console.log(response);
         localStorage.setItem('token', response.data.data.token);
+        setIsLoggedIn(true);
         navigate(fromUrl, { replace: true });
         setLoading(false);
       })
@@ -45,6 +49,7 @@ const LoginContainer = () => {
   };
 
   const handleLogout = () => {
+    setIsLoggedIn(false);
     localStorage.removeItem('token');
     navigate('/');
   };
@@ -151,7 +156,6 @@ const LoginContainer = () => {
           {loading && <LoadingSpinner />}
         </div>
         <div className="flex justify-center">{error && <p>{errorMsg}</p>}</div>
-        <p>Token: {localStorage.getItem('token')}</p>
       </div>
     </div>
   );
