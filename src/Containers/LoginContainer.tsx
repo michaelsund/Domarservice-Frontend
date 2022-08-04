@@ -10,12 +10,10 @@ const LoginContainer = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
-  // Should be moved to global context!
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
-  const [email, setEmail] = useState('michael@osund.com');
+  const [email, setEmail] = useState('admin@osund.com');
   const [password, setPassword] = useState('!Oneverycomplexpassword123');
   // @ts-expect-error cannot find typing for from
   const fromUrl = location.state?.from?.pathname || '/';
@@ -54,18 +52,18 @@ const LoginContainer = () => {
     navigate('/');
   };
 
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const token: string | null = localStorage.getItem('token');
-      if (token !== null) {
-        setLoggedIn(true);
-      } else {
-        setLoggedIn(false);
-      }
-    };
+  // useEffect(() => {
+  //   const checkLoginStatus = () => {
+  //     const token: string | null = localStorage.getItem('token');
+  //     if (token !== null) {
+  //       setLoggedIn(true);
+  //     } else {
+  //       setLoggedIn(false);
+  //     }
+  //   };
 
-    checkLoginStatus();
-  }, []);
+  //   checkLoginStatus();
+  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-center text-gray-900 dark:text-white">

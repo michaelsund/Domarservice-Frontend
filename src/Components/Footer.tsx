@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
 
 export const Footer = () => {
+  const { isLoggedIn } = useContext(DomarserviceContext);
+
   return (
     <>
       <div className="flex flex-col md:flex-row p-8 lg:py-20 lg:px-36 dark:text-slate-50">
@@ -45,31 +48,57 @@ export const Footer = () => {
             <p className="text-sm">070-3852539</p>
           </div>
         </div>
-        <div className="basis-1/2 mt-8 md:mt-0"> 
+        <div className="basis-1/2 mt-8 md:mt-0">
           <div className="flex flex-col md:flex-row">
             <div className="basis-1/3">
               <h4 className="drop-shadow-2xl text-lg font-semibold tracking-tight">Om oss</h4>
               <ul className="text-sm">
-                <li><Link to="/">Om oss</Link></li>
-                <li><Link to="/">Sponsorer</Link></li>
-                <li><Link to="/">Kontakt</Link></li>
+                <li>
+                  <Link to="/">Om oss</Link>
+                </li>
+                <li>
+                  <Link to="/">Sponsorer</Link>
+                </li>
+                <li>
+                  <Link to="/">Kontakt</Link>
+                </li>
               </ul>
             </div>
             <div className="basis-1/3">
               <h4 className="drop-shadow-2xl text-lg font-semibold tracking-tight">Domare</h4>
               <ul className="text-sm">
-                <li><Link to="/">Tillgängliga matcher</Link></li>
-                <li><Link to="/">Registrering</Link></li>
-                <li><Link to="/">Logga in</Link></li>
+                <li>
+                  <Link to="/matcher">Tillgängliga matcher</Link>
+                </li>
+                {!isLoggedIn && (
+                  <>
+                    <li>
+                      <Link to="/registrera">Registrering</Link>
+                    </li>
+                    <li>
+                      <Link to="/login">Logga in</Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
 
             <div className="basis-1/3">
               <h4 className="drop-shadow-2xl text-lg font-semibold tracking-tight">Förening</h4>
               <ul className="text-sm">
-                <li><Link to="/">Hitta domare</Link></li>
-                <li><Link to="/">Registrering</Link></li>
-                <li><Link to="/">Logga in</Link></li>
+                <li>
+                  <Link to="/">Hitta domare</Link>
+                </li>
+                {!isLoggedIn && (
+                  <>
+                    <li>
+                      <Link to="/registrera">Registrering</Link>
+                    </li>
+                    <li>
+                      <Link to="/login">Logga in</Link>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
