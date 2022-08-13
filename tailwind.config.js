@@ -18,6 +18,8 @@ module.exports = {
         primaryHover: colors.sky[800],
         secondary: colors.amber[300],
         secondaryHover: colors.amber[200],
+        error: colors.red[300],
+        success: colors.green[300],
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
