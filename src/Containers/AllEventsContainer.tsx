@@ -42,9 +42,13 @@ const AllEventsContainer = () => {
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setLoading(false);
-        if (error.response.status !== 500) {
+        if (error.response.status === 403) {
+          navigate('/inte-behorig');
+        }
+        else if (error.response.status !== 500) {
           navigate('/login', { state: { from: location }, replace: true });
-        } else {
+        }
+        else {
           setError(true);
           setErrorMsg(error.response.data.message);
           console.log(error);

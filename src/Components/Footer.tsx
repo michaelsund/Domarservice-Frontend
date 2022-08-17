@@ -4,7 +4,7 @@ import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
 
 export const Footer = () => {
-  const { isLoggedIn } = useContext(DomarserviceContext);
+  const { isLoggedIn }: any = useContext(DomarserviceContext);
 
   return (
     <>

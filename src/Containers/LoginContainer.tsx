@@ -7,7 +7,7 @@ import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { DomarserviceContextType } from '../Types/DomarserviceContextType';
 
 const LoginContainer = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn }: any = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(false);

@@ -8,22 +8,26 @@ import { ProgressBar } from '../Components/ProgressBar';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { RegisterModel } from '../Types/RegitserModel';
 import { Pill } from '../Components/Pill';
+import { CountyType } from '../Types/CountyType';
 
 const RegisterContainer = () => {
-  const { isLoggedIn } = useContext(DomarserviceContext);
+  const { isLoggedIn }: any = useContext(DomarserviceContext);
   const navigate = useNavigate();
-  const steps = 5;
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [errorMsgList, setErrorMsgList] = useState<string[]>();
   const [registerInfo, setRegisterInfo] = useState<RegisterModel>({
-    surname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    information: '',
+    surname: 'test1',
+    lastname: 'testsson',
+    email: 'test@osund.com',
+    password: '!Oneverycomplexpassword123',
+    information: 'Just a note by me!',
+    registerAsReferee: true,
+    companyName: '',
+    companyCity: '',
+    companyCounty: Object.keys(CountyType).indexOf('Stockholm'),
   });
 
   const handleSendRegistration = () => {
@@ -41,6 +45,8 @@ const RegisterContainer = () => {
         localStorage.setItem('token', response.data.data.token);
         setLoading(false);
         setError(false);
+        setErrorMsg('');
+        setErrorMsgList([]);
       })
       .catch((err) => {
         console.log(err);
@@ -50,17 +56,6 @@ const RegisterContainer = () => {
         setLoading(false);
       });
   };
-
-  // useEffect(() => {
-  //   setPercentDone((step / steps) * 100);
-  //   console.log(`In step ${step}`);
-  //   console.log(`Percent done ${percentDone}`);
-  //   // Skip company information if signing up as referee.
-  //   if (step === 4 && isReferee) {
-  //     setStep(step + 1);
-  //     setPercentDone((step / steps) * 100);
-  //   }
-  // }, [step]);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -129,6 +124,74 @@ const RegisterContainer = () => {
                   type="password"
                 />
               </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Kontotyp</label>
+                <div className="form-check">
+                  <input
+                    className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                    type="radio"
+                    checked={registerInfo.registerAsReferee}
+                    onChange={() => setRegisterInfo({ ...registerInfo, registerAsReferee: true })}
+                  />
+                  <label className="form-check-label inline-block text-gray-800">Domare</label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                    type="radio"
+                    checked={!registerInfo.registerAsReferee}
+                    onChange={() => setRegisterInfo({ ...registerInfo, registerAsReferee: false })}
+                  />
+                  <label className="form-check-label inline-block text-gray-800">Förening</label>
+                </div>
+              </div>
+              {!registerInfo.registerAsReferee && (
+                <>
+                  <div>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                      Föreningens namn
+                    </label>
+                    <input
+                      className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                      placeholder="Föreningens namn"
+                      value={registerInfo.companyName}
+                      onChange={(e) =>
+                        setRegisterInfo({ ...registerInfo, companyName: e.target.value })
+                      }
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">Stad</label>
+                    <input
+                      className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                      placeholder="Stad"
+                      value={registerInfo.companyCity}
+                      onChange={(e) =>
+                        setRegisterInfo({ ...registerInfo, companyCity: e.target.value })
+                      }
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">Län</label>
+                    <select
+                      className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                      placeholder="Välj län"
+                      value={registerInfo.companyCounty}
+                      onChange={(e) =>
+                        setRegisterInfo({ ...registerInfo, companyCounty: +e.target.value })
+                      }
+                    >
+                      {Object.values(CountyType).map((value: string, i: number) => (
+                        <option key={i} value={Object.keys(CountyType).indexOf(value)}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
             <div className="flex space-x-2">
               <Button

@@ -11,7 +11,7 @@ interface IProps {
 
 export const Nav = (props: IProps) => {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn }: any = useContext(DomarserviceContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClicked = () => {
@@ -47,17 +47,17 @@ export const Nav = (props: IProps) => {
                   <Link className="font-light text-base" to="/matcher">
                     Alla matcher
                   </Link>
-                  <Link className="font-light text-base" to="/referee/1">
+                  <Link className="font-light text-base" to="/domare/1">
                     Domare 1
                   </Link>
-                  <Link className="font-light text-base" to="/referee/2">
+                  <Link className="font-light text-base" to="/domare/2">
                     Domare 2
                   </Link>
-                  <Link className="font-light text-base" to="/company/1">
+                  <Link className="font-light text-base" to="/forening/1">
                     Förening 1
                   </Link>
                   {isLoggedIn && (
-                    <Link className="font-light text-base" to="/minprofil">
+                    <Link className="font-light text-base" to="/min-profil">
                       Min profil
                     </Link>
                   )}
