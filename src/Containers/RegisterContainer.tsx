@@ -65,7 +65,7 @@ const RegisterContainer = () => {
         </h1>
       ) : (
         <div className="w-full max-w-lg">
-          <Card className="flex flex-col items-center px-8 pt-6 pb-8 mb-4">
+          <Card className="flex flex-col px-8 pt-6 pb-8 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-14 w-14 text-primary"
@@ -104,7 +104,7 @@ const RegisterContainer = () => {
               </div>
             </div>
             <div className="flex flex-col mb-4">
-              <div className="flex-auto mb-4">
+              <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">Epost</label>
                 <input
                   className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
@@ -125,7 +125,17 @@ const RegisterContainer = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">Kontotyp</label>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Bekräfta lösenord</label>
+                <input
+                  className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                  placeholder="Lösenord"
+                  value={registerInfo.password}
+                  onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
+                  type="password"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">Jag vill registrera mig som</label>
                 <div className="form-check">
                   <input
                     className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
