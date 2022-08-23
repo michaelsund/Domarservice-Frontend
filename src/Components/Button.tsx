@@ -5,6 +5,7 @@ interface IProps {
   secondary?: boolean;
   rounded?: boolean;
   filled?: boolean;
+  fullWidth?: boolean;
   onClick?: () => void;
   disabled?: boolean;
   shadow?: boolean;
@@ -16,6 +17,7 @@ export const Button = ({
   secondary = false,
   rounded = false,
   filled = true,
+  fullWidth = false,
   disabled = false,
   shadow = false,
   onClick = undefined,
@@ -34,12 +36,10 @@ export const Button = ({
           ? 'text-white bg-primary'
           : 'bg-transparent text-primary border-2 py-2 px-4 border border-primary hover:text-white'
       }
-      ${
-        secondary
-          ? 'hover:bg-secondaryHover text-black bg-secondary'
-          : 'hover:bg-primaryHover'
-      }
-      disabled:bg-slate-500 transition-all duration-200 ${hasValidChildren && 'pl-11'}`}
+      ${secondary ? 'hover:bg-secondaryHover text-black bg-secondary' : 'hover:bg-primaryHover'}
+      disabled:bg-slate-500 transition-all duration-200 ${hasValidChildren && 'pl-11'}
+      ${fullWidth && 'w-full'}
+      `}
       disabled={disabled}
       onClick={onClick}
     >

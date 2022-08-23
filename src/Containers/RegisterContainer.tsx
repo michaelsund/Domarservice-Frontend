@@ -52,7 +52,11 @@ const RegisterContainer = () => {
         console.log(err);
         setError(true);
         setErrorMsg(err.response.data.message);
-        setErrorMsgList(err.response.data.data.map((x: any) => x.errorMessage));
+        if (err.response.data.data) {
+          setErrorMsgList(err.response.data.data.map((x: any) => x.errorMessage));
+        } else {
+          setErrorMsgList([]);
+        }
         setLoading(false);
       });
   };
@@ -66,21 +70,23 @@ const RegisterContainer = () => {
       ) : (
         <div className="w-full max-w-lg">
           <Card className="flex flex-col px-8 pt-6 pb-8 mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-14 w-14 text-primary"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
-              />
-            </svg>
-            <h1 className="mb-8 text-xl tracking-tight">Registrering</h1>
+            <div className="flex flex-col w-full items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-14 w-14 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"
+                />
+              </svg>
+              <h1 className="mb-8 text-xl tracking-tight">Registrering</h1>
+            </div>
             <div className="flex space-x-2 mb-4">
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2">Förnamn</label>
@@ -125,7 +131,9 @@ const RegisterContainer = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">Bekräfta lösenord</label>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Bekräfta lösenord
+                </label>
                 <input
                   className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
                   placeholder="Lösenord"
@@ -134,20 +142,22 @@ const RegisterContainer = () => {
                   type="password"
                 />
               </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2">Jag vill registrera mig som</label>
-                <div className="form-check">
+              <div className="my-6">
+                <label className="block text-gray-700 text-sm font-bold">
+                  Jag vill registrera mig som
+                </label>
+                <div>
                   <input
-                    className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                    className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
                     checked={registerInfo.registerAsReferee}
                     onChange={() => setRegisterInfo({ ...registerInfo, registerAsReferee: true })}
                   />
                   <label className="form-check-label inline-block text-gray-800">Domare</label>
                 </div>
-                <div className="form-check">
+                <div>
                   <input
-                    className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+                    className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
                     checked={!registerInfo.registerAsReferee}
                     onChange={() => setRegisterInfo({ ...registerInfo, registerAsReferee: false })}
@@ -157,7 +167,7 @@ const RegisterContainer = () => {
               </div>
               {!registerInfo.registerAsReferee && (
                 <>
-                  <div>
+                  <div className="flex flex-col mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Föreningens namn
                     </label>
@@ -171,7 +181,7 @@ const RegisterContainer = () => {
                       type="text"
                     />
                   </div>
-                  <div>
+                  <div className="flex flex-col mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">Stad</label>
                     <input
                       className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
@@ -183,7 +193,7 @@ const RegisterContainer = () => {
                       type="text"
                     />
                   </div>
-                  <div>
+                  <div className="flex flex-col mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">Län</label>
                     <select
                       className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
@@ -206,6 +216,7 @@ const RegisterContainer = () => {
             <div className="flex space-x-2">
               <Button
                 text="Klar"
+                fullWidth
                 shadow
                 onClick={() => {
                   handleSendRegistration();
