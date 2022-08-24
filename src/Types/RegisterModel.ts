@@ -5,6 +5,7 @@ export type RegisterModel = {
   lastname: string;
   email: string;
   password: string;
+  passwordConfirmation: string;
   information: string;
   registerAsReferee: boolean;
   companyName: string;

@@ -6,7 +6,7 @@ import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Card } from '../Components/Card';
 import { ProgressBar } from '../Components/ProgressBar';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
-import { RegisterModel } from '../Types/RegitserModel';
+import { RegisterModel } from '../Types/RegisterModel';
 import { Pill } from '../Components/Pill';
 import { CountyType } from '../Types/CountyType';
 
@@ -23,6 +23,7 @@ const RegisterContainer = () => {
     lastname: 'testsson',
     email: 'test@osund.com',
     password: '!Oneverycomplexpassword123',
+    passwordConfirmation: '!Oneverycomplexpassword123',
     information: 'Just a note by me!',
     registerAsReferee: true,
     companyName: '',
@@ -136,9 +137,9 @@ const RegisterContainer = () => {
                 </label>
                 <input
                   className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
-                  placeholder="Lösenord"
-                  value={registerInfo.password}
-                  onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
+                  placeholder="Bekräfta lösenord"
+                  value={registerInfo.passwordConfirmation}
+                  onChange={(e) => setRegisterInfo({ ...registerInfo, passwordConfirmation: e.target.value })}
                   type="password"
                 />
               </div>

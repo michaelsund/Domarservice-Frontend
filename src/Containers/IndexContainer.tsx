@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from '../Components/Button';
 import { Hero } from '../Components/Hero';
 import { ReactComponent as WhistleSvg } from '../Images/whistle.svg';
@@ -11,8 +11,11 @@ import { Link } from 'react-router-dom';
 import Company1 from '../Images/company1.jpg';
 import Referee1 from '../Images/referee1.jpg';
 import { Sponsors } from '../Components/Sponsors';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
 
 const IndexContainer = () => {
+  const { isLoggedIn }: any = useContext(DomarserviceContext);
+
   return (
     <div className="flex flex-col text-gray-900 dark:text-white">
       <Hero className="flex content-center items-center bg-hero-pattern bg-no-repeat bg-auto bg-center">
@@ -24,9 +27,11 @@ const IndexContainer = () => {
             Domarservice underlättar för föreningar och deras process vid matcher.
           </h5>
           <div className="flex flex-row space-x-2">
-            <Link to="/registrera">
-              <Button text="Registrera" secondary />
-            </Link>
+            {!isLoggedIn && (
+              <Link to="/registrera">
+                <Button text="Registrera" secondary />
+              </Link>
+            )}
             <Link to="/matcher">
               <Button text="Alla matcher" secondary />
             </Link>
@@ -80,32 +85,34 @@ const IndexContainer = () => {
         <h1 className="text-4xl mb-14 font-bold tracking-tight uppercase">Sponsorer</h1>
         <Sponsors />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 w-full">
-        <div className="relative">
-          <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
-            <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
-              Registrera dig som domare
-            </h1>
-            <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
-              Hitta matcher att döma
-            </h4>
-            <Button text="Registrera" />
+      {!isLoggedIn && (
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full">
+          <div className="relative">
+            <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
+              <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
+                Registrera dig som domare
+              </h1>
+              <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
+                Hitta matcher att döma
+              </h4>
+              <Button text="Registrera" />
+            </div>
+            <img className="object-cover h-80 w-full brightness-50" src={Referee1} alt="" />
           </div>
-          <img className="object-cover h-80 w-full brightness-50" src={Referee1} alt="" />
-        </div>
-        <div className="relative">
-          <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
-            <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
-              Registrera din förening
-            </h1>
-            <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
-              Hitta domare till föreningens matcher
-            </h4>
-            <Button text="Registrera" />
+          <div className="relative">
+            <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col justify-center items-center p-8">
+              <h1 className="text-white drop-shadow-2xl text-4xl mb-4 font-bold tracking-tight uppercase">
+                Registrera din förening
+              </h1>
+              <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
+                Hitta domare till föreningens matcher
+              </h4>
+              <Button text="Registrera" />
+            </div>
+            <img className="object-cover h-80 w-full brightness-50" src={Company1} alt="" />
           </div>
-          <img className="object-cover h-80 w-full brightness-50" src={Company1} alt="" />
         </div>
-      </div>
+      )}
     </div>
   );
 };
