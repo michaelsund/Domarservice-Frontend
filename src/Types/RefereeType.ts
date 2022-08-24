@@ -1,4 +1,4 @@
 export enum RefereeType {
-  Hudvuddomare,
-  Linjeman,
+  Huvuddomare = 'Huvuddomare',
+  Linjeman = 'Linjeman',
 }

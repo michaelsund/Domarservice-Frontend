@@ -19,6 +19,10 @@ const AllEventsContainer = () => {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [matches, setMatches] = useState<ExtendedCompanyEventDto[]>([]);
+  // Can select multiple countys.
+  const [countysFilter, setCountysFilter] = useState<number[]>([]);
+  const [sportsFilter, setSportsFilter] = useState<number[]>([]);
+  const [refereesFilter, setRefereesFilter] = useState<number[]>([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,8 +34,14 @@ const AllEventsContainer = () => {
     const getPage = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/all/${page}`,
+        const response = await axiosPrivate.post(
+          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
+          {
+            page,
+            countysFilter,
+            sportsFilter,
+            refereesFilter
+          },
           {
             signal: controller.signal,
           },
@@ -44,11 +54,9 @@ const AllEventsContainer = () => {
         setLoading(false);
         if (error.response.status === 403) {
           navigate('/inte-behorig');
-        }
-        else if (error.response.status !== 500) {
+        } else if (error.response.status !== 500) {
           navigate('/login', { state: { from: location }, replace: true });
-        }
-        else {
+        } else {
           setError(true);
           setErrorMsg(error.response.data.message);
           console.log(error);
@@ -64,6 +72,36 @@ const AllEventsContainer = () => {
     };
   }, [page]);
 
+  const handleGetNewData = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosPrivate.post(
+        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
+        {
+          page,
+          countysFilter,
+          sportsFilter,
+          refereesFilter
+        },
+      );
+      setMatches(response.data.data);
+      setLoading(false);
+      setError(false);
+    } catch (error: any) {
+      console.log(`Response status: ${error.response?.status}`);
+      setLoading(false);
+      if (error.response.status === 403) {
+        navigate('/inte-behorig');
+      } else if (error.response.status !== 500) {
+        navigate('/login', { state: { from: location }, replace: true });
+      } else {
+        setError(true);
+        setErrorMsg(error.response.data.message);
+        console.log(error);
+      }
+    }
+  };
+
   const nextPage = () => {
     setPage(page + 1);
   };
@@ -74,8 +112,73 @@ const AllEventsContainer = () => {
     }
   };
 
+  const handleSubmitFilter = () => {
+    handleGetNewData();
+  };
+
+  const handleCountysArray = (countyIndex: number) => {
+    if (countysFilter.includes(countyIndex)) {
+      setCountysFilter(countysFilter.filter((item) => item !== countyIndex));
+    } else {
+      setCountysFilter([countyIndex, ...countysFilter]);
+    }
+  };
+
+  const handleSportsArray = (sportIndex: number) => {
+    if (sportsFilter.includes(sportIndex)) {
+      setSportsFilter(sportsFilter.filter((item) => item !== sportIndex));
+    } else {
+      setSportsFilter([sportIndex, ...sportsFilter]);
+    }
+  };
+
+  const handleRefereesArray = (refereeIndex: number) => {
+    if (refereesFilter.includes(refereeIndex)) {
+      setRefereesFilter(refereesFilter.filter((item) => item !== refereeIndex));
+    } else {
+      setRefereesFilter([refereeIndex, ...refereesFilter]);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center text-gray-900 dark:text-white">
+      <b>Jag letar efter matcher i.</b>
+      <p>Län</p>
+      <div className="flex flex-row flex-wrap">
+        {Object.values(CountyType).map((value: string, i: number) => (
+          <div key={i} className="p-4">
+            <input
+              className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              type="checkbox"
+              onChange={() => handleCountysArray(i)}
+            />
+            <label className="form-check-label inline-block text-gray-800">{value}</label>
+          </div>
+        ))}
+      </div>
+      <p>Sporter</p>
+      {Object.values(SportType).map((value: string, i: number) => (
+        <div key={i}>
+          <input
+            className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+            type="checkbox"
+            onChange={() => handleSportsArray(i)}
+          />
+          <label className="form-check-label inline-block text-gray-800">{value}</label>
+        </div>
+      ))}
+       <p>Domartyper</p>
+      {Object.values(RefereeType).map((value: string, i: number) => (
+        <div key={i}>
+          <input
+            className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+            type="checkbox"
+            onChange={() => handleRefereesArray(i)}
+          />
+          <label className="form-check-label inline-block text-gray-800">{value}</label>
+        </div>
+      ))}
+      <Button text="Filtrera" onClick={() => handleSubmitFilter()} />
       {loading ? (
         <LoadingSpinner />
       ) : error ? (

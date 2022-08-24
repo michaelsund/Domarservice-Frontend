@@ -1,5 +1,5 @@
 export enum SportType {
-  Ishockey,
-  Fotboll,
-  Innebandy,
+  Ishockey = 'Ishockey',
+  Fotboll = 'Fotboll',
+  Innebandy = 'Innebandy',
 }

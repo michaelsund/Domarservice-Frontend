@@ -8,6 +8,6 @@ export interface ExtendedCompanyEventDto {
   location: string;
   date: Date;
   company: SimpleCompanyDto;
-  sportType: SportType;
+  sportType: number;
   refereeTypesForEvent: RefereeType[];
 }
