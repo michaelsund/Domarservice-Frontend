@@ -1,5 +1,5 @@
 import axios from '../Helpers/Axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
@@ -11,6 +11,7 @@ import { Pill } from '../Components/Pill';
 import { CountyType } from '../Types/CountyType';
 
 const RegisterContainer = () => {
+  const errorsRef: any = useRef();
   const { isLoggedIn }: any = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +31,12 @@ const RegisterContainer = () => {
     companyCity: '',
     companyCounty: Object.keys(CountyType).indexOf('Stockholm'),
   });
+
+  const ScrollTo = (ref: any) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const handleSendRegistration = () => {
     setLoading(true);
@@ -59,6 +66,7 @@ const RegisterContainer = () => {
           setErrorMsgList([]);
         }
         setLoading(false);
+        ScrollTo(errorsRef);
       });
   };
 
@@ -139,7 +147,9 @@ const RegisterContainer = () => {
                   className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
                   placeholder="Bekräfta lösenord"
                   value={registerInfo.passwordConfirmation}
-                  onChange={(e) => setRegisterInfo({ ...registerInfo, passwordConfirmation: e.target.value })}
+                  onChange={(e) =>
+                    setRegisterInfo({ ...registerInfo, passwordConfirmation: e.target.value })
+                  }
                   type="password"
                 />
               </div>
@@ -228,13 +238,12 @@ const RegisterContainer = () => {
           </Card>
         </div>
       )}
-      {error && (
-        <div className="w-full max-w-lg">
-          {errorMsgList?.map((validationError: string) => (
+      <div ref={errorsRef} className="w-full max-w-lg">
+        {error &&
+          errorMsgList?.map((validationError: string) => (
             <Pill key={validationError}>{validationError}</Pill>
           ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 };
