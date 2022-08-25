@@ -10,6 +10,7 @@ interface IProps {
   disabled?: boolean;
   shadow?: boolean;
   children?: any;
+  className?: any;
 }
 
 export const Button = ({
@@ -22,6 +23,7 @@ export const Button = ({
   shadow = false,
   onClick = undefined,
   children = null,
+  className = '',
 }: IProps) => {
   const hasValidChildren = React.isValidElement(children) ? true : false;
   return (
@@ -39,7 +41,7 @@ export const Button = ({
       ${secondary ? 'hover:bg-secondaryHover text-black bg-secondary' : 'hover:bg-primaryHover'}
       disabled:bg-slate-500 transition-all duration-200 ${hasValidChildren && 'pl-11'}
       ${fullWidth && 'w-full'}
-      `}
+      ${className !== '' && className}`}
       disabled={disabled}
       onClick={onClick}
     >

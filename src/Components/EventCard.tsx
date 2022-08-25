@@ -6,8 +6,6 @@ import Soccer1 from '../Images/soccer1.jpg';
 import Hockey1 from '../Images/hockey1.jpg';
 import Innebandy1 from '../Images/innebandy1.jpg';
 import { Link } from 'react-router-dom';
-import { CountyType } from '../Types/CountyType';
-import { RefereeType } from '../Types/RefereeType';
 
 interface IProps {
   companyEvent: ExtendedCompanyEventDto;
@@ -22,7 +20,7 @@ export const EventCard = (props: IProps) => {
     case Object.keys(SportType).indexOf('Fotboll'):
       imageType = Soccer1;
       break;
-    case Object.keys(SportType).indexOf('InneBandy'):
+    case Object.keys(SportType).indexOf('Innebandy'):
       imageType = Innebandy1;
       break;
     default:
