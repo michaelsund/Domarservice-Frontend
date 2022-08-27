@@ -9,7 +9,6 @@ import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
-import moment from 'moment';
 import { Button } from '../Components/Button';
 import { EventCard } from '../Components/EventCard';
 import { Card } from '../Components/Card';
@@ -155,10 +154,14 @@ const AllEventsContainer = () => {
       <Card className="mb-6 w-full">
         <div className="flex justify-center">
           <h1 className="flex-1 text-2xl font-normal tracking-tight">Sök matcher</h1>
-          <Button text="Filter" className={'ml-auto'} onClick={() => setShowFilters(!showFilters)} />
+          <Button
+            text="Filter"
+            className={'ml-auto'}
+            onClick={() => setShowFilters(!showFilters)}
+          />
         </div>
         <div className={`${!showFilters && 'hidden'}`}>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col lg:flex-row lg:space-x-2">
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">Föreningens namn</label>
               <input
