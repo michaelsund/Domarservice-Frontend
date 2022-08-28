@@ -123,8 +123,9 @@ export const Nav = (props: IProps) => {
             </div>
           </div>
         </div>
+        {/* Mobile menu */}
         <div hidden={!isOpen}>
-          <div className="md:hidden absolute w-full bg-slate-100 border-b-primary border-b-2">
+          <div className="z-10 md:hidden absolute w-full bg-slate-100 border-b-primary border-b-2">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link
                 onClick={() => handleLinkClicked()}
@@ -132,6 +133,13 @@ export const Nav = (props: IProps) => {
                 to="/"
               >
                 Hem
+              </Link>
+              <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/matcher"
+              >
+                Alla matcher
               </Link>
               <Link
                 onClick={() => handleLinkClicked()}

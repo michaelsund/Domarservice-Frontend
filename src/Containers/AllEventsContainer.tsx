@@ -12,6 +12,7 @@ import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEv
 import { Button } from '../Components/Button';
 import { EventCard } from '../Components/EventCard';
 import { Card } from '../Components/Card';
+import moment from 'moment';
 
 const AllEventsContainer = () => {
   const [page, setPage] = useState<number>(1);
@@ -25,7 +26,7 @@ const AllEventsContainer = () => {
   const [refereesFilter, setRefereesFilter] = useState<number[]>([]);
   const [companySearchString, setCompanySearchString] = useState<string>('');
   // const [fromDate, setFromDate] = useState<string>(moment('2023-01-25T10:14:24+02:00').format());
-  const [fromDate, setFromDate] = useState<string>();
+  const [fromDate, setFromDate] = useState<string>(moment().format('YYYY-MM-DD'));
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -149,9 +150,17 @@ const AllEventsContainer = () => {
     }
   };
 
+  const handleClearFilters = () => {
+    setCountysFilter([]);
+    setSportsFilter([]);
+    setRefereesFilter([]);
+    setCompanySearchString('');
+    setFromDate(moment().format('YYYY-MM-DD'));
+  };
+
   return (
     <div className="flex flex-col items-center text-gray-900 dark:text-white p-6">
-      <Card className="mb-6 w-full">
+      <Card className="mb-6 w-full lg:w-2/3">
         <div className="flex justify-center">
           <h1 className="flex-1 text-2xl font-normal tracking-tight">Sök matcher</h1>
           <Button
@@ -221,7 +230,10 @@ const AllEventsContainer = () => {
               </div>
             ))}
           </div>
-          <Button text="Filtrera" onClick={() => handleSubmitFilter()} />
+          <div className="flex">
+            <Button text="Filtrera" onClick={() => handleSubmitFilter()} />
+            <Button text="Rensa filter" onClick={() => handleClearFilters()} />
+          </div>
         </div>
       </Card>
       {loading ? (
@@ -230,7 +242,7 @@ const AllEventsContainer = () => {
         <p>{errorMsg}</p>
       ) : (
         matches.length > 0 && (
-          <div className="container w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid lg:grid-flow-col">
+          <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3 lg:grid-rows-3">
             {matches.map((match: ExtendedCompanyEventDto) => (
               <EventCard key={match.id} companyEvent={match} />
             ))}
