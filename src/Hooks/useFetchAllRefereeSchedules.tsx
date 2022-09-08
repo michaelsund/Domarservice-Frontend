@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '../Helpers/Axios';
 
-// ***********************
-// Currently doesn't work, even though it's the same as AllRefereeScheduleContainer it doesn't pass
-// the Bearer token with the request.
-// ***********************
-
-
 const useFetchAllRefereeSchedules = (payload: any) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    console.log('Running useFetchAllRefereeSchedules');
     let isMounted = true;
     const controller = new AbortController();
 
@@ -27,10 +20,11 @@ const useFetchAllRefereeSchedules = (payload: any) => {
           },
         );
         isMounted && setData(response.data.data);
+        isMounted && setError('');
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         console.log(error);
-        setError(error);
+        setError(error.response?.data.message);
       }
       setLoaded(true);
     };

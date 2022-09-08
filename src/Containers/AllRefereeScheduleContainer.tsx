@@ -15,11 +15,12 @@ import { Card } from '../Components/Card';
 import moment from 'moment';
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
 import { ScheduleCard } from '../Components/ScheduleCard';
+import useFetchAllRefereeSchedules from '../Hooks/useFetchAllRefereeSchedules';
 
 const AllRefereeScheduleContainer = () => {
   const [page, setPage] = useState<number>(1);
-  const [error, setError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>();
+  // const [error, setError] = useState<boolean>(false);
+  // const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [refereeSchedules, setRefereeSchedules] = useState<RefereeScheduleDto[]>([]);
   // Can select multiple countys.
@@ -33,86 +34,94 @@ const AllRefereeScheduleContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const { data, error, loaded }: any = useFetchAllRefereeSchedules({
+    page,
+    availableFromDate,
+    countysFilter,
+    sportsFilter,
+    refereesFilter,
+    // companySearchString,
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const controller = new AbortController();
 
-    const getInitialPageWithoutFilters = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosPrivate.post(
-          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
-          {
-            page,
-            availableFromDate,
-            countysFilter,
-            sportsFilter,
-            refereesFilter,
-            // companySearchString,
-          },
-          {
-            signal: controller.signal,
-          },
-        );
-        isMounted && setRefereeSchedules(response.data.data);
-        setLoading(false);
-        setError(false);
-      } catch (error: any) {
-        console.log(`Response status: ${error.response?.status}`);
-        setLoading(false);
-        if (error.response.status === 403) {
-          navigate('/inte-behorig');
-        } else if (error.response.status !== 500) {
-          navigate('/login', { state: { from: location }, replace: true });
-        } else {
-          setError(true);
-          setErrorMsg(error.response.data.message);
-          console.log(error);
-        }
-      }
-    };
+  //   const getInitialPageWithoutFilters = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axiosPrivate.post(
+  //         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
+  //         {
+  //           page,
+  //           availableFromDate,
+  //           countysFilter,
+  //           sportsFilter,
+  //           refereesFilter,
+  //           // companySearchString,
+  //         },
+  //         {
+  //           signal: controller.signal,
+  //         },
+  //       );
+  //       isMounted && setRefereeSchedules(response.data.data);
+  //       setLoading(false);
+  //       setError(false);
+  //     } catch (error: any) {
+  //       console.log(`Response status: ${error.response?.status}`);
+  //       setLoading(false);
+  //       if (error.response.status === 403) {
+  //         navigate('/inte-behorig');
+  //       } else if (error.response.status !== 500) {
+  //         navigate('/login', { state: { from: location }, replace: true });
+  //       } else {
+  //         setError(true);
+  //         setErrorMsg(error.response.data.message);
+  //         console.log(error);
+  //       }
+  //     }
+  //   };
 
-    getInitialPageWithoutFilters();
+  //   getInitialPageWithoutFilters();
 
-    return () => {
-      isMounted = false;
-      controller.abort;
-    };
-  }, [page]);
+  //   return () => {
+  //     isMounted = false;
+  //     controller.abort;
+  //   };
+  // }, [page, availableFromDate, countysFilter, sportsFilter, refereesFilter]);
 
-  const handleGetNewData = async () => {
-    setPage(1);
-    setLoading(true);
-    try {
-      const response = await axiosPrivate.post(
-        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
-        {
-          page,
-          availableFromDate,
-          countysFilter,
-          sportsFilter,
-          refereesFilter,
-          // companySearchString,
-        },
-      );
-      setRefereeSchedules(response.data.data);
-      setLoading(false);
-      setError(false);
-    } catch (error: any) {
-      console.log(`Response status: ${error.response?.status}`);
-      setLoading(false);
-      if (error.response.status === 403) {
-        navigate('/inte-behorig');
-      } else if (error.response.status !== 500) {
-        navigate('/login', { state: { from: location }, replace: true });
-      } else {
-        setError(true);
-        setErrorMsg(error.response.data.message);
-        console.log(error);
-      }
-    }
-  };
+  // const handleGetNewData = async () => {
+  //   setPage(1);
+  //   setLoading(true);
+  //   try {
+  //     const response = await axiosPrivate.post(
+  //       `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
+  //       {
+  //         page,
+  //         availableFromDate,
+  //         countysFilter,
+  //         sportsFilter,
+  //         refereesFilter,
+  //         // companySearchString,
+  //       },
+  //     );
+  //     setRefereeSchedules(response.data.data);
+  //     setLoading(false);
+  //     setError(false);
+  //   } catch (error: any) {
+  //     console.log(`Response status: ${error.response?.status}`);
+  //     setLoading(false);
+  //     if (error.response.status === 403) {
+  //       navigate('/inte-behorig');
+  //     } else if (error.response.status !== 500) {
+  //       navigate('/login', { state: { from: location }, replace: true });
+  //     } else {
+  //       setError(true);
+  //       setErrorMsg(error.response.data.message);
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   const nextPage = () => {
     setPage(page + 1);
@@ -124,9 +133,9 @@ const AllRefereeScheduleContainer = () => {
     }
   };
 
-  const handleSubmitFilter = () => {
-    handleGetNewData();
-  };
+  // const handleSubmitFilter = () => {
+  //   handleGetNewData();
+  // };
 
   const handleCountysArray = (countyIndex: number) => {
     if (countysFilter.includes(countyIndex)) {
@@ -228,22 +237,21 @@ const AllRefereeScheduleContainer = () => {
               </div>
             ))}
           </div>
-          <div className="flex">
+          {/* <div className="flex">
             <Button text="Filtrera" onClick={() => handleSubmitFilter()} />
-          </div>
+          </div> */}
         </div>
       </Card>
-      {loading ? (
+      {!loaded ? (
         <LoadingSpinner />
-      ) : error ? (
-        <p>{errorMsg}</p>
+      ) : error.length > 0 ? (
+        <p>{error}</p>
       ) : (
-        refereeSchedules.length > 0 && (
+        data !== null && (
           <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3 lg:grid-rows-3">
-            {refereeSchedules.map((schedule: RefereeScheduleDto) => (
+            {data.map((schedule: RefereeScheduleDto) => (
               <div key={Math.random()}>
                 <ScheduleCard refereeSchedule={schedule} />
-                {/* <p>{schedule.referee.surname}</p> */}
               </div>
             ))}
           </div>
