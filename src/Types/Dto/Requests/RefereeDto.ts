@@ -1,11 +1,11 @@
 import { CountyDto } from '../CountyDto';
-import { RefereeSportDto } from '../RefereeSportDto';
+import { RefereeSport } from '../RefereeSport';
 
 export interface RefereeDto {
   id: number;
   surname: string;
   lastname: string;
-  sports: RefereeSportDto[];
+  sports: RefereeSport[];
   countys: CountyDto[];
   // Schedules: ScheduleDto[];
   // Countys:

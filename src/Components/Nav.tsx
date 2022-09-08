@@ -45,9 +45,12 @@ export const Nav = (props: IProps) => {
                     Hem
                   </Link>
                   <Link className="font-light text-base" to="/matcher">
-                    Alla matcher
+                    Hitta matcher
                   </Link>
-                  <Link className="font-light text-base" to="/domare/1">
+                  <Link className="font-light text-base" to="/domare">
+                    Hitta domare
+                  </Link>
+                  {/* <Link className="font-light text-base" to="/domare/1">
                     Domare 1
                   </Link>
                   <Link className="font-light text-base" to="/domare/2">
@@ -55,7 +58,7 @@ export const Nav = (props: IProps) => {
                   </Link>
                   <Link className="font-light text-base" to="/forening/1">
                     Förening 1
-                  </Link>
+                  </Link> */}
                   {isLoggedIn && (
                     <Link className="font-light text-base" to="/min-profil">
                       Min profil
@@ -139,9 +142,16 @@ export const Nav = (props: IProps) => {
                 className="block py-2 ml-4 font-medium text-base"
                 to="/matcher"
               >
-                Alla matcher
+                Hitta matcher
               </Link>
               <Link
+                onClick={() => handleLinkClicked()}
+                className="block py-2 ml-4 font-medium text-base"
+                to="/domare"
+              >
+                Hitta domare
+              </Link>
+              {/* <Link
                 onClick={() => handleLinkClicked()}
                 className="block py-2 ml-4 font-medium text-base"
                 to="/referee/1"
@@ -161,7 +171,7 @@ export const Nav = (props: IProps) => {
                 to="/company/1"
               >
                 Förening 1
-              </Link>
+              </Link> */}
               {isLoggedIn && (
                 <Link
                   onClick={() => handleLinkClicked()}

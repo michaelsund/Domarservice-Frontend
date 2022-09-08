@@ -6,6 +6,9 @@ import Soccer1 from '../Images/soccer1.jpg';
 import Hockey1 from '../Images/hockey1.jpg';
 import Innebandy1 from '../Images/innebandy1.jpg';
 import { Link } from 'react-router-dom';
+import { CountyType } from '../Types/CountyType';
+import { RefereeType } from '../Types/RefereeType';
+import { Card } from './Card';
 
 interface IProps {
   companyEvent: ExtendedCompanyEventDto;
@@ -27,7 +30,7 @@ export const EventCard = (props: IProps) => {
       break;
   }
   return (
-    <div className="col-span-1 relative rounded overflow-hidden shadow-md hover:shadow-2xl delay-100 dark:bg-black">
+    <Card>
       <div className="absolute flex flex-col justify-center items-center left-0 top-40 bg-primary h-16 w-16">
         <p className="text-white font-normal text-xl">
           {moment(props.companyEvent.date).format('DD')}
@@ -36,7 +39,7 @@ export const EventCard = (props: IProps) => {
           {moment(props.companyEvent.date).format('MMM')}
         </p>
       </div>
-      <img className="object-cover h-56 w-full" src={imageType} alt="" />
+      <img className="object-cover h-56 w-full rounded-t-md" src={imageType} alt="" />
       <div className="flex justify-center space-x-6 text-xs px-6 pt-4 pb-2">
         <div className="flex items-center">
           <svg
@@ -99,20 +102,18 @@ export const EventCard = (props: IProps) => {
         <div className="font-bold text-xl mb-2">
           {Object.values(SportType)[props.companyEvent.sportType]}
         </div>
-        <p className="text-base">
-          Förening: {props.companyEvent.company.name}
-        </p>
+        <p className="text-base">Förening: {props.companyEvent.company.name}</p>
         <p className="text-base">
           Id: {props.companyEvent.id} - {props.companyEvent.name}
         </p>
         <p>Plats: {props.companyEvent.location}</p>
-        <b>Spelas i län: {props.companyEvent.company.county}</b>
-        <b>
-          Domartyper:{' '}
+        <b>Spelas i län: {Object.values(CountyType)[props.companyEvent.company.county as any]}</b>
+        <div>
+          Domare som behövs:{' '}
           {props.companyEvent.refereeTypesForEvent.map((val: any) => (
-            <p key={Math.random()}>{val.refereeType}</p>
+            <p key={Math.random()}>{Object.values(RefereeType)[val.refereeType]}</p>
           ))}
-        </b>
+        </div>
         <Link
           className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
           to="/matcher"
@@ -120,6 +121,6 @@ export const EventCard = (props: IProps) => {
           Jag vill döma
         </Link>
       </div>
-    </div>
+    </Card>
   );
 };

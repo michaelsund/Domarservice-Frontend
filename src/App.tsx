@@ -12,6 +12,7 @@ import RegisterContainer from './Containers/RegisterContainer';
 import { DomarserviceContextProvider } from './Context/DomarserviceContext';
 import VerifyEmailContainer from './Containers/VerifyEmailContainer';
 import UserForbiddenContainer from './Containers/UserForbidden';
+import AllRefereeScheduleContainer from './Containers/AllRefereeScheduleContainer';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<IndexContainer />} />
               <Route path="/matcher" element={<AllEventsContainer />} />
+              <Route path="/domare" element={<AllRefereeScheduleContainer />} />
               <Route path="/inte-behorig" element={<UserForbiddenContainer />} />
               <Route path="/domare/:id" element={<RefereeContainer />} />
               <Route path="/verifiera-epost" element={<VerifyEmailContainer />} />

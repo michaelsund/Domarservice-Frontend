@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
-import { RefereeSportDto } from '../Types/Dto/RefereeSportDto';
+import { RefereeSport } from '../Types/Dto/RefereeSport';
 import { SimpleCompanyDto } from '../Types/Dto/Requests/SimpleCompanyDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
