@@ -34,7 +34,7 @@ const AllRefereeScheduleContainer = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
-  const { data, error, loaded }: any = useFetchAllRefereeSchedules({
+  const { data, error, loaded, refreshData }: any = useFetchAllRefereeSchedules({
     page,
     availableFromDate,
     countysFilter,
@@ -42,86 +42,6 @@ const AllRefereeScheduleContainer = () => {
     refereesFilter,
     // companySearchString,
   });
-
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
-
-  //   const getInitialPageWithoutFilters = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axiosPrivate.post(
-  //         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
-  //         {
-  //           page,
-  //           availableFromDate,
-  //           countysFilter,
-  //           sportsFilter,
-  //           refereesFilter,
-  //           // companySearchString,
-  //         },
-  //         {
-  //           signal: controller.signal,
-  //         },
-  //       );
-  //       isMounted && setRefereeSchedules(response.data.data);
-  //       setLoading(false);
-  //       setError(false);
-  //     } catch (error: any) {
-  //       console.log(`Response status: ${error.response?.status}`);
-  //       setLoading(false);
-  //       if (error.response.status === 403) {
-  //         navigate('/inte-behorig');
-  //       } else if (error.response.status !== 500) {
-  //         navigate('/login', { state: { from: location }, replace: true });
-  //       } else {
-  //         setError(true);
-  //         setErrorMsg(error.response.data.message);
-  //         console.log(error);
-  //       }
-  //     }
-  //   };
-
-  //   getInitialPageWithoutFilters();
-
-  //   return () => {
-  //     isMounted = false;
-  //     controller.abort;
-  //   };
-  // }, [page, availableFromDate, countysFilter, sportsFilter, refereesFilter]);
-
-  // const handleGetNewData = async () => {
-  //   setPage(1);
-  //   setLoading(true);
-  //   try {
-  //     const response = await axiosPrivate.post(
-  //       `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
-  //       {
-  //         page,
-  //         availableFromDate,
-  //         countysFilter,
-  //         sportsFilter,
-  //         refereesFilter,
-  //         // companySearchString,
-  //       },
-  //     );
-  //     setRefereeSchedules(response.data.data);
-  //     setLoading(false);
-  //     setError(false);
-  //   } catch (error: any) {
-  //     console.log(`Response status: ${error.response?.status}`);
-  //     setLoading(false);
-  //     if (error.response.status === 403) {
-  //       navigate('/inte-behorig');
-  //     } else if (error.response.status !== 500) {
-  //       navigate('/login', { state: { from: location }, replace: true });
-  //     } else {
-  //       setError(true);
-  //       setErrorMsg(error.response.data.message);
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   const nextPage = () => {
     setPage(page + 1);
@@ -133,9 +53,10 @@ const AllRefereeScheduleContainer = () => {
     }
   };
 
-  // const handleSubmitFilter = () => {
-  //   handleGetNewData();
-  // };
+  const handleSubmitFilter = async () => {
+    // handleGetNewData();
+    await refreshData();
+  };
 
   const handleCountysArray = (countyIndex: number) => {
     if (countysFilter.includes(countyIndex)) {
@@ -237,9 +158,9 @@ const AllRefereeScheduleContainer = () => {
               </div>
             ))}
           </div>
-          {/* <div className="flex">
+          <div className="flex">
             <Button text="Filtrera" onClick={() => handleSubmitFilter()} />
-          </div> */}
+          </div>
         </div>
       </Card>
       {!loaded ? (
@@ -248,13 +169,43 @@ const AllRefereeScheduleContainer = () => {
         <p>{error}</p>
       ) : (
         data !== null && (
-          <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3 lg:grid-rows-3">
-            {data.map((schedule: RefereeScheduleDto) => (
-              <div key={Math.random()}>
-                <ScheduleCard refereeSchedule={schedule} />
-              </div>
-            ))}
-          </div>
+          <Card className="mb-6 w-full lg:w-2/3 p-6">
+            <div className="flex justify-center">
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" className="py-3 px-6">
+                      Tillgänglig
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Namn
+                    </th>
+                    <th scope="col" className="py-3 px-6">
+                      Dömer
+                    </th>
+                  </tr>
+                </thead>
+                {data.map((schedule: RefereeScheduleDto) => (
+                  <tbody key={Math.random()}>
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td>{moment(schedule.availableAt).format('MMM-DD')}</td>
+                      <td>
+                        {schedule.referee.surname} {schedule.referee.lastname}
+                      </td>
+                      <td>
+                        {schedule.referee.sports.map((sport: RefereeSport) => (
+                          <span key={Math.random()}>
+                            {Object.values(SportType)[sport.sportType as any]}{' '}
+                            {Object.values(RefereeType)[sport.refereeType as any]}{' '}
+                          </span>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+              </table>
+            </div>
+          </Card>
         )
       )}
       <div className="flex flex-row space-x-2 pt-8">

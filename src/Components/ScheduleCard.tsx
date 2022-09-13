@@ -22,7 +22,8 @@ export const ScheduleCard = (props: IProps) => {
       <ul>
         {props.refereeSchedule.referee.sports.map((sport: RefereeSport) => (
           <li key={Math.random()}>
-            {Object.values(SportType)[sport.sportType as any]} {Object.values(RefereeType)[sport.refereeType as any]}
+            {Object.values(SportType)[sport.sportType as any]}{' '}
+            {Object.values(RefereeType)[sport.refereeType as any]}
           </li>
         ))}
       </ul>
