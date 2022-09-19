@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
@@ -19,7 +19,6 @@ import useFetchAllRefereeSchedules from '../Hooks/useFetchAllRefereeSchedules';
 
 const AllRefereeScheduleContainer = () => {
   const [page, setPage] = useState<number>(1);
-  // const [error, setError] = useState<boolean>(false);
   // const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [refereeSchedules, setRefereeSchedules] = useState<RefereeScheduleDto[]>([]);
@@ -27,6 +26,7 @@ const AllRefereeScheduleContainer = () => {
   const [countysFilter, setCountysFilter] = useState<number[]>([]);
   const [sportsFilter, setSportsFilter] = useState<number[]>([]);
   const [refereesFilter, setRefereesFilter] = useState<number[]>([]);
+  const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
   // const [companySearchString, setCompanySearchString] = useState<string>('');
   // const [fromDate, setFromDate] = useState<string>(moment('2023-01-25T10:14:24+02:00').format());
   const [availableFromDate, setAvailableFromDate] = useState<string>(moment().format('YYYY-MM-DD'));
@@ -40,8 +40,13 @@ const AllRefereeScheduleContainer = () => {
     countysFilter,
     sportsFilter,
     refereesFilter,
+    redirectToLogin,
     // companySearchString,
   });
+
+  const navigateToLogin = () => {
+    navigate('/login', { state: { from: location }, replace: true });
+  };
 
   const nextPage = () => {
     setPage(page + 1);
@@ -166,7 +171,12 @@ const AllRefereeScheduleContainer = () => {
       {!loaded ? (
         <LoadingSpinner />
       ) : error.length > 0 ? (
-        <p>{error}</p>
+        <>
+          <p>{error}</p>
+          <p>
+            Du kanske behöver <b onClick={() => navigateToLogin()}>Logga in</b>
+          </p>
+        </>
       ) : (
         data !== null && (
           <Card className="mb-6 w-full lg:w-2/3 p-6">

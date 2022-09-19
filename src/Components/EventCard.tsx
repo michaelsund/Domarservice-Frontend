@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { SportType } from '../Types/SportType';
@@ -8,13 +8,16 @@ import Innebandy1 from '../Images/innebandy1.jpg';
 import { Link } from 'react-router-dom';
 import { CountyType } from '../Types/CountyType';
 import { RefereeType } from '../Types/RefereeType';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { Card } from './Card';
+import { Role } from '../Types/Role';
 
 interface IProps {
   companyEvent: ExtendedCompanyEventDto;
 }
 
 export const EventCard = (props: IProps) => {
+  const { role }: any = useContext(DomarserviceContext);
   let imageType = '';
   switch (props.companyEvent.sportType) {
     case Object.keys(SportType).indexOf('Ishockey'):
@@ -114,12 +117,14 @@ export const EventCard = (props: IProps) => {
             <p key={Math.random()}>{Object.values(RefereeType)[val.refereeType]}</p>
           ))}
         </div>
-        <Link
-          className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
-          to="/matcher"
-        >
-          Jag vill döma
-        </Link>
+        {(role === Role.RefereeUser || role == Role.Admin) && (
+          <Link
+            className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
+            to="/matcher"
+          >
+            Jag vill döma
+          </Link>
+        )}
       </div>
     </Card>
   );

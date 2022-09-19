@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ToggleTheme from './ToggleTheme';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
@@ -11,7 +11,7 @@ interface IProps {
 
 export const Nav = (props: IProps) => {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn }: any = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn, role, setRole }: any = useContext(DomarserviceContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClicked = () => {
@@ -21,6 +21,8 @@ export const Nav = (props: IProps) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
+    setRole(null);
+    localStorage.removeItem('role');
     navigate('/');
   };
 
@@ -44,25 +46,18 @@ export const Nav = (props: IProps) => {
                   <Link className="font-light text-base" to="/">
                     Hem
                   </Link>
-                  <Link className="font-light text-base" to="/matcher">
-                    Hitta matcher
-                  </Link>
-                  <Link className="font-light text-base" to="/domare">
-                    Hitta domare
-                  </Link>
-                  {/* <Link className="font-light text-base" to="/domare/1">
-                    Domare 1
-                  </Link>
-                  <Link className="font-light text-base" to="/domare/2">
-                    Domare 2
-                  </Link>
-                  <Link className="font-light text-base" to="/forening/1">
-                    Förening 1
-                  </Link> */}
                   {isLoggedIn && (
-                    <Link className="font-light text-base" to="/min-profil">
-                      Min profil
-                    </Link>
+                    <>
+                      <Link className="font-light text-base" to="/matcher">
+                        Hitta matcher
+                      </Link>
+                      <Link className="font-light text-base" to="/domare">
+                        Hitta domare
+                      </Link>
+                      <Link className="font-light text-base" to="/min-profil">
+                        Min profil
+                      </Link>
+                    </>
                   )}
                   {isLoggedIn ? (
                     <Button filled={false} text="Logga ut" onClick={() => handleLogout()} />

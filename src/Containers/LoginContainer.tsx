@@ -5,9 +5,10 @@ import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { DomarserviceContextType } from '../Types/DomarserviceContextType';
+import { Role } from '../Types/Role';
 
 const LoginContainer = () => {
-  const { isLoggedIn, setIsLoggedIn }: any = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn, role, setRole }: any = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,7 +35,9 @@ const LoginContainer = () => {
       .then((response) => {
         console.log(response);
         localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('role', response.data.data.role);
         setIsLoggedIn(true);
+        setRole(response.data.data.role as Role);
         navigate(fromUrl, { replace: true });
         setLoading(false);
       })

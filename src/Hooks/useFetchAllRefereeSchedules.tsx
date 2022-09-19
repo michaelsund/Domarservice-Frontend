@@ -24,7 +24,6 @@ const useFetchAllRefereeSchedules = (payload: any) => {
         isMounted && setError('');
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
-        console.log(error);
         setError(error.response?.data.message);
       }
       setLoaded(true);
@@ -50,9 +49,9 @@ const useFetchAllRefereeSchedules = (payload: any) => {
       );
       setData(response.data.data);
       setError('');
+     
     } catch (error: any) {
       console.log(`Response status: ${error.response?.status}`);
-      console.log(error);
       setError(error.response?.data.message);
     }
     setLoaded(true);
