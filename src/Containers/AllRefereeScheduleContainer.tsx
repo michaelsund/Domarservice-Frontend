@@ -1,39 +1,29 @@
 import React, { useState } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
-import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSport } from '../Types/Dto/RefereeSport';
-import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
-import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { Button } from '../Components/Button';
-import { EventCard } from '../Components/EventCard';
 import { Card } from '../Components/Card';
 import moment from 'moment';
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
-import { ScheduleCard } from '../Components/ScheduleCard';
 import useFetchAllRefereeSchedules from '../Hooks/useFetchAllRefereeSchedules';
 
 const AllRefereeScheduleContainer = () => {
   const [page, setPage] = useState<number>(1);
-  // const [errorMsg, setErrorMsg] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [refereeSchedules, setRefereeSchedules] = useState<RefereeScheduleDto[]>([]);
-  // Can select multiple countys.
   const [countysFilter, setCountysFilter] = useState<number[]>([]);
   const [sportsFilter, setSportsFilter] = useState<number[]>([]);
   const [refereesFilter, setRefereesFilter] = useState<number[]>([]);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
-  // const [companySearchString, setCompanySearchString] = useState<string>('');
-  // const [fromDate, setFromDate] = useState<string>(moment('2023-01-25T10:14:24+02:00').format());
   const [availableFromDate, setAvailableFromDate] = useState<string>(moment().format('YYYY-MM-DD'));
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  // Axiosprivate hook needs to be imported here.
+  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded, refreshData }: any = useFetchAllRefereeSchedules({
     page,
     availableFromDate,
@@ -41,7 +31,6 @@ const AllRefereeScheduleContainer = () => {
     sportsFilter,
     refereesFilter,
     redirectToLogin,
-    // companySearchString,
   });
 
   const navigateToLogin = () => {
@@ -59,7 +48,6 @@ const AllRefereeScheduleContainer = () => {
   };
 
   const handleSubmitFilter = async () => {
-    // handleGetNewData();
     await refreshData();
   };
 

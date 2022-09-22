@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
-import { CountyDto } from '../Types/Dto/CountyDto';
-import { RefereeSport } from '../Types/Dto/RefereeSport';
-import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,103 +10,31 @@ import { Button } from '../Components/Button';
 import { EventCard } from '../Components/EventCard';
 import { Card } from '../Components/Card';
 import moment from 'moment';
+import useFetchAllCompanyEvents from '../Hooks/useFetchAllCompanyEvents';
 
 const AllEventsContainer = () => {
   const [page, setPage] = useState<number>(1);
-  const [error, setError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [matches, setMatches] = useState<ExtendedCompanyEventDto[]>([]);
-  // Can select multiple countys.
   const [countysFilter, setCountysFilter] = useState<number[]>([]);
   const [sportsFilter, setSportsFilter] = useState<number[]>([]);
   const [refereesFilter, setRefereesFilter] = useState<number[]>([]);
   const [companySearchString, setCompanySearchString] = useState<string>('');
-  // const [fromDate, setFromDate] = useState<string>(moment('2023-01-25T10:14:24+02:00').format());
   const [fromDate, setFromDate] = useState<string>(moment().format('YYYY-MM-DD'));
   const [showFilters, setShowFilters] = useState<boolean>(false);
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  // Axiosprivate hook needs to be imported here.
+  const axiosPrivate = useAxiosPrivate();
+  const { data, error, loaded, refreshData }: any = useFetchAllCompanyEvents({
+    page,
+    fromDate,
+    countysFilter,
+    sportsFilter,
+    refereesFilter,
+    companySearchString
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const getInitialPageWithoutFilters = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosPrivate.post(
-          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
-          {
-            page,
-            fromDate,
-            countysFilter,
-            sportsFilter,
-            refereesFilter,
-            companySearchString,
-          },
-          {
-            signal: controller.signal,
-          },
-        );
-        isMounted && setMatches(response.data.data);
-        setLoading(false);
-        setError(false);
-      } catch (error: any) {
-        console.log(`Response status: ${error.response?.status}`);
-        setLoading(false);
-        if (error.response.status === 403) {
-          navigate('/inte-behorig');
-        } else if (error.response.status !== 500) {
-          navigate('/login', { state: { from: location }, replace: true });
-        } else {
-          setError(true);
-          setErrorMsg(error.response.data.message);
-          console.log(error);
-        }
-      }
-    };
-
-    getInitialPageWithoutFilters();
-
-    return () => {
-      isMounted = false;
-      controller.abort;
-    };
-  }, [page]);
-
-  const handleGetNewData = async () => {
-    setPage(1);
-    setLoading(true);
-    try {
-      const response = await axiosPrivate.post(
-        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
-        {
-          page,
-          fromDate,
-          countysFilter,
-          sportsFilter,
-          refereesFilter,
-          companySearchString,
-        },
-      );
-      setMatches(response.data.data);
-      setLoading(false);
-      setError(false);
-    } catch (error: any) {
-      console.log(`Response status: ${error.response?.status}`);
-      setLoading(false);
-      if (error.response.status === 403) {
-        navigate('/inte-behorig');
-      } else if (error.response.status !== 500) {
-        navigate('/login', { state: { from: location }, replace: true });
-      } else {
-        setError(true);
-        setErrorMsg(error.response.data.message);
-        console.log(error);
-      }
-    }
+  const navigateToLogin = () => {
+    navigate('/login', { state: { from: location }, replace: true });
   };
 
   const nextPage = () => {
@@ -122,8 +47,8 @@ const AllEventsContainer = () => {
     }
   };
 
-  const handleSubmitFilter = () => {
-    handleGetNewData();
+  const handleSubmitFilter = async () => {
+    await refreshData();
   };
 
   const handleCountysArray = (countyIndex: number) => {
@@ -155,7 +80,10 @@ const AllEventsContainer = () => {
       <Card className="mb-6 w-full lg:w-2/3 p-6">
         <div className="flex justify-center">
           <h1 className="flex-1 text-2xl font-normal tracking-tight">Hitta matcher att döma</h1>
-          <div className="flex justify-center  items-center h-8 w-8" onClick={() => setShowFilters(!showFilters)}>
+          <div
+            className="flex justify-center  items-center h-8 w-8"
+            onClick={() => setShowFilters(!showFilters)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -236,14 +164,19 @@ const AllEventsContainer = () => {
           </div>
         </div>
       </Card>
-      {loading ? (
+      {!loaded ? (
         <LoadingSpinner />
-      ) : error ? (
-        <p>{errorMsg}</p>
+      ) : error.length > 0 ? (
+        <>
+          <p>{error}</p>
+          <p>
+            Du kanske behöver <b onClick={() => navigateToLogin()}>Logga in</b>
+          </p>
+        </>
       ) : (
-        matches.length > 0 && (
+        data !== null && (
           <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3 lg:grid-rows-3">
-            {matches.map((match: ExtendedCompanyEventDto) => (
+            {data.map((match: ExtendedCompanyEventDto) => (
               <EventCard key={match.id} companyEvent={match} />
             ))}
           </div>

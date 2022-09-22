@@ -4,6 +4,7 @@ import ToggleTheme from './ToggleTheme';
 import { ReactComponent as RefereeShirtSvg } from '../Images/referee-shirt.svg';
 import { Button } from './Button';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
+import { Role } from '../Types/Role';
 
 interface IProps {
   children?: any;
@@ -51,9 +52,12 @@ export const Nav = (props: IProps) => {
                       <Link className="font-light text-base" to="/matcher">
                         Hitta matcher
                       </Link>
-                      <Link className="font-light text-base" to="/domare">
-                        Hitta domare
-                      </Link>
+                      {role === Role.CompanyUser ||
+                        (role === Role.Admin && (
+                          <Link className="font-light text-base" to="/domare">
+                            Hitta domare
+                          </Link>
+                        ))}
                       <Link className="font-light text-base" to="/min-profil">
                         Min profil
                       </Link>
