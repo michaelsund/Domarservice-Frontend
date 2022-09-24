@@ -120,7 +120,7 @@ export const EventCard = (props: IProps) => {
         {(role === Role.RefereeUser || role == Role.Admin) && (
           <Link
             className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
-            to="/matcher"
+            to={`/match/${props.companyEvent.id}`}
           >
             Jag vill döma
           </Link>

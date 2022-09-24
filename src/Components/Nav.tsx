@@ -50,14 +50,13 @@ export const Nav = (props: IProps) => {
                   {isLoggedIn && (
                     <>
                       <Link className="font-light text-base" to="/matcher">
-                        Hitta matcher
+                        Matcher
                       </Link>
-                      {role === Role.CompanyUser ||
-                        (role === Role.Admin && (
-                          <Link className="font-light text-base" to="/domare">
-                            Hitta domare
-                          </Link>
-                        ))}
+                      {(role === Role.CompanyUser || role === Role.Admin) && (
+                        <Link className="font-light text-base" to="/domare">
+                          Domare
+                        </Link>
+                      )}
                       <Link className="font-light text-base" to="/min-profil">
                         Min profil
                       </Link>
@@ -141,36 +140,17 @@ export const Nav = (props: IProps) => {
                 className="block py-2 ml-4 font-medium text-base"
                 to="/matcher"
               >
-                Hitta matcher
+                Matcher
               </Link>
-              <Link
-                onClick={() => handleLinkClicked()}
-                className="block py-2 ml-4 font-medium text-base"
-                to="/domare"
-              >
-                Hitta domare
-              </Link>
-              {/* <Link
-                onClick={() => handleLinkClicked()}
-                className="block py-2 ml-4 font-medium text-base"
-                to="/referee/1"
-              >
-                Domare 1
-              </Link>
-              <Link
-                onClick={() => handleLinkClicked()}
-                className="block py-2 ml-4 font-medium text-base"
-                to="/referee/2"
-              >
-                Domare 2
-              </Link>
-              <Link
-                onClick={() => handleLinkClicked()}
-                className="block py-2 ml-4 font-medium text-base"
-                to="/company/1"
-              >
-                Förening 1
-              </Link> */}
+              {(role === Role.CompanyUser || role === Role.Admin) && (
+                <Link
+                  onClick={() => handleLinkClicked()}
+                  className="block py-2 ml-4 font-medium text-base"
+                  to="/domare"
+                >
+                  Domare
+                </Link>
+              )}
               {isLoggedIn && (
                 <Link
                   onClick={() => handleLinkClicked()}

@@ -4,11 +4,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
-import { DomarserviceContextType } from '../Types/DomarserviceContextType';
 import { Role } from '../Types/Role';
 
 const LoginContainer = () => {
-  const { isLoggedIn, setIsLoggedIn, role, setRole }: any = useContext(DomarserviceContext);
+  const { setIsLoggedIn, setRole, setId }: any = useContext(DomarserviceContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,10 +33,12 @@ const LoginContainer = () => {
       )
       .then((response) => {
         console.log(response);
-        localStorage.setItem('token', response.data.data.token);
-        localStorage.setItem('role', response.data.data.role);
         setIsLoggedIn(true);
+        localStorage.setItem('token', response.data.data.token);
         setRole(response.data.data.role as Role);
+        localStorage.setItem('role', response.data.data.role);
+        setId(response.data.data.roleId);
+        localStorage.setItem('id', response.data.data.roleId);
         navigate(fromUrl, { replace: true });
         setLoading(false);
       })
@@ -52,21 +53,12 @@ const LoginContainer = () => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setRole('');
+    localStorage.removeItem('id');
+    setId();
     navigate('/');
   };
-
-  // useEffect(() => {
-  //   const checkLoginStatus = () => {
-  //     const token: string | null = localStorage.getItem('token');
-  //     if (token !== null) {
-  //       setLoggedIn(true);
-  //     } else {
-  //       setLoggedIn(false);
-  //     }
-  //   };
-
-  //   checkLoginStatus();
-  // }, []);
 
   return (
     <div className="flex flex-col items-center justify-center text-gray-900 dark:text-white">

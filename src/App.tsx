@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/sv';
 import IndexContainer from './Containers/IndexContainer';
 import LoginContainer from './Containers/LoginContainer';
 import RefereeContainer from './Containers/RefereeContainer';
@@ -13,8 +15,10 @@ import { DomarserviceContextProvider } from './Context/DomarserviceContext';
 import VerifyEmailContainer from './Containers/VerifyEmailContainer';
 import UserForbiddenContainer from './Containers/UserForbidden';
 import AllRefereeScheduleContainer from './Containers/AllRefereeScheduleContainer';
+import CompanyEventContainer from './Containers/CompanyEventConatiner';
 
 const App = () => {
+  moment.locale('sv');
   return (
     <div className="flex flex-col h-screen justify-between break-words">
       <ThemeProvider>
@@ -24,6 +28,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<IndexContainer />} />
               <Route path="/matcher" element={<AllEventsContainer />} />
+              <Route path="/match/:id" element={<CompanyEventContainer />} />
               <Route path="/domare" element={<AllRefereeScheduleContainer />} />
               <Route path="/inte-behorig" element={<UserForbiddenContainer />} />
               <Route path="/domare/:id" element={<RefereeContainer />} />
