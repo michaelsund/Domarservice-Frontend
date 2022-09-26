@@ -12,6 +12,7 @@ interface IProps {
   message?: string;
   refereeType?: RefereeType;
   sportType?: SportType;
+  refreshData(): any;
 }
 
 export const CreateBookingRequestOnEvent = (props: IProps) => {
@@ -46,6 +47,8 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
             signal: controller.signal,
           },
         );
+        // Reload data from parent component.
+        await props.refreshData();
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);
         setError(error.response?.data.message);
@@ -54,28 +57,24 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
   };
 
   const handleRevertBookingRequest = async () => {
-    // if (props.eventId) {
-    //   const controller = new AbortController();
-    //   try {
-    //     await axiosPrivate.post(
-    //       `${
-    //         process.env.NODE_ENV === 'production' ? '/api' : ''
-    //       }/bookingrequest/request-by-referee`,
-    //       {
-    //         companyEventId: props.eventId,
-    //         message: props.message,
-    //         refereeType: Object.values(RefereeType)[props.refereeType as any],
-    //         sportType: Object.values(RefereeType)[props.sportType as any],
-    //       },
-    //       {
-    //         signal: controller.signal,
-    //       },
-    //     );
-    //   } catch (error: any) {
-    //     console.log(`Response status: ${error.response?.status}`);
-    //     setError(error.response?.data.message);
-    //   }
-    // }
+    if (props.eventId) {
+      const controller = new AbortController();
+      try {
+        await axiosPrivate.get(
+          `${
+            process.env.NODE_ENV === 'production' ? '/api' : ''
+          }/bookingrequest/revoke-request-by-referee/${props.eventId}`,
+          {
+            signal: controller.signal,
+          },
+        );
+        // Reload data from parent component.
+        await props.refreshData();
+      } catch (error: any) {
+        console.log(`Response status: ${error.response?.status}`);
+        setError(error.response?.data.message);
+      }
+    }
   };
 
   return allreadyRequested ? (

@@ -38,6 +38,7 @@ const useFetchAllCompanyEvents = (payload: any) => {
 
   // Callable refresh when filtering changes
   const refreshData = async () => {
+    setLoaded(false);
     const controller = new AbortController();
     try {
       const response = await axiosPrivate.post(

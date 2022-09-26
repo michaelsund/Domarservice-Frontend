@@ -15,6 +15,7 @@ interface IUseFetchCompanyEvent {
   data?: CompanyEventDto;
   error: string;
   loaded: boolean;
+  refreshData(): any;
 }
 
 const CompanyEventContainer = () => {
@@ -22,7 +23,7 @@ const CompanyEventContainer = () => {
   const { id }: any = useParams();
   // Axiosprivate hook needs to be imported here.
   const axiosPrivate = useAxiosPrivate();
-  const { data, error, loaded }: IUseFetchCompanyEvent = useFetchCompanyEvent({
+  const { data, error, loaded, refreshData }: IUseFetchCompanyEvent = useFetchCompanyEvent({
     id,
   });
 
@@ -52,12 +53,12 @@ const CompanyEventContainer = () => {
           <p>{moment(data?.date).format('MMM-DD')}</p>
           <p>{data?.location}</p>
           {data?.bookingRequestByReferees !== undefined && (
-            <div>
-              <p>Intresseanmälda domare:</p>
+            <div className="m-8">
+              <b>Domare / Kommer inte visas här sen!</b>
               {data?.bookingRequestByReferees.map((request: BookingRequestByRefereeDto) => (
                 <div key={request.id}>
                   <p>
-                    {request.referee.surname} {request.referee.lastname} <b>{String(request.accepted)}</b>
+                    Id: {request.referee.id} {request.referee.surname} {request.referee.lastname} <b>{String(request.accepted)}</b>
                   </p>
                   <p>{request.message}</p>
                 </div>
@@ -70,6 +71,7 @@ const CompanyEventContainer = () => {
             refereeType={RefereeType.Huvuddomare}
             message="Jag kan döma!"
             sportType={Object.values(SportType)[data?.sportType as any]}
+            refreshData={refreshData}
           />
         </div>
       )}

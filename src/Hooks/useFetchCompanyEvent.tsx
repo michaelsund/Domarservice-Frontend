@@ -6,7 +6,7 @@ interface IProps {
   id: number;
 };
 
-const useFetchAllCompanyEvents = (props: IProps) => {
+const useFetchCompanyEvent = (props: IProps) => {
   const [data, setData] = useState<CompanyEventDto>();
   const [error, setError] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -40,7 +40,28 @@ const useFetchAllCompanyEvents = (props: IProps) => {
     };
   }, []);
 
-  return { data, error, loaded };
+  // Callable to get data again.
+  const refreshData = async () => {
+    setLoaded(false);
+    const controller = new AbortController();
+    try {
+      const response = await axiosPrivate.get(
+        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/${props.id}`,
+        {
+          signal: controller.signal,
+        },
+      );
+      setData(response.data.data);
+      setError('');
+     
+    } catch (error: any) {
+      console.log(`Response status: ${error.response?.status}`);
+      setError(error.response?.data.message);
+    }
+    setLoaded(true);
+  };
+
+  return { data, error, loaded, refreshData };
 };
 
-export default useFetchAllCompanyEvents;
+export default useFetchCompanyEvent;
