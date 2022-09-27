@@ -220,6 +220,7 @@ const RegisterContainer = () => {
                         </option>
                       ))}
                     </select>
+                    <p className="pt-8 text-sm">Ytterligare information kompletteras senare i din profil.</p>
                   </div>
                 </>
               )}

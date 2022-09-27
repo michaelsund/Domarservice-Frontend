@@ -12,7 +12,7 @@ interface IProps {
 
 export const Nav = (props: IProps) => {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn, role, setRole }: any = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn, role, setRole, fullName, }: any = useContext(DomarserviceContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClicked = () => {
@@ -58,7 +58,7 @@ export const Nav = (props: IProps) => {
                         </Link>
                       )}
                       <Link className="font-light text-base" to="/min-profil">
-                        Min profil
+                        {fullName}
                       </Link>
                     </>
                   )}
@@ -157,7 +157,7 @@ export const Nav = (props: IProps) => {
                   className="block py-2 ml-4 font-medium text-base"
                   to="/minprofil"
                 >
-                  Min profil
+                  {}
                 </Link>
               )}
               <Link

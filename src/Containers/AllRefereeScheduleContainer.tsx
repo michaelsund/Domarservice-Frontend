@@ -161,9 +161,6 @@ const AllRefereeScheduleContainer = () => {
       ) : error.length > 0 ? (
         <>
           <p>{error}</p>
-          <p>
-            Du kanske behöver <b onClick={() => navigateToLogin()}>Logga in</b>
-          </p>
         </>
       ) : (
         data !== null && (

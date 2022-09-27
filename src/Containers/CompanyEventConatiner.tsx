@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -40,16 +40,11 @@ const CompanyEventContainer = () => {
       </Card>
       {!loaded ? (
         <LoadingSpinner />
-      ) : error.length > 0 ? (
-        <>
-          <p>{error}</p>
-          <p>
-            Du kanske behöver <b onClick={() => navigateToLogin()}>Logga in</b>
-          </p>
-        </>
       ) : (
         <div>
-          <p>Id: {data?.id} Name: {data?.name}</p>
+          <p>
+            Id: {data?.id} Name: {data?.name}
+          </p>
           <p>{moment(data?.date).format('MMM-DD')}</p>
           <p>{data?.location}</p>
           {data?.bookingRequestByReferees !== undefined && (
@@ -58,7 +53,11 @@ const CompanyEventContainer = () => {
               {data?.bookingRequestByReferees.map((request: BookingRequestByRefereeDto) => (
                 <div key={request.id}>
                   <p>
-                    Id: {request.referee.id} {request.referee.surname} {request.referee.lastname} <b>{String(request.accepted)}</b>
+                    Id: {request.referee.id} {request.referee.surname} {request.referee.lastname}{' '}
+                    <b>
+                      {String(request.accepted)} Type:{' '}
+                      {Object.values(RefereeType)[request.refereeType as any]}
+                    </b>
                   </p>
                   <p>{request.message}</p>
                 </div>
@@ -68,9 +67,7 @@ const CompanyEventContainer = () => {
           <CreateBookingRequestOnEvent
             existingBookingRequests={data?.bookingRequestByReferees}
             eventId={data?.id}
-            refereeType={RefereeType.Huvuddomare}
             message="Jag kan döma!"
-            sportType={Object.values(SportType)[data?.sportType as any]}
             refreshData={refreshData}
           />
         </div>
