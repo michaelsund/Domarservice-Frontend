@@ -4,6 +4,7 @@ import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { BookingRequestByRefereeDto } from '../Types/Dto/BookingRequestByRefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
+import { ResultWithMessage } from '../Types/ResultWithMessage';
 import { Button } from './Button';
 
 interface IProps {
