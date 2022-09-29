@@ -51,7 +51,6 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
         // Reload data from parent component.
         await props.refreshData();
       } catch (error: any) {
-        console.log(`Response status: ${error.response?.status}`);
         setError(true);
         setErrorMessage(error.response?.data.message);
       }
@@ -59,8 +58,6 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
   };
 
   const handleRevertBookingRequest = async () => {
-    setError(false);
-    setErrorMessage('');
     if (props.eventId) {
       const controller = new AbortController();
       try {
@@ -77,36 +74,43 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
         // Reload data from parent component.
         await props.refreshData();
       } catch (error: any) {
-        console.log(`Response status: ${error.response?.status}`);
         setError(true);
         setErrorMessage(error.response?.data.message);
       }
     }
   };
 
-  return allreadyRequested ? (
+  return (
     <>
-      <b>Du har redan anmält intresse.</b>
-      <Button text="Avanmäl" onClick={() => handleRevertBookingRequest()} />
-    </>
-  ) : (
-    <div className="flex flex-col w-full items-center">
-      <div className="flex flex-col mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Roll</label>
-        <select
-          className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
-          placeholder="Välj din domarroll"
-          onChange={(e) => setRefereeType(parseInt(e.target.value))}
-        >
-          {Object.values(RefereeType).map((value: string, i: number) => (
-            <option key={i} value={Object.keys(RefereeType).indexOf(value)}>
-              {value}
-            </option>
-          ))}
-        </select>
-        <Button className="mt-4" text="Anmäl intresse att döma" onClick={() => handleSubmitBookingRequest()} />
-      </div>
+      {allreadyRequested ? (
+        <>
+          <b>Du har redan anmält intresse.</b>
+          <Button text="Avanmäl" onClick={() => handleRevertBookingRequest()} />
+        </>
+      ) : (
+        <div className="flex flex-col w-full items-center">
+          <div className="flex flex-col mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Roll</label>
+            <select
+              className="text-gray-900 placeholder:italic placeholder:text-gray-900 block w-full border border-slate-300 rounded-sm py-2 p-3 shadow-sm outline-primaryHover focus:outline-1"
+              placeholder="Välj din domarroll"
+              onChange={(e) => setRefereeType(parseInt(e.target.value))}
+            >
+              {Object.values(RefereeType).map((value: string, i: number) => (
+                <option key={i} value={Object.keys(RefereeType).indexOf(value)}>
+                  {value}
+                </option>
+              ))}
+            </select>
+            <Button
+              className="mt-4"
+              text="Anmäl intresse att döma"
+              onClick={() => handleSubmitBookingRequest()}
+            />
+          </div>
+        </div>
+      )}
       {error && <p>{errorMessage}</p>}
-    </div>
+    </>
   );
 };
