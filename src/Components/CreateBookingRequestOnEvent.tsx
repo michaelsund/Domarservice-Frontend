@@ -84,7 +84,7 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
     <>
       {allreadyRequested ? (
         <>
-          <b>Du har redan anmält intresse.</b>
+          <b>Du har anmält intresse att döma matchen.</b>
           <Button text="Avanmäl" onClick={() => handleRevertBookingRequest()} />
         </>
       ) : (

@@ -1,9 +1,7 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
-import { CountyType } from '../Types/CountyType';
+import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
-import { SportType } from '../Types/SportType';
 import { EventCard } from './EventCard';
 import { LoadingSpinner } from './LoadingSpinner';
 

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
-import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { SportType } from '../Types/SportType';
 import Soccer1 from '../Images/soccer1.jpg';
 import Hockey1 from '../Images/hockey1.jpg';
@@ -11,13 +10,29 @@ import { RefereeType } from '../Types/RefereeType';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { Card } from './Card';
 import { Role } from '../Types/Role';
+import { BookingRequestByRefereeDto } from '../Types/Dto/BookingRequestByRefereeDto';
+import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 
 interface IProps {
   companyEvent: ExtendedCompanyEventDto;
 }
 
 export const EventCard = (props: IProps) => {
-  const { role }: any = useContext(DomarserviceContext);
+  const { role, id }: any = useContext(DomarserviceContext);
+  const [allreadyRequested, setAllreadyRequested] = useState<boolean>(false);
+  const [allreadyAccepted, setAllreadyAccepted] = useState<boolean>(false);
+
+  useEffect(() => {
+    props.companyEvent.bookingRequestByReferees?.map((request: BookingRequestByRefereeDto) => {
+      if (request.referee.id === id) {
+        setAllreadyRequested(true);
+        if (request.accepted) {
+          setAllreadyAccepted(true);
+        }
+      }
+    });
+  }, [props]);
+
   let imageType = '';
   switch (props.companyEvent.sportType) {
     case Object.keys(SportType).indexOf('Ishockey'):
@@ -117,14 +132,31 @@ export const EventCard = (props: IProps) => {
             <p key={Math.random()}>{Object.values(RefereeType)[val.refereeType]}</p>
           ))}
         </div>
-        {(role === Role.RefereeUser || role == Role.Admin) && (
-          <Link
-            className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
-            to={`/match/${props.companyEvent.id}`}
-          >
-            Jag vill döma
-          </Link>
-        )}
+        {(role === Role.RefereeUser || role == Role.Admin) &&
+          (allreadyRequested ? (
+            allreadyAccepted ? (
+              <Link
+                className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
+                to={`/match/${props.companyEvent.id}`}
+              >
+                Du ska döma, gå till matchen.
+              </Link>
+            ) : (
+              <Link
+                className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
+                to={`/match/${props.companyEvent.id}`}
+              >
+                Du är anmäld, gå till matchen.
+              </Link>
+            )
+          ) : (
+            <Link
+              className="text-primary hover:text-primaryHover hover:no-underline text-xs underline mt-4"
+              to={`/match/${props.companyEvent.id}`}
+            >
+              Jag vill döma.
+            </Link>
+          ))}
       </div>
     </Card>
   );

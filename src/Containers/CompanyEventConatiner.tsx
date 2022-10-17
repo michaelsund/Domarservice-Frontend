@@ -49,13 +49,19 @@ const CompanyEventContainer = () => {
           <p>{data?.location}</p>
           {data?.bookingRequestByReferees !== undefined && (
             <div className="m-8">
+              <div>
+                Domare som behövs:{' '}
+                {data.refereeTypesForEvent.map((val: any) => (
+                  <p key={Math.random()}>{Object.values(RefereeType)[val.refereeType]}</p>
+                ))}
+              </div>
               <b>Domare / Kommer inte visas här sen!</b>
               {data?.bookingRequestByReferees.map((request: BookingRequestByRefereeDto) => (
                 <div key={request.id}>
                   <p>
                     Id: {request.referee.id} {request.referee.surname} {request.referee.lastname}{' '}
                     <b>
-                      {String(request.accepted)} Type:{' '}
+                      {request.accepted ? 'Accepterad' : 'Väntar på svar'} Type:{' '}
                       {Object.values(RefereeType)[request.refereeType as any]}
                     </b>
                   </p>

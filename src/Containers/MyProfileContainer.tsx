@@ -1,84 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
-import { CountyType } from '../Types/CountyType';
-import { CountyDto } from '../Types/Dto/CountyDto';
-import { RefereeSport } from '../Types/Dto/RefereeSport';
-import { RefereeDto } from '../Types/Dto/Requests/RefereeDto';
-import { RefereeType } from '../Types/RefereeType';
-import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Profile } from '../Types/Profile';
+import useFetchMyProfile from '../Hooks/useFetchMyProfile';
+import MyRefereeEventRequests from '../Components/MyRefereeEventRequests';
+import MyRequestsFromCompanies from '../Components/MyRequestsFromCompanies';
 
 const MyProfileContainer = () => {
-  const [error, setError] = useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<Profile>();
   const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const getProfile = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosPrivate.get(
-          `${process.env.NODE_ENV === 'production' ? '/api' : ''}/authenticate/profile`,
-          {
-            signal: controller.signal,
-          },
-        );
-        isMounted && setProfile(response.data.data);
-        setLoading(false);
-      } catch (error: any) {
-        console.log(`Response status: ${error.response?.status}`);
-        setLoading(false);
-        if (error.response.status === 401 || error.response.status === 400) {
-          navigate('/login', { state: { from: location }, replace: true });
-        } else {
-          setError(true);
-          setErrorMsg(error.response.data.message);
-          console.log(error);
-        }
-      }
-    };
-
-    getProfile();
-
-    return () => {
-      isMounted = false;
-      controller.abort;
-    };
-  }, []);
+  const { data, error, loaded }: any = useFetchMyProfile();
 
   return (
     <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
-      {loading ? (
+      {!loaded ? (
         <LoadingSpinner />
-      ) : error ? (
+      ) : error.length > 0 ? (
         <div>
           <h1>Tusan! något gick fel.</h1>
-          <p>{errorMsg}</p>
+          <p>{error}</p>
         </div>
       ) : (
-        profile !== undefined && (
+        data !== undefined && (
           <div>
             <h2>
-              {profile?.surname} {profile?.lastname}
+              {data?.surname} {data?.lastname}
             </h2>
             <ul>
-              <li>Epost: {profile.email}</li>
-              <li>Kontot är aktivt: {profile.isActive ? 'Ja' : 'Nej'}</li>
-              {profile.role !== null && <li>Roll: {profile.role}</li>}
-              {profile.boundRoleId !== 0 && <li>RollId: {profile.boundRoleId}</li>}
+              <li>Epost: {data.email}</li>
+              <li>Kontot är aktivt: {data.isActive ? 'Ja' : 'Nej'}</li>
+              {data.role !== null && <li>Roll: {data.role}</li>}
+              {data.boundRoleId !== 0 && <li>RollId: {data.boundRoleId}</li>}
             </ul>
           </div>
         )
       )}
+      <br />
+      <h1 className="text-lg">Matcher du ansökt att döma</h1>
+      <MyRefereeEventRequests />
+      <br />
+      <h1 className="text-lg">Förfrågningar från föreningar</h1>
+      <MyRequestsFromCompanies />
     </div>
   );
 };

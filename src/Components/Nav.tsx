@@ -12,7 +12,8 @@ interface IProps {
 
 export const Nav = (props: IProps) => {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn, role, setRole, fullName, }: any = useContext(DomarserviceContext);
+  const { isLoggedIn, setIsLoggedIn, role, setRole, fullName }: any =
+    useContext(DomarserviceContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClicked = () => {
@@ -58,7 +59,7 @@ export const Nav = (props: IProps) => {
                         </Link>
                       )}
                       <Link className="font-light text-base" to="/min-profil">
-                        {fullName}
+                        {fullName} - {role}
                       </Link>
                     </>
                   )}
@@ -160,20 +161,37 @@ export const Nav = (props: IProps) => {
                   {}
                 </Link>
               )}
-              <Link
-                onClick={() => handleLinkClicked()}
-                className="block py-2 ml-4 font-medium text-base"
-                to="/login"
-              >
-                Logga in
-              </Link>
+
+              {isLoggedIn ? (
+                <Link
+                  onClick={() => handleLogout()}
+                  className="block py-2 ml-4 font-medium text-base"
+                  to="/login"
+                >
+                  Logga ut
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    onClick={() => handleLinkClicked()}
+                    className="block py-2 ml-4 font-medium text-base"
+                    to="/login"
+                  >
+                    Logga in
+                  </Link>
+                  <Link
+                    onClick={() => handleLinkClicked()}
+                    className="block py-2 ml-4 font-medium text-base"
+                    to="/registrera"
+                  >
+                    Registrera
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
       </nav>
-      {/* <div className="z-0">
-        {props.children}
-      </div> */}
     </div>
   );
 };

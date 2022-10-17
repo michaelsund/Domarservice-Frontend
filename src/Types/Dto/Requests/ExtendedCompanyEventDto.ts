@@ -1,5 +1,5 @@
 import { RefereeType } from '../../RefereeType';
-import { SportType } from '../../SportType';
+import { BookingRequestByRefereeDto } from '../BookingRequestByRefereeDto';
 import { SimpleCompanyDto } from './SimpleCompanyDto';
 
 export interface ExtendedCompanyEventDto {
@@ -10,4 +10,5 @@ export interface ExtendedCompanyEventDto {
   company: SimpleCompanyDto;
   sportType: number;
   refereeTypesForEvent: RefereeType[];
+  bookingRequestByReferees: BookingRequestByRefereeDto[];
 }

@@ -11,6 +11,7 @@ import { EventCard } from '../Components/EventCard';
 import { Card } from '../Components/Card';
 import moment from 'moment';
 import useFetchAllCompanyEvents from '../Hooks/useFetchAllCompanyEvents';
+import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 
 const AllEventsContainer = () => {
   const [page, setPage] = useState<number>(1);
