@@ -47,6 +47,7 @@ const CompanyEventContainer = () => {
           </p>
           <p>{moment(data?.date).format('MMM-DD')}</p>
           <p>{data?.location}</p>
+          <p>Sport: {Object.values(SportType)[data?.sportType as any]}</p>
           {data?.bookingRequestByReferees !== undefined && (
             <div className="m-8">
               <div>

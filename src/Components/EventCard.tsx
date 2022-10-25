@@ -132,7 +132,7 @@ export const EventCard = (props: IProps) => {
             <p key={Math.random()}>{Object.values(RefereeType)[val.refereeType]}</p>
           ))}
         </div>
-        {(role === Role.RefereeUser || role == Role.Admin) &&
+        {(role === Role.RefereeUser || role === Role.Admin) &&
           (allreadyRequested ? (
             allreadyAccepted ? (
               <Link

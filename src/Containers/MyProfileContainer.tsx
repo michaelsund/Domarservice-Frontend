@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Profile } from '../Types/Profile';
 import useFetchMyProfile from '../Hooks/useFetchMyProfile';
 import MyRefereeEventRequests from '../Components/MyRefereeEventRequests';
 import MyRequestsFromCompanies from '../Components/MyRequestsFromCompanies';
+import { MyCompanyEvents } from '../Components/MyCompanyEvents';
+import { Role } from '../Types/Role';
+import { DomarserviceContext } from '../Context/DomarserviceContext';
 
 const MyProfileContainer = () => {
   const [profile, setProfile] = useState<Profile>();
+  const { role }: any = useContext(DomarserviceContext);
   const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded }: any = useFetchMyProfile();
 
@@ -37,11 +40,22 @@ const MyProfileContainer = () => {
         )
       )}
       <br />
-      <h1 className="text-lg">Matcher du ansökt att döma</h1>
-      <MyRefereeEventRequests />
-      <br />
-      <h1 className="text-lg">Förfrågningar från föreningar</h1>
-      <MyRequestsFromCompanies />
+      {role === Role.RefereeUser && (
+        <div>
+          <h1 className="text-lg">Matcher du ansökt att döma</h1>
+          <MyRefereeEventRequests />
+          <br />
+          <h1 className="text-lg">Förfrågningar från föreningar</h1>
+          <MyRequestsFromCompanies />
+        </div>
+      )}
+      {role === Role.CompanyUser && (
+        <div>
+          <h1 className="text-lg">Din förenings matcher</h1>
+          <MyCompanyEvents />
+          <br />
+        </div>
+      )}
     </div>
   );
 };

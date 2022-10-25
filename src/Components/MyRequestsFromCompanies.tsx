@@ -6,6 +6,8 @@ import useFetchMyRequestsFromCompanies from '../Hooks/useFetchMyRequestsFromComp
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
 import { BookingRequestByCompanysDto } from '../Types/Dto/Requests/BookingRequestByCompanysDto';
 import moment from 'moment';
+import { Button } from './Button';
+import { CompanyRequest } from './CompanyRequest';
 
 interface IUseFetchMyRequestsFromCompanies {
   data: RefereeScheduleDto[] | undefined;
@@ -31,18 +33,13 @@ const MyRequestsFromCompanies = () => {
         data !== undefined && (
           <div>
             {data.map((schedule: RefereeScheduleDto) => (
-              <>
+              <div key={schedule.id}>
                 <p className="text-xl text-center" key={schedule.id}>{moment(schedule.availableAt).format('DD MMM')}</p>
-                <ul>
                   {schedule.bookingRequestByCompanys.map((x: BookingRequestByCompanysDto) => (
-                    <li key={x.id}>
-                      {x.requestingCompany.name}: Accepterad: {x.accepted ? 'Ja' : 'Nej'}{' '}
-                      {x.respondedAt !== '0001-01-01T00:00:00' &&
-                        `Svarade: ${moment(x.respondedAt).format('DD MMM')}`}
-                    </li>
+                    // Own component here! Can use the usePostRefereeResponse hook
+                    <CompanyRequest key={x.id} bookingRequestByCompany={x} />
                   ))}
-                </ul>
-              </>
+              </div>
             ))}
           </div>
         )

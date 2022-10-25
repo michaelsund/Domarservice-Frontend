@@ -50,9 +50,11 @@ export const Nav = (props: IProps) => {
                   </Link>
                   {isLoggedIn && (
                     <>
-                      <Link className="font-light text-base" to="/matcher">
-                        Matcher
-                      </Link>
+                      {(role === Role.RefereeUser || role === Role.Admin) && (
+                        <Link className="font-light text-base" to="/matcher">
+                          Matcher
+                        </Link>
+                      )}
                       {(role === Role.CompanyUser || role === Role.Admin) && (
                         <Link className="font-light text-base" to="/domare">
                           Domare
