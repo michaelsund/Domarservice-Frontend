@@ -6,6 +6,7 @@ import { BookingRequestByRefereeDto } from '../Types/Dto/BookingRequestByReferee
 import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 import usePostCompanyResponse from '../Hooks/usePostCompanyResponse';
 import { Button } from './Button';
+import { DeleteMyEvent } from './DeleteMyEvent';
 
 interface IUsePostRefereeResponse {
   sendAwnser: any;
@@ -33,6 +34,7 @@ export const MyCompanyEvents = () => {
             {moment(companyEvent.date).format('YYYY-MM-DD')} - {companyEvent.name} -
             {companyEvent.location}
           </p>
+          <DeleteMyEvent eventId={companyEvent.id} />
           <p className="text-xl">Anmälda domare</p>
           {companyEvent.bookingRequestByReferees.map((request: BookingRequestByRefereeDto) => (
             <div key={request.id}>

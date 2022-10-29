@@ -95,7 +95,9 @@ const IndexContainer = () => {
               <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
                 Hitta matcher att döma
               </h4>
-              <Button text="Registrera" />
+              <Link to="/registrera">
+                <Button text="Registrera" secondary />
+              </Link>
             </div>
             <img className="object-cover h-80 w-full brightness-50" src={Referee1} alt="" />
           </div>
@@ -107,7 +109,9 @@ const IndexContainer = () => {
               <h4 className="text-white drop-shadow-2xl mb-8 text-xl font-normal tracking-tight">
                 Hitta domare till föreningens matcher
               </h4>
-              <Button text="Registrera" />
+              <Link to="/registrera">
+                <Button text="Registrera" secondary />
+              </Link>
             </div>
             <img className="object-cover h-80 w-full brightness-50" src={Company1} alt="" />
           </div>

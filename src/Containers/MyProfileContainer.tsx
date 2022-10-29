@@ -8,6 +8,8 @@ import MyRequestsFromCompanies from '../Components/MyRequestsFromCompanies';
 import { MyCompanyEvents } from '../Components/MyCompanyEvents';
 import { Role } from '../Types/Role';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
+import { Link } from 'react-router-dom';
+import { Button } from '../Components/Button';
 
 const MyProfileContainer = () => {
   const [profile, setProfile] = useState<Profile>();
@@ -51,6 +53,9 @@ const MyProfileContainer = () => {
       )}
       {role === Role.CompanyUser && (
         <div>
+          <Link to="/ny-match">
+            <Button text="Ny Match" />
+          </Link>
           <h1 className="text-lg">Din förenings matcher</h1>
           <MyCompanyEvents />
           <br />

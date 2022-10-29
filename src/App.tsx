@@ -16,6 +16,7 @@ import VerifyEmailContainer from './Containers/VerifyEmailContainer';
 import UserForbiddenContainer from './Containers/UserForbidden';
 import AllRefereeScheduleContainer from './Containers/AllRefereeScheduleContainer';
 import CompanyEventContainer from './Containers/CompanyEventConatiner';
+import NewCompanyEventContainer from './Containers/NewCompanyEventContainer';
 
 const App = () => {
   moment.locale('sv');
@@ -28,6 +29,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<IndexContainer />} />
               <Route path="/matcher" element={<AllEventsContainer />} />
+              <Route path="/ny-match" element={<NewCompanyEventContainer />} />
               <Route path="/match/:id" element={<CompanyEventContainer />} />
               <Route path="/domare" element={<AllRefereeScheduleContainer />} />
               <Route path="/inte-behorig" element={<UserForbiddenContainer />} />
