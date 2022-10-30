@@ -173,7 +173,7 @@ const AllEventsContainer = () => {
         </>
       ) : (
         data !== null && (
-          <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3 lg:grid-rows-3">
+          <div className="grid w-full lg:w-2/3 mx-auto space-y-2 lg:space-y-0 lg:gap-2 lg:grid-flow-row-dense lg:grid-cols-3">
             {data.map((match: ExtendedCompanyEventDto) => (
               <EventCard key={match.id} companyEvent={match} />
             ))}

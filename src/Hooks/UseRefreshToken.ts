@@ -3,8 +3,6 @@ import axios from '../Helpers/Axios';
 const useRefreshToken = () => {
 
   const refresh = async () => {
-    console.log('refreshing token');
-    console.log(`token ${localStorage.getItem('token')}`);
     const response = await axios.post(
       '/authenticate/refresh-token',
       {

@@ -29,7 +29,6 @@ export const CompanyRequest = (props: IProps) => {
           `Svarade: ${moment(props.bookingRequestByCompany.respondedAt).format('DD MMM')}`}
         <Button text="Ja" onClick={() => sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: true })} />
         <Button text="Nej" onClick={() => sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: false })} />
-
       </p>
     </div>
   );

@@ -12,9 +12,10 @@ import Company1 from '../Images/company1.jpg';
 import Referee1 from '../Images/referee1.jpg';
 import { Sponsors } from '../Components/Sponsors';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
+import { Role } from '../Types/Role';
 
 const IndexContainer = () => {
-  const { isLoggedIn }: any = useContext(DomarserviceContext);
+  const { isLoggedIn, role }: any = useContext(DomarserviceContext);
 
   return (
     <div className="flex flex-col text-gray-900 dark:text-white">
@@ -32,9 +33,16 @@ const IndexContainer = () => {
                 <Button text="Registrera" secondary />
               </Link>
             )}
-            <Link to="/matcher">
-              <Button text="Alla matcher" secondary />
-            </Link>
+            {(role === Role.RefereeUser || role === Role.Admin) && (
+              <Link to="/matcher">
+                <Button text="Alla matcher" secondary />
+              </Link>
+            )}
+            {(role === Role.CompanyUser || role === Role.Admin) && (
+              <Link to="/domare">
+                <Button text="Alla domare" secondary />
+              </Link>
+            )}
           </div>
         </div>
       </Hero>

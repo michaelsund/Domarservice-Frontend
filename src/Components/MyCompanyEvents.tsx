@@ -7,6 +7,7 @@ import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 import usePostCompanyResponse from '../Hooks/usePostCompanyResponse';
 import { Button } from './Button';
 import { DeleteMyEvent } from './DeleteMyEvent';
+import { request } from 'https';
 
 interface IUsePostRefereeResponse {
   sendAwnser: any;
@@ -17,14 +18,20 @@ interface IUsePostRefereeResponse {
 
 interface IUseFetchMyEvents {
   data: CompanyEventDto[] | undefined;
+  reFetch: () => void;
   error: string;
   loaded: boolean;
 }
 
 export const MyCompanyEvents = () => {
   const axiosPrivate = useAxiosPrivate();
-  const { data, error, loaded }: IUseFetchMyEvents = useFetchMyEvents();
+  const { data, reFetch, error, loaded }: IUseFetchMyEvents = useFetchMyEvents();
   const companyResponse: IUsePostRefereeResponse = usePostCompanyResponse();
+
+  const sendAwnser = async (requestId: number, awnser: boolean) => {
+    await companyResponse.sendAwnser({ requestId: requestId, accepted: awnser });
+    reFetch();
+  };
 
   return (
     <div>
@@ -34,7 +41,7 @@ export const MyCompanyEvents = () => {
             {moment(companyEvent.date).format('YYYY-MM-DD')} - {companyEvent.name} -
             {companyEvent.location}
           </p>
-          <DeleteMyEvent eventId={companyEvent.id} />
+          <DeleteMyEvent eventId={companyEvent.id} parentReload={reFetch} />
           <p className="text-xl">Anmälda domare</p>
           {companyEvent.bookingRequestByReferees.map((request: BookingRequestByRefereeDto) => (
             <div key={request.id}>
@@ -42,8 +49,8 @@ export const MyCompanyEvents = () => {
                 {request.referee.surname} {request.referee.lastname} :{' '}
                 {request.accepted ? 'Accepterad' : 'Inte accepterad'}
               </p>
-              <Button text="Acceptera" onClick={() => companyResponse.sendAwnser({ requestId: request.id, accepted: true })} />
-              <Button text="Acceptera inte" onClick={() => companyResponse.sendAwnser({ requestId: request.id, accepted: false })} />
+              <Button text="Acceptera" onClick={() => sendAwnser(request.id, true)} />
+              <Button text="Acceptera inte" onClick={() => sendAwnser(request.id, false)} />
             </div>
           ))}
           <br />

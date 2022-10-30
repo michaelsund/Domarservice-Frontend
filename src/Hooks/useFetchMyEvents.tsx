@@ -35,7 +35,26 @@ const useFetchMyEvents = () => {
     };
   }, []);
 
-  return { data, error, loaded };
+  const reFetch = async () => {
+    const controller = new AbortController();
+    try {
+      const response = await axiosPrivate.get(
+        `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/my-events`,
+        {
+          signal: controller.signal,
+        },
+      );
+      setData(response.data.data);
+      setError('');
+    } catch (error: any) {
+      console.log(`Response status: ${error.response?.status}`);
+      setError(error.response?.data.message);
+      setData([]);
+    }
+    setLoaded(true);
+  };
+
+  return { data, reFetch, error, loaded };
 };
 
 export default useFetchMyEvents;
