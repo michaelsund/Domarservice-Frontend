@@ -17,6 +17,7 @@ import UserForbiddenContainer from './Containers/UserForbidden';
 import AllRefereeScheduleContainer from './Containers/AllRefereeScheduleContainer';
 import CompanyEventContainer from './Containers/CompanyEventConatiner';
 import NewCompanyEventContainer from './Containers/NewCompanyEventContainer';
+import MyScheduleContainer from './Containers/MyScheduleContainer';
 
 const App = () => {
   moment.locale('sv');
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/verifiera-epost" element={<VerifyEmailContainer />} />
               <Route path="/forening/:id" element={<CompanyContainer />} />
               <Route path="/min-profil" element={<MyProfileContainer />} />
+              <Route path="/mitt-schema" element={<MyScheduleContainer />} />
               <Route path="/login" element={<LoginContainer />} />
               <Route path="/registrera" element={<RegisterContainer />} />
               <Route

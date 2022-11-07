@@ -44,6 +44,9 @@ const MyProfileContainer = () => {
       <br />
       {role === Role.RefereeUser && (
         <div>
+          <Link to="/mitt-schema">
+            <Button text="Gå till mitt schema" />
+          </Link>
           <h1 className="text-lg">Matcher du ansökt att döma</h1>
           <MyRefereeEventRequests />
           <br />
