@@ -11,6 +11,7 @@ import { Card } from '../Components/Card';
 import moment from 'moment';
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
 import useFetchAllRefereeSchedules from '../Hooks/useFetchAllRefereeSchedules';
+import usePostRequestByCompany from '../Hooks/usePostRequestByCompany';
 
 const AllRefereeScheduleContainer = () => {
   const [page, setPage] = useState<number>(1);
@@ -24,6 +25,7 @@ const AllRefereeScheduleContainer = () => {
   const location = useLocation();
   // Axiosprivate hook needs to be imported here.
   const axiosPrivate = useAxiosPrivate();
+  const requestByCompany: any = usePostRequestByCompany();
   const { data, error, loaded, refreshData }: any = useFetchAllRefereeSchedules({
     page,
     availableFromDate,
@@ -178,6 +180,7 @@ const AllRefereeScheduleContainer = () => {
                     <th scope="col" className="py-3 px-6">
                       Dömer
                     </th>
+                    <th scope="col" className="py-3 px-6"></th>
                   </tr>
                 </thead>
                 {data.map((schedule: RefereeScheduleDto) => (
@@ -194,6 +197,20 @@ const AllRefereeScheduleContainer = () => {
                             {Object.values(RefereeType)[sport.refereeType as any]}{' '}
                           </span>
                         ))}
+                      </td>
+                      <td>
+                        <Button
+                          text="Boka"
+                          onClick={() =>
+                            requestByCompany.sendRequestByCompany({
+                              scheduleId: schedule.id,
+                              message: 'Testar en bokning för id ' + schedule.id,
+                              sportType: 0,
+                              refereeType: 0,
+                              companyEventId: 0,
+                            })
+                          }
+                        />
                       </td>
                     </tr>
                   </tbody>

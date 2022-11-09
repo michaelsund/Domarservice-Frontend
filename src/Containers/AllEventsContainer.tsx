@@ -80,7 +80,7 @@ const AllEventsContainer = () => {
     <div className="flex flex-col items-center text-gray-900 dark:text-white p-6">
       <Card className="mb-6 w-full lg:w-2/3 p-6">
         <div className="flex justify-center">
-          <h1 className="flex-1 text-2xl font-normal tracking-tight">Hitta matcher att döma</h1>
+          <h1 className="flex-1 text-2xl font-normal tracking-tight">Hitta matcher</h1>
           <div
             className="flex justify-center  items-center h-8 w-8"
             onClick={() => setShowFilters(!showFilters)}

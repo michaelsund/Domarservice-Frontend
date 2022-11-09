@@ -1,9 +1,11 @@
 import moment, { weekdays } from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
+import { Button } from '../Components/Button';
 import { Card } from '../Components/Card';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
+import usePostRefereeScheduleCreate from '../Hooks/usePostRefereeScheduleCreate';
 import usePostRefereeScheduleMonth from '../Hooks/usePostRefereeScheduleMonth';
 import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
 import { ISendRefereeScheduleMonthRequest } from '../Types/ISendRefereeScheduleMonthRequest';
@@ -13,7 +15,10 @@ const MyScheduleContainer = () => {
   const { id }: any = useContext(DomarserviceContext);
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();
-  const currentMonth = moment().month();
+  // Contains more
+  const { sendRefereeScheduleCreate }: any = usePostRefereeScheduleCreate();
+  // Moment starts January as 0
+  const currentMonth = moment().month() + 1;
   const currentYear = moment().year();
 
   useEffect(() => {
@@ -32,14 +37,23 @@ const MyScheduleContainer = () => {
         </div>
       ) : (
         // TODO: check if data is empty
-        <div className="flex flex-row px-4 py-4 flex-wrap">
-          {data.map((day: RefereeMonthScheduleDto) => (
-            <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
-              {day.day} - {day.dayName}
-              {day.availableAt !== null && <p>Tillgänglig {moment(day.availableAt).format('hh:mm')}</p>}
-              {day.bookingRequestByCompanys !== null && ' Bokningsförfrågan finns'}
-            </Card>
-          ))}
+        <div className="flex flex-col items-center">
+          <p className="text-xl capitalize">
+            {moment().format('MMMM')} - {currentYear}
+          </p>
+          <div className="flex flex-row px-4 py-4 flex-wrap">
+            {data.map((day: RefereeMonthScheduleDto) => (
+              <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
+                <Button text="Lägg till" onClick={() => sendRefereeScheduleCreate(moment(`${currentYear}-${currentMonth}-${day.day + 1}`))} />
+                <Button text="Ta bort" />
+                {day.day} - {day.dayName}
+                {day.availableAt !== null && (
+                  <p>Tillgänglig {moment(day.availableAt).format('HH:mm')}</p>
+                )}
+                {day.bookingRequestByCompanys.length > 0 && ' Bokningsförfrågan finns'}
+              </Card>
+            ))}
+          </div>
         </div>
       )}
     </div>
