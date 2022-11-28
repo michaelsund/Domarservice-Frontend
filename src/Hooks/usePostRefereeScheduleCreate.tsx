@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 
 const usePostRefereeScheduleCreate = () => {
   const [success, setSuccess] = useState<boolean>(false);
@@ -10,7 +10,7 @@ const usePostRefereeScheduleCreate = () => {
     const controller = new AbortController();
 
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeschedule/create`,
         {
           availableAt

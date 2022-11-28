@@ -18,6 +18,8 @@ import AllRefereeScheduleContainer from './Containers/AllRefereeScheduleContaine
 import CompanyEventContainer from './Containers/CompanyEventConatiner';
 import NewCompanyEventContainer from './Containers/NewCompanyEventContainer';
 import MyScheduleContainer from './Containers/MyScheduleContainer';
+// Import our axios instance.
+import './Helpers/Axios';
 
 const App = () => {
   moment.locale('sv');

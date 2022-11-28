@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { useState } from 'react';
 import internal from 'stream';
-import { axiosPrivate } from '../Helpers/Axios';
 import { BookScheduleByCompanyBody } from '../Types/BookScheduleByCompanyBody';
 
 const usePostRequestByCompany = () => {
@@ -12,7 +12,7 @@ const usePostRequestByCompany = () => {
     const controller = new AbortController();
     console.log(data);
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/bookingrequest/request-by-company`,
         data,
         {

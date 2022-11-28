@@ -67,6 +67,10 @@ const MyProfileContainer = () => {
           <br />
         </div>
       )}
+      {/* <h2 className="text-2xl">
+        Mitt namn: {data?.surname} {data?.lastname}
+      </h2>
+      <MyCompanyEvents /> */}
     </div>
   );
 };

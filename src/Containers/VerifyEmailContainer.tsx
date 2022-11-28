@@ -1,7 +1,7 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
-import { axiosPrivate } from '../Helpers/Axios';
 
 const VerifyEmailContainer = () => {
   const [error, setError] = useState<boolean>(false);
@@ -20,7 +20,7 @@ const VerifyEmailContainer = () => {
     const handleVerifyEmail = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${
             process.env.NODE_ENV === 'production' ? '/api' : ''
           }/authenticate/confirm-email?token=${token}&email=${email}`,

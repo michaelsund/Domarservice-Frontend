@@ -7,7 +7,7 @@ import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
-import { axiosPrivate } from '../Helpers/Axios';
+import axios from 'axios';
 
 const RefereeContainer = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const RefereeContainer = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/referee/${id}`,
           {
             signal: controller.signal,
@@ -45,24 +45,6 @@ const RefereeContainer = () => {
           setErrorMsg(error.response.data.message);
         }
       }
-      // try {
-      //   const response = await axiosPrivate.get(`/referee/${id}`, {
-      //     signal: controller.signal,
-      //   });
-      //   isMounted && setReferee(response.data.data);
-      //   setLoading(false);
-      //   setError(false);
-      // } catch (error: any) {
-      //   console.log(`Response status: ${error.response?.status}`);
-      //   setLoading(false);
-      //   if (error.response.status === 401 || error.response.status === 400) {
-      //     navigate('/login', { state: { from: location }, replace: true });
-      //   } else {
-      //     setError(true);
-      //     setErrorMsg(error.response.data.message);
-      //     console.log(error);
-      //   }
-      // }
     };
 
     getReferee();

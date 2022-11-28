@@ -9,7 +9,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { SimpleUserDto } from '../Types/Dto/Requests/SimpleUserDto';
 import { CompanyAndUsersDto } from '../Types/Dto/Requests/CompanyAndUsersDto';
-import { axiosPrivate } from '../Helpers/Axios';
+import axios from 'axios';
 
 const CompanyContainer = () => {
   const { id } = useParams();
@@ -27,7 +27,7 @@ const CompanyContainer = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/company/${id}/withusers`,
           {
             signal: controller.signal,

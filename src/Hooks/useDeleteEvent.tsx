@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 
 const useDeleteEvent = () => {
   const [success, setSuccess] = useState<boolean>(false);
@@ -10,7 +10,7 @@ const useDeleteEvent = () => {
     const controller = new AbortController();
 
     try {
-      const response = await axiosPrivate.delete(
+      const response = await axios.delete(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/${eventId}`,
         {
           signal: controller.signal,

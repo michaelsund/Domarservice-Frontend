@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 
 const useFetchAllRefereeSchedules = (payload: any) => {
   const [data, setData] = useState(null);
@@ -13,7 +13,7 @@ const useFetchAllRefereeSchedules = (payload: any) => {
 
     const runFetch = async () => {
       try {
-        const response = await axiosPrivate.post(
+        const response = await axios.post(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
           payload,
           {
@@ -40,7 +40,7 @@ const useFetchAllRefereeSchedules = (payload: any) => {
   const refreshData = async () => {
     const controller = new AbortController();
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeSchedule/filtered`,
         payload,
         {

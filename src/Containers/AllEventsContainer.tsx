@@ -22,7 +22,6 @@ const AllEventsContainer = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
-  // Axiosprivate hook needs to be imported here.
   const { data, error, loaded, refreshData }: any = useFetchAllCompanyEvents({
     page,
     fromDate,

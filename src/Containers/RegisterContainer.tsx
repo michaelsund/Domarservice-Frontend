@@ -1,4 +1,4 @@
-import axios from '../Helpers/Axios';
+import axios from 'axios';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Components/Button';

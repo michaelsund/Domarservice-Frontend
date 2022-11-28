@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { BookingRequestByRefereeDto } from '../Types/Dto/BookingRequestByRefereeDto';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { ResultWithMessage } from '../Types/ResultWithMessage';
 import { Button } from './Button';
+import axios from 'axios';
 
 interface IProps {
   eventId?: number;
@@ -33,7 +33,7 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
     if (props.eventId) {
       const controller = new AbortController();
       try {
-        await axiosPrivate.post(
+        await axios.post(
           `${
             process.env.NODE_ENV === 'production' ? '/api' : ''
           }/bookingrequest/request-by-referee`,
@@ -61,7 +61,7 @@ export const CreateBookingRequestOnEvent = (props: IProps) => {
     if (props.eventId) {
       const controller = new AbortController();
       try {
-        await axiosPrivate.get(
+        await axios.get(
           `${
             process.env.NODE_ENV === 'production' ? '/api' : ''
           }/bookingrequest/revoke-request-by-referee/${props.eventId}`,

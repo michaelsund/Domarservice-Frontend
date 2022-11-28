@@ -20,7 +20,6 @@ interface IUseFetchCompanyEvent {
 const CompanyEventContainer = () => {
   const navigate = useNavigate();
   const { id }: any = useParams();
-  // Axiosprivate hook needs to be imported here.
   const { data, error, loaded, refreshData }: IUseFetchCompanyEvent = useFetchCompanyEvent({
     id,
   });

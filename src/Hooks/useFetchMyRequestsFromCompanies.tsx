@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
 
 const useFetchMyRequestsFromCompanies = () => {
@@ -13,7 +13,7 @@ const useFetchMyRequestsFromCompanies = () => {
 
     const runFetch = async () => {
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeschedule/from-companies`,
           {
             signal: controller.signal,

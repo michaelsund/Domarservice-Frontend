@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
 
 const usePostRefereeScheduleMonth = () => {
@@ -12,7 +12,7 @@ const usePostRefereeScheduleMonth = () => {
     const controller = new AbortController();
 
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeschedule/month`,
         {
           refereeId: refereeId,

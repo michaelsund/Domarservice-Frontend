@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 
 interface IProps {
@@ -18,7 +18,7 @@ const useFetchCompanyEvent = (props: IProps) => {
 
     const runFetch = async () => {
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/${props.id}`,
           {
             signal: controller.signal,
@@ -45,7 +45,7 @@ const useFetchCompanyEvent = (props: IProps) => {
     setLoaded(false);
     const controller = new AbortController();
     try {
-      const response = await axiosPrivate.get(
+      const response = await axios.get(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/${props.id}`,
         {
           signal: controller.signal,

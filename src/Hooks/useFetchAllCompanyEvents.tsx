@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 
 const useFetchAllCompanyEvents = (payload: any) => {
   const [data, setData] = useState(null);
@@ -13,7 +13,7 @@ const useFetchAllCompanyEvents = (payload: any) => {
 
     const runFetch = async () => {
       try {
-        const response = await axiosPrivate.post(
+        const response = await axios.post(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
           payload,
           {
@@ -41,7 +41,7 @@ const useFetchAllCompanyEvents = (payload: any) => {
     setLoaded(false);
     const controller = new AbortController();
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/filtered`,
         payload,
         {

@@ -1,5 +1,5 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { EventCard } from './EventCard';
@@ -18,7 +18,7 @@ export const UpcomingMatches = () => {
     const getReferee = async () => {
       setLoading(true);
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/latest/3`,
           {
             signal: controller.signal,

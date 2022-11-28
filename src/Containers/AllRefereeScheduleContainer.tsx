@@ -22,7 +22,6 @@ const AllRefereeScheduleContainer = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
-  // Axiosprivate hook needs to be imported here.
   const requestByCompany: any = usePostRequestByCompany();
   const { data, error, loaded, refreshData }: any = useFetchAllRefereeSchedules({
     page,

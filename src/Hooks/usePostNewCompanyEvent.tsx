@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { ISendNewEvent } from '../Types/ISendNewEvent';
 
 const usePostNewCompanyEvent = () => {
@@ -12,7 +12,7 @@ const usePostNewCompanyEvent = () => {
     console.log(payload);
     payload.date = new Date(payload.date).toJSON()
     try {
-      const response = await axiosPrivate.post(
+      const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/companyevent/create`,
         payload,
         {

@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { axiosPrivate } from '../Helpers/Axios';
 import { Profile } from '../Types/Profile';
 
 const useFetchMyProfile = () => {
@@ -13,7 +13,7 @@ const useFetchMyProfile = () => {
 
     const runFetch = async () => {
       try {
-        const response = await axiosPrivate.get(
+        const response = await axios.get(
           `${process.env.NODE_ENV === 'production' ? '/api' : ''}/authenticate/profile`,
           {
             signal: controller.signal,
