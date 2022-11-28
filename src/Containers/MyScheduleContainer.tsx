@@ -4,14 +4,12 @@ import { Button } from '../Components/Button';
 import { Card } from '../Components/Card';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import usePostRefereeScheduleCreate from '../Hooks/usePostRefereeScheduleCreate';
 import usePostRefereeScheduleDelete from '../Hooks/usePostRefereeScheduleDelete';
 import usePostRefereeScheduleMonth from '../Hooks/usePostRefereeScheduleMonth';
 import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
 
 const MyScheduleContainer = () => {
-  const axiosPrivate = useAxiosPrivate();
   const { id }: any = useContext(DomarserviceContext);
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();

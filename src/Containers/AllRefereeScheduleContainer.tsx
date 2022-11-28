@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { RefereeSport } from '../Types/Dto/RefereeSport';
 import { RefereeType } from '../Types/RefereeType';
@@ -24,7 +23,6 @@ const AllRefereeScheduleContainer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // Axiosprivate hook needs to be imported here.
-  const axiosPrivate = useAxiosPrivate();
   const requestByCompany: any = usePostRequestByCompany();
   const { data, error, loaded, refreshData }: any = useFetchAllRefereeSchedules({
     page,

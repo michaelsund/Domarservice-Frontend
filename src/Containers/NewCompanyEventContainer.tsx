@@ -2,7 +2,6 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Button } from '../Components/Button';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import usePostNewCompanyEvent from '../Hooks/usePostNewCompanyEvent';
 import { ISendNewEvent } from '../Types/ISendNewEvent';
 import { RefereeType } from '../Types/RefereeType';
@@ -18,7 +17,6 @@ const NewCompanyEventContainer = () => {
     sportType: 0,
     refereeTypesForEvent: [{ refereeType: 0 }],
   });
-  const axiosPrivate = useAxiosPrivate();
   const { sendNewEvent, success, error, loading }: any = usePostNewCompanyEvent();
 
   return (

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSport } from '../Types/Dto/RefereeSport';
@@ -8,6 +7,7 @@ import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
+import { axiosPrivate } from '../Helpers/Axios';
 
 const RefereeContainer = () => {
   const { id } = useParams();
@@ -15,7 +15,6 @@ const RefereeContainer = () => {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [referee, setReferee] = useState<RefereeDto>();
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 

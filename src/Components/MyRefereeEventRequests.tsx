@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Profile } from '../Types/Profile';
 import useFetchMyRefereeEventRequests from '../Hooks/useFetchMyRefereeEventRequests';
@@ -14,7 +13,6 @@ interface IUseFetchMyRefereeEventRequests {
 
 const MyRefereeEventRequests = () => {
   const [profile, setProfile] = useState<Profile>();
-  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded }: IUseFetchMyRefereeEventRequests = useFetchMyRefereeEventRequests();
 
   return (

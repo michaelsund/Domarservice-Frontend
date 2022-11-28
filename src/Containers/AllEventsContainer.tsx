@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { RefereeType } from '../Types/RefereeType';
 import { SportType } from '../Types/SportType';
@@ -24,7 +23,6 @@ const AllEventsContainer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   // Axiosprivate hook needs to be imported here.
-  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded, refreshData }: any = useFetchAllCompanyEvents({
     page,
     fromDate,

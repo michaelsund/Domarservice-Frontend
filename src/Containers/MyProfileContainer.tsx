@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Profile } from '../Types/Profile';
 import useFetchMyProfile from '../Hooks/useFetchMyProfile';
@@ -16,7 +15,6 @@ const MyProfileContainer = () => {
   const [profile, setProfile] = useState<Profile>();
   const [modalOpen, setModalOpen] = useState<boolean>(true);
   const { role }: any = useContext(DomarserviceContext);
-  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded }: any = useFetchMyProfile();
 
   return (

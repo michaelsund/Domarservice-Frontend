@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import useFetchMyEvents from '../Hooks/useFetchMyEvents';
 import { BookingRequestByRefereeDto } from '../Types/Dto/BookingRequestByRefereeDto';
 import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
@@ -24,7 +23,6 @@ interface IUseFetchMyEvents {
 }
 
 export const MyCompanyEvents = () => {
-  const axiosPrivate = useAxiosPrivate();
   const { data, reFetch, error, loaded }: IUseFetchMyEvents = useFetchMyEvents();
   const companyResponse: IUsePostRefereeResponse = usePostCompanyResponse();
 

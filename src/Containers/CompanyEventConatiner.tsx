@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Card } from '../Components/Card';
@@ -22,7 +21,6 @@ const CompanyEventContainer = () => {
   const navigate = useNavigate();
   const { id }: any = useParams();
   // Axiosprivate hook needs to be imported here.
-  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded, refreshData }: IUseFetchCompanyEvent = useFetchCompanyEvent({
     id,
   });

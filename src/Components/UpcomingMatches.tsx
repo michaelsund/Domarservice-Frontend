@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
+import { axiosPrivate } from '../Helpers/Axios';
 import { CompanyEventDto } from '../Types/Dto/Requests/CompanyEventDto';
 import { ExtendedCompanyEventDto } from '../Types/Dto/Requests/ExtendedCompanyEventDto';
 import { EventCard } from './EventCard';
 import { LoadingSpinner } from './LoadingSpinner';
 
 export const UpcomingMatches = () => {
-  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();

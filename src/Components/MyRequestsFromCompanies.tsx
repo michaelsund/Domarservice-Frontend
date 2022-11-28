@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { LoadingSpinner } from './LoadingSpinner';
 import { Profile } from '../Types/Profile';
 import useFetchMyRequestsFromCompanies from '../Hooks/useFetchMyRequestsFromCompanies';
@@ -17,7 +16,6 @@ interface IUseFetchMyRequestsFromCompanies {
 
 const MyRequestsFromCompanies = () => {
   const [profile, setProfile] = useState<Profile>();
-  const axiosPrivate = useAxiosPrivate();
   const { data, error, loaded }: IUseFetchMyRequestsFromCompanies =
     useFetchMyRequestsFromCompanies();
 

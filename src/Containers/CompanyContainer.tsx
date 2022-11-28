@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { CountyType } from '../Types/CountyType';
 import { CountyDto } from '../Types/Dto/CountyDto';
 import { RefereeSport } from '../Types/Dto/RefereeSport';
@@ -10,6 +9,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { SimpleUserDto } from '../Types/Dto/Requests/SimpleUserDto';
 import { CompanyAndUsersDto } from '../Types/Dto/Requests/CompanyAndUsersDto';
+import { axiosPrivate } from '../Helpers/Axios';
 
 const CompanyContainer = () => {
   const { id } = useParams();
@@ -17,7 +17,6 @@ const CompanyContainer = () => {
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [company, setCompany] = useState<CompanyAndUsersDto>();
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 

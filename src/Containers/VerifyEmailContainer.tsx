@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
+import { axiosPrivate } from '../Helpers/Axios';
 
 const VerifyEmailContainer = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);

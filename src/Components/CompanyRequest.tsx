@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React from 'react';
-import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import usePostRefereeResponse from '../Hooks/usePostRefereeResponse';
 import { BookingRequestByCompanysDto } from '../Types/Dto/Requests/BookingRequestByCompanysDto';
 import { Button } from './Button';
@@ -17,7 +16,6 @@ interface IProps {
 }
 
 export const CompanyRequest = (props: IProps) => {
-  const axiosPrivate = useAxiosPrivate();
   const { sendAwnser, success, error, loaded }: IUsePostRefereeResponse = usePostRefereeResponse();
 
   return (
