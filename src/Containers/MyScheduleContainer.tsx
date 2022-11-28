@@ -6,9 +6,9 @@ import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import useAxiosPrivate from '../Hooks/UseAxiosPrivate';
 import usePostRefereeScheduleCreate from '../Hooks/usePostRefereeScheduleCreate';
+import usePostRefereeScheduleDelete from '../Hooks/usePostRefereeScheduleDelete';
 import usePostRefereeScheduleMonth from '../Hooks/usePostRefereeScheduleMonth';
 import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
-import { ISendRefereeScheduleMonthRequest } from '../Types/ISendRefereeScheduleMonthRequest';
 
 const MyScheduleContainer = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -17,14 +17,15 @@ const MyScheduleContainer = () => {
     usePostRefereeScheduleMonth();
   // Contains more
   const { sendRefereeScheduleCreate }: any = usePostRefereeScheduleCreate();
+  const { sendRefereeScheduleDelete }: any = usePostRefereeScheduleDelete();
   // Moment starts January as 0
-  const currentMonth = moment().month() + 1;
-  const currentYear = moment().year();
+  const [currentMonth, setCurrentMonth] = useState<number>(moment().month() + 1);
+  const [currentYear, setCurrentYear] = useState<number>(moment().year());
 
   useEffect(() => {
     // Use your own referee id here
     sendMonthScheduleRequest(id, currentYear, currentMonth);
-  }, []);
+  }, [currentMonth]);
 
   return (
     <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
@@ -38,16 +39,26 @@ const MyScheduleContainer = () => {
       ) : (
         // TODO: check if data is empty
         <div className="flex flex-col items-center">
-          <p className="text-xl capitalize">
-            {moment().format('MMMM')} - {currentYear}
-          </p>
+          <div className="flex flex-row">
+            <Button text="Föregående" onClick={() => setCurrentMonth(currentMonth - 1)} />
+            <p className="text-xl capitalize">
+              {currentYear}-{currentMonth}
+            </p>
+            <Button text="Nästa" onClick={() => setCurrentMonth(currentMonth + 1)} />
+          </div>
           <div className="flex flex-row px-4 py-4 flex-wrap">
             {data.map((day: RefereeMonthScheduleDto) => (
               <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
-                <Button text="Lägg till" onClick={() => sendRefereeScheduleCreate(moment(`${currentYear}-${currentMonth}-${day.day + 1}`))} />
-                <Button text="Ta bort" />
+                <p>ScheduleId: {day.id}</p>
+                <Button
+                  text="Lägg till"
+                  onClick={() =>
+                    sendRefereeScheduleCreate(`${currentYear}-${currentMonth}-${day.day}`)
+                  }
+                />
+                <Button text="Ta bort" onClick={() => sendRefereeScheduleDelete(day.id)} />
                 {day.day} - {day.dayName}
-                {day.availableAt !== null && (
+                {day.availableAt !== '0001-01-01T00:00:00' && (
                   <p>Tillgänglig {moment(day.availableAt).format('HH:mm')}</p>
                 )}
                 {day.bookingRequestByCompanys.length > 0 && ' Bokningsförfrågan finns'}

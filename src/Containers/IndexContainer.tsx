@@ -69,7 +69,7 @@ const IndexContainer = () => {
             <WhistleSvg className="h-10 w-10 mb-4 fill-white" />
             <h1 className="text-xl mb-2">Otroligt enkelt</h1>
             <p className="text-xs">
-              Du behöver bara lägga ut et match här på sidan så kommer domare att ta kontakt med
+              Du behöver bara lägga ut en match här på sidan så kommer domare att ta kontakt med
               dig.
             </p>
           </div>

@@ -23,17 +23,28 @@ export const CompanyRequest = (props: IProps) => {
   return (
     <div>
       <p key={props.bookingRequestByCompany.id}>
-        {props.bookingRequestByCompany.requestingCompany.name}: Accepterad:{' '}
-        {(props.bookingRequestByCompany.accepted === false && props.bookingRequestByCompany.respondedAt === '0001-01-01T00:00:00') ?
-          'Inget svar har lämnats än.' : (
-            props.bookingRequestByCompany.accepted ? 'Ja' : 'Nej'
-            // props.bookingRequestByCompany.respondedAt !== '0001-01-01T00:00:00' &&
-            //   `Svarade: ${moment(props.bookingRequestByCompany.respondedAt).format('DD MMM')}`
-          )
+        {props.bookingRequestByCompany.requestingCompany.name}:{' '}
+        {props.bookingRequestByCompany.accepted === false &&
+        props.bookingRequestByCompany.respondedAt === '0001-01-01T00:00:00'
+          ? 'Inget svar har lämnats än.'
+          : props.bookingRequestByCompany.accepted
+          ? 'Du har svarat ja.'
+          : 'Du har svarat nej.'
+          // props.bookingRequestByCompany.respondedAt !== '0001-01-01T00:00:00' &&
+          //   `Svarade: ${moment(props.bookingRequestByCompany.respondedAt).format('DD MMM')}`
         }
-       
-        <Button text="Ja" onClick={() => sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: true })} />
-        <Button text="Nej" onClick={() => sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: false })} />
+        <Button
+          text="Ja"
+          onClick={() =>
+            sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: true })
+          }
+        />
+        <Button
+          text="Nej"
+          onClick={() =>
+            sendAwnser({ requestId: props.bookingRequestByCompany.id, accepted: false })
+          }
+        />
       </p>
     </div>
   );

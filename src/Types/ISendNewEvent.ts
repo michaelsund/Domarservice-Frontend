@@ -7,4 +7,6 @@ export interface ISendNewEvent {
   refereeTypesForEvent: any[];
   name: string;
   date: string;
+  startTime: string;
+  endTime: string;
 }

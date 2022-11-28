@@ -12,6 +12,9 @@ module.exports = {
       backgroundImage: {
         'hero-pattern': 'linear-gradient(to right bottom, rgba(0, 0, 0, 0.9), rgba(43, 108, 176, 0)), url("/src/Images/hockey1.jpg")',
       },
+      minWidth: {
+        '26': '26rem',
+      },
       colors: {
         dark: colors.stone[800],
         primary: colors.sky[900],

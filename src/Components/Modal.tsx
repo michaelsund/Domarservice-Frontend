@@ -3,28 +3,30 @@ import { Button } from './Button';
 
 interface IProps {
   open: boolean;
-  sendClose: any;
+  toggleOpen: () => void;
   title: string;
   children?: any;
 }
 
 export const Modal = (props: IProps) => {
-  return (
-    <div
-      className={`fixed text-gray-500 flex items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0 ${
-        props.open ? 'visible' : 'invisible'
-      }`}
-    >
-      <div
-        className={`bg-white rounded-xl shadow-2xl p-6 sm:w-10/12 mx-10 ${
-          props.open ? 'visible' : 'invisible'
-        }`}
-      >
-        <div className="mb-5">{props.children}</div>
-        <div className={`text-right space-x-5 mt-5 ${props.open ? 'visible' : 'invisible'}`}>
-          <Button text="Klar" onClick={() => props.sendClose()} />
+  return props.open ? (
+    <>
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+          <div className="min-w-26 border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <div className="flex items-start justify-between p-4 border-b border-solid border-slate-200 rounded-t">
+              <h3 className="text-2xl font-semibold">{props.title}</h3>
+            </div>
+            <div className="relative p-6 flex-auto">
+              {props.children}
+            </div>
+            <div className="flex items-center justify-end p-2 border-t border-solid border-slate-200 rounded-b">
+              <Button text="Ok" onClick={() => props.toggleOpen()} />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
+      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </>
+  ) : <></>;
 };
