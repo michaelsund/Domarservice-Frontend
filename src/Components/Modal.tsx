@@ -21,7 +21,7 @@ export const Modal = (props: IProps) => {
               {props.children}
             </div>
             <div className="flex items-center justify-end p-2 border-t border-solid border-slate-200 rounded-b">
-              <Button text="Ok" onClick={() => props.toggleOpen()} />
+              <Button text="Stäng" onClick={() => props.toggleOpen()} />
             </div>
           </div>
         </div>

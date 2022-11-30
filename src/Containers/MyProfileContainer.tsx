@@ -19,9 +19,9 @@ const MyProfileContainer = () => {
 
   return (
     <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
-      {/* <Modal toggleOpen={() => setModalOpen(!modalOpen)} open={modalOpen} title="Test modal!">
+      <Modal toggleOpen={() => setModalOpen(!modalOpen)} open={modalOpen} title="Test modal!">
         <p>Test test test</p>
-      </Modal> */}
+      </Modal>
       {!loaded ? (
         <LoadingSpinner />
       ) : error.length > 0 ? (
@@ -67,10 +67,6 @@ const MyProfileContainer = () => {
           <br />
         </div>
       )}
-      {/* <h2 className="text-2xl">
-        Mitt namn: {data?.surname} {data?.lastname}
-      </h2>
-      <MyCompanyEvents /> */}
     </div>
   );
 };

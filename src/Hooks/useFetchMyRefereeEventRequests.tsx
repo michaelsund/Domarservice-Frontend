@@ -20,7 +20,6 @@ const useFetchMyRefereeEventRequests = () => {
           },
         );
         isMounted && setData(response.data.data);
-        console.log(response.data.data);
         isMounted && setError('');
       } catch (error: any) {
         console.log(`Response status: ${error.response?.status}`);

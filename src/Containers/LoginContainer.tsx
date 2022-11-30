@@ -33,7 +33,6 @@ const LoginContainer = () => {
         { withCredentials: true },
       )
       .then((response) => {
-        console.log(response);
         setIsLoggedIn(true);
         localStorage.setItem('token', response.data.data.token);
         setRole(response.data.data.role as Role);
