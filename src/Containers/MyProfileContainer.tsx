@@ -13,15 +13,11 @@ import { Modal } from '../Components/Modal';
 
 const MyProfileContainer = () => {
   const [profile, setProfile] = useState<Profile>();
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
   const { role }: any = useContext(DomarserviceContext);
   const { data, error, loaded }: any = useFetchMyProfile();
 
   return (
     <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
-      <Modal toggleOpen={() => setModalOpen(!modalOpen)} open={modalOpen} title="Test modal!">
-        <p>Test test test</p>
-      </Modal>
       {!loaded ? (
         <LoadingSpinner />
       ) : error.length > 0 ? (

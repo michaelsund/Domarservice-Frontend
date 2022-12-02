@@ -19,7 +19,10 @@ const MyScheduleContainer = () => {
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();
   // Contains more
-  const { sendRefereeScheduleCreate }: any = usePostRefereeScheduleCreate();
+  const {
+    sendRefereeScheduleCreate,
+    sendRefereeScheduleCreateError,
+  }: any = usePostRefereeScheduleCreate();
   const { sendRefereeScheduleDelete }: any = usePostRefereeScheduleDelete();
   // Moment starts January as 0
   const [currentMonth, setCurrentMonth] = useState<number>(moment().month() + 1);
@@ -30,6 +33,11 @@ const MyScheduleContainer = () => {
     sendMonthScheduleRequest(id, currentYear, currentMonth);
   }, [currentMonth]);
 
+  const handleCreateNewAvailableDay = () => {
+    sendRefereeScheduleCreate(selectedDate);
+    // setModalOpen(false);
+  };
+
   return (
     <>
       <Modal
@@ -37,14 +45,11 @@ const MyScheduleContainer = () => {
         open={modalOpen}
         title="Lägg till dag i schema"
       >
-        <p>Välj tid den {selectedDate}</p>
-        <Button
-          text="Lägg till"
-          onClick={() => {
-            sendRefereeScheduleCreate(selectedDate);
-            setModalOpen(false);
-          }}
-        />
+        <>
+          <p>Välj tid den {selectedDate}</p>
+          <Button text="Lägg till" onClick={() => handleCreateNewAvailableDay()} />
+          <p>{sendRefereeScheduleCreateError}</p>
+        </>
       </Modal>
       <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
         {!loaded ? (
@@ -68,22 +73,21 @@ const MyScheduleContainer = () => {
               {data.map((day: RefereeMonthScheduleDto) => (
                 <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
                   <p>ScheduleId: {day.id}</p>
-                  {/* <Button
-                  text="Lägg till"
-                  onClick={() =>
-                    sendRefereeScheduleCreate(`${currentYear}-${currentMonth}-${day.day}`)
-                  }
-                /> */}
                   <Button
                     text="Lägg till"
                     onClick={() => {
                       // Add leading zeroes to single digit months and days.
-                      setSelecedDate(`${currentYear}-${AddLeadingZeroLessThatTenAsString(currentMonth)}-${AddLeadingZeroLessThatTenAsString(day.day)}`);
+                      setSelecedDate(
+                        `${currentYear}-${AddLeadingZeroLessThatTenAsString(
+                          currentMonth,
+                        )}-${AddLeadingZeroLessThatTenAsString(day.day)}`,
+                      );
                       setModalOpen(true);
                     }}
                   />
                   <Button text="Ta bort" onClick={() => sendRefereeScheduleDelete(day.id)} />
-                  {currentYear}-{AddLeadingZeroLessThatTenAsString(currentMonth)}-{AddLeadingZeroLessThatTenAsString(day.day)} {day.dayName}
+                  {currentYear}-{AddLeadingZeroLessThatTenAsString(currentMonth)}-
+                  {AddLeadingZeroLessThatTenAsString(day.day)} {day.dayName}
                   {day.availableAt !== '0001-01-01T00:00:00' && (
                     <p>Tillgänglig {moment(day.availableAt).format('HH:mm')}</p>
                   )}

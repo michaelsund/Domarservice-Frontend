@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const usePostRefereeScheduleCreate = () => {
   const [success, setSuccess] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+  const [sendRefereeScheduleCreateError, setSendRefereeScheduleCreateError] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const sendRefereeScheduleCreate = async (availableAt: string) => {
@@ -20,15 +20,15 @@ const usePostRefereeScheduleCreate = () => {
         },
       );
       setSuccess(response.data.success);
-      setError('');
+      setSendRefereeScheduleCreateError('');
     } catch (error: any) {
       console.log(`Response status: ${error.response?.status}`);
-      setError(error.response?.data.message);
+      setSendRefereeScheduleCreateError(error.response?.data.message);
     }
     setLoaded(true);
   };
 
-  return { sendRefereeScheduleCreate, success, error, loaded };
+  return { sendRefereeScheduleCreate, success, sendRefereeScheduleCreateError, loaded };
 };
 
 export default usePostRefereeScheduleCreate;
