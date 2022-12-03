@@ -3,8 +3,10 @@ import { useState } from 'react';
 
 const usePostRefereeScheduleCreate = () => {
   const [success, setSuccess] = useState<boolean>(false);
-  const [sendRefereeScheduleCreateError, setSendRefereeScheduleCreateError] = useState<string>('');
+  const [sendRefereeScheduleCreateMessage, setSendRefereeScheduleCreateMessage] = useState<string>('');
   const [loaded, setLoaded] = useState<boolean>(false);
+
+  const sendRefereeScheduleCreateResetMessage = () => setSendRefereeScheduleCreateMessage('');
 
   const sendRefereeScheduleCreate = async (availableAt: string) => {
     const controller = new AbortController();
@@ -20,15 +22,15 @@ const usePostRefereeScheduleCreate = () => {
         },
       );
       setSuccess(response.data.success);
-      setSendRefereeScheduleCreateError('');
+      setSendRefereeScheduleCreateMessage(response.data.message);
     } catch (error: any) {
       console.log(`Response status: ${error.response?.status}`);
-      setSendRefereeScheduleCreateError(error.response?.data.message);
+      setSendRefereeScheduleCreateMessage(error.response?.data.message);
     }
     setLoaded(true);
   };
 
-  return { sendRefereeScheduleCreate, success, sendRefereeScheduleCreateError, loaded };
+  return { sendRefereeScheduleCreate, success, sendRefereeScheduleCreateMessage, sendRefereeScheduleCreateResetMessage, loaded };
 };
 
 export default usePostRefereeScheduleCreate;

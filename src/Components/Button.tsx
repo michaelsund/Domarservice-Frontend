@@ -2,6 +2,7 @@ import React from 'react';
 
 interface IProps {
   text: string;
+  small?: boolean;
   secondary?: boolean;
   rounded?: boolean;
   filled?: boolean;
@@ -15,6 +16,7 @@ interface IProps {
 
 export const Button = ({
   text = 'Button',
+  small = false,
   secondary = false,
   rounded = false,
   filled = true,
@@ -39,6 +41,7 @@ export const Button = ({
           : 'bg-transparent text-primary border-2 py-2 px-4 border border-primary hover:text-white'
       }
       ${secondary ? 'hover:bg-secondaryHover text-black bg-secondary' : 'hover:bg-primaryHover'}
+      ${small && 'py-0 px-0 font-sm'}
       disabled:bg-slate-500 transition-all duration-200 ${hasValidChildren && 'pl-11'}
       ${fullWidth && 'w-full'}
       ${className !== '' && className}`}
