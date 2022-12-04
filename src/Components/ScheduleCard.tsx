@@ -13,7 +13,7 @@ interface IProps {
 export const ScheduleCard = (props: IProps) => {
   return (
     <Card className="p-6">
-      <p>Datum: {moment(props.refereeSchedule.availableAt).format('MMM-DD')}</p>
+      {/* <p>Datum: {moment(props.refereeSchedule.from).format('MMM-DD')}</p> */}
       <p>Schema id: {props.refereeSchedule.id}</p>
       <p>
         {props.refereeSchedule.referee.surname} {props.refereeSchedule.referee.lastname}

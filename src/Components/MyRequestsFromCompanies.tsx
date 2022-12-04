@@ -32,7 +32,7 @@ const MyRequestsFromCompanies = () => {
           <div>
             {data.map((schedule: RefereeScheduleDto) => (
               <div key={schedule.id}>
-                <p className="text-xl text-center" key={schedule.id}>{moment(schedule.availableAt).format('DD MMM')}</p>
+                {/* <p className="text-xl text-center" key={schedule.id}>{moment(schedule.from).format('DD MMM HH:mm')} - {moment(schedule.to).format('HH:mm')}</p> */}
                   {schedule.bookingRequestByCompanys.map((x: BookingRequestByCompanysDto) => (
                     // Own component here! Can use the usePostRefereeResponse hook
                     <CompanyRequest key={x.id} bookingRequestByCompany={x} />

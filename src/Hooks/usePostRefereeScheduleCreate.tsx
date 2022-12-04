@@ -8,14 +8,18 @@ const usePostRefereeScheduleCreate = () => {
 
   const sendRefereeScheduleCreateResetMessage = () => setSendRefereeScheduleCreateMessage('');
 
-  const sendRefereeScheduleCreate = async (availableAt: string) => {
+  const sendRefereeScheduleCreate = async (from: Date, to: Date) => {
     const controller = new AbortController();
+
+    // Check here that From is lower and at the same day as To.
+    // TODO: 
 
     try {
       const response = await axios.post(
         `${process.env.NODE_ENV === 'production' ? '/api' : ''}/refereeschedule/create`,
         {
-          availableAt
+          from,
+          to
         },
         {
           signal: controller.signal,

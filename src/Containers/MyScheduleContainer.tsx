@@ -9,6 +9,7 @@ import { AddLeadingZeroLessThatTenAsString } from '../Helpers/AddLeadingZeroLess
 import usePostRefereeScheduleCreate from '../Hooks/usePostRefereeScheduleCreate';
 import usePostRefereeScheduleDelete from '../Hooks/usePostRefereeScheduleDelete';
 import usePostRefereeScheduleMonth from '../Hooks/usePostRefereeScheduleMonth';
+import { Available } from '../Types/Available';
 import { BookingRequestByCompanyDto } from '../Types/Dto/BookingRequestByCompanyDto';
 import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
 
@@ -16,6 +17,8 @@ const MyScheduleContainer = () => {
   const { id }: any = useContext(DomarserviceContext);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedDate, setSelecedDate] = useState<string>();
+  const [selectedFromTime, setSelectedFromTime] = useState<string>('10:00');
+  const [selectedToTime, setSelectedToTime] = useState<string>('11:00');
 
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();
@@ -42,7 +45,10 @@ const MyScheduleContainer = () => {
   }, [modalOpen]);
 
   const handleCreateNewAvailableDay = () => {
-    sendRefereeScheduleCreate(selectedDate);
+    sendRefereeScheduleCreate(
+      moment(selectedDate + ' ' + selectedFromTime).utcOffset(+1),
+      moment(selectedDate + ' ' + selectedToTime).utcOffset(+1),
+    );
   };
 
   return (
@@ -99,23 +105,35 @@ const MyScheduleContainer = () => {
                         setModalOpen(true);
                       }}
                     />
-                    <Button text="Ta bort" small onClick={() => sendRefereeScheduleDelete(day.id)} />
+                    <Button
+                      text="Ta bort"
+                      small
+                      onClick={() => sendRefereeScheduleDelete(day.id)}
+                    />
                   </div>
                   {currentYear}-{AddLeadingZeroLessThatTenAsString(currentMonth)}-
                   {AddLeadingZeroLessThatTenAsString(day.day)} {day.dayName}
-                  {day.availableAt !== '0001-01-01T00:00:00' && (
-                    <p>Tillgänglig {moment(day.availableAt).format('HH:mm')}</p>
-                  )}
+                  {day.availableTimes.length > 0 &&
+                    day.availableTimes.map((time: Available) => (
+                      <p key={time.id}>
+                        Tillgänglig {moment(time.from).format('HH:mm')} -{' '}
+                        {moment(time.to).format('HH:mm')}
+                      </p>
+                    ))}
                   {day.bookingRequestByCompanys.map(
                     (bookingRequest: BookingRequestByCompanyDto) =>
                       bookingRequest.accepted && (
-                        <p key={bookingRequest.id}>{bookingRequest.requestingCompany.name} Accepterad</p>
+                        <p key={bookingRequest.id}>
+                          {bookingRequest.requestingCompany.name} Accepterad
+                        </p>
                       ),
                   )}
                   {day.bookingRequestByCompanys.map(
                     (bookingRequest: BookingRequestByCompanyDto) =>
                       !bookingRequest.accepted && (
-                        <p key={bookingRequest.id}>{bookingRequest.requestingCompany.name} Ej accepterad</p>
+                        <p key={bookingRequest.id}>
+                          {bookingRequest.requestingCompany.name} Ej accepterad
+                        </p>
                       ),
                   )}
                 </Card>

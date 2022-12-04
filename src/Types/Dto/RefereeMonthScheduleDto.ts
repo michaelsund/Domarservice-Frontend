@@ -1,3 +1,4 @@
+import { Available } from '../Available';
 import { BookingRequestByCompanyDto } from './BookingRequestByCompanyDto';
 
 export interface RefereeMonthScheduleDto {
@@ -5,6 +6,6 @@ export interface RefereeMonthScheduleDto {
   day: number;
   dayName: string;
   week: number;
-  availableAt: string;
+  availableTimes: Available[];
   bookingRequestByCompanys: BookingRequestByCompanyDto[];
 }

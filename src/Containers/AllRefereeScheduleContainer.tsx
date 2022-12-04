@@ -183,7 +183,7 @@ const AllRefereeScheduleContainer = () => {
                 {data.map((schedule: RefereeScheduleDto) => (
                   <tbody key={Math.random()}>
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <td>{moment(schedule.availableAt).format('MMM-DD')}</td>
+                      <td>{moment(schedule.from).format('MMM-DD HH:mm')} - {moment(schedule.to).format('HH:mm')}</td>
                       <td>
                         {schedule.referee.surname} {schedule.referee.lastname}
                       </td>
