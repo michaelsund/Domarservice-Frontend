@@ -3,10 +3,10 @@ import { LoadingSpinner } from './LoadingSpinner';
 import { Profile } from '../Types/Profile';
 import useFetchMyRequestsFromCompanies from '../Hooks/useFetchMyRequestsFromCompanies';
 import { RefereeScheduleDto } from '../Types/Dto/Requests/RefereeScheduleDto';
-import { BookingRequestByCompanysDto } from '../Types/Dto/Requests/BookingRequestByCompanysDto';
 import moment from 'moment';
 import { Button } from './Button';
 import { CompanyRequest } from './CompanyRequest';
+import { BookingRequestByCompanyDto } from '../Types/Dto/BookingRequestByCompanyDto';
 
 interface IUseFetchMyRequestsFromCompanies {
   data: RefereeScheduleDto[] | undefined;
@@ -33,9 +33,9 @@ const MyRequestsFromCompanies = () => {
             {data.map((schedule: RefereeScheduleDto) => (
               <div key={schedule.id}>
                 {/* <p className="text-xl text-center" key={schedule.id}>{moment(schedule.from).format('DD MMM HH:mm')} - {moment(schedule.to).format('HH:mm')}</p> */}
-                  {schedule.bookingRequestByCompanys.map((x: BookingRequestByCompanysDto) => (
+                  {schedule.bookingRequestByCompanys.map((x: BookingRequestByCompanyDto) => (
                     // Own component here! Can use the usePostRefereeResponse hook
-                    <CompanyRequest key={x.id} bookingRequestByCompany={x} />
+                    <CompanyRequest key={x.id} bookingRequestByCompany={x} schedule={schedule} />
                   ))}
               </div>
             ))}

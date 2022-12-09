@@ -10,6 +10,7 @@ import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { Link } from 'react-router-dom';
 import { Button } from '../Components/Button';
 import { Modal } from '../Components/Modal';
+import { MyRequestsForRefereeSchedule } from '../Components/MyRequestsForRefereeSchedule';
 
 const MyProfileContainer = () => {
   const [profile, setProfile] = useState<Profile>();
@@ -61,6 +62,8 @@ const MyProfileContainer = () => {
           <h1 className="text-lg">Din förenings matcher</h1>
           <MyCompanyEvents />
           <br />
+          <h1 className="text-lg">Dina förfrågningar på scheman</h1>
+          <MyRequestsForRefereeSchedule />
         </div>
       )}
     </div>

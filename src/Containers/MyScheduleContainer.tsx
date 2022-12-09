@@ -88,7 +88,7 @@ const MyScheduleContainer = () => {
                 onClick={() => currentMonth < 12 && setCurrentMonth(currentMonth + 1)}
               />
             </div>
-            <div className="flex flex-row px-4 py-4 flex-wrap">
+            <div className="flex flex-row px-4 py-4 flex-wrap overflow-x-auto">
               {data.map((day: RefereeMonthScheduleDto) => (
                 <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
                   <div className="flex">
@@ -118,24 +118,25 @@ const MyScheduleContainer = () => {
                       <p key={time.id}>
                         Tillgänglig {moment(time.from).format('HH:mm')} -{' '}
                         {moment(time.to).format('HH:mm')}
+                        {day.bookingRequestByCompanys.length > 0 && <span>&#129309;</span>}
                       </p>
                     ))}
-                  {day.bookingRequestByCompanys.map(
+                  {/* {day.bookingRequestByCompanys.map(
                     (bookingRequest: BookingRequestByCompanyDto) =>
                       bookingRequest.accepted && (
                         <p key={bookingRequest.id}>
                           {bookingRequest.requestingCompany.name} Accepterad
                         </p>
                       ),
-                  )}
-                  {day.bookingRequestByCompanys.map(
+                  )} */}
+                  {/* {day.bookingRequestByCompanys.map(
                     (bookingRequest: BookingRequestByCompanyDto) =>
                       !bookingRequest.accepted && (
                         <p key={bookingRequest.id}>
                           {bookingRequest.requestingCompany.name} Ej accepterad
                         </p>
                       ),
-                  )}
+                  )} */}
                 </Card>
               ))}
             </div>
