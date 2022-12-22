@@ -4,7 +4,7 @@ import { Button } from './Button';
 interface IProps {
   open: boolean;
   toggleOpen: () => void;
-  title: string;
+  title: string | undefined;
   children?: any;
 }
 

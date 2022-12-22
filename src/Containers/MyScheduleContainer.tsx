@@ -4,6 +4,7 @@ import { Button } from '../Components/Button';
 import { Card } from '../Components/Card';
 import { LoadingSpinner } from '../Components/LoadingSpinner';
 import { Modal } from '../Components/Modal';
+import { ScheduleDayWrapper } from '../Components/ScheduleDayWrapper';
 import { DomarserviceContext } from '../Context/DomarserviceContext';
 import { AddLeadingZeroLessThatTenAsString } from '../Helpers/AddLeadingZeroLessThatTenAsString';
 import usePostRefereeScheduleCreate from '../Hooks/usePostRefereeScheduleCreate';
@@ -16,19 +17,16 @@ import { RefereeMonthScheduleDto } from '../Types/Dto/RefereeMonthScheduleDto';
 const MyScheduleContainer = () => {
   const { id }: any = useContext(DomarserviceContext);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedDate, setSelecedDate] = useState<string>();
-  const [selectedFromTime, setSelectedFromTime] = useState<string>('10:00');
-  const [selectedToTime, setSelectedToTime] = useState<string>('11:00');
+  const [selectedDate, setSelecedDate] = useState<string>('');
+  const [selectedDay, setSelecedDay] = useState<RefereeMonthScheduleDto>(
+    {} as RefereeMonthScheduleDto,
+  );
+  const [selectedFromTime, setSelectedFromTime] = useState<string>('12:00');
+  const [selectedToTime, setSelectedToTime] = useState<string>('13:00');
 
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();
-  // Contains more
-  const {
-    sendRefereeScheduleCreate,
-    sendRefereeScheduleCreateMessage,
-    sendRefereeScheduleCreateResetMessage,
-  }: any = usePostRefereeScheduleCreate();
-  const { sendRefereeScheduleDelete }: any = usePostRefereeScheduleDelete();
+  const { sendRefereeScheduleCreateResetMessage }: any = usePostRefereeScheduleCreate();
   // Moment starts January as 0
   const [currentMonth, setCurrentMonth] = useState<number>(moment().month() + 1);
   const [currentYear, setCurrentYear] = useState<number>(moment().year());
@@ -44,25 +42,15 @@ const MyScheduleContainer = () => {
     sendRefereeScheduleCreateResetMessage();
   }, [modalOpen]);
 
-  const handleCreateNewAvailableDay = () => {
-    sendRefereeScheduleCreate(
-      moment(selectedDate + ' ' + selectedFromTime).utcOffset(+1),
-      moment(selectedDate + ' ' + selectedToTime).utcOffset(+1),
-    );
-  };
-
   return (
     <>
-      <Modal
-        toggleOpen={() => setModalOpen(!modalOpen)}
-        open={modalOpen}
-        title="Lägg till dag i schema"
-      >
-        <>
-          <p>Välj tid den {selectedDate}</p>
-          <Button text="Lägg till" onClick={() => handleCreateNewAvailableDay()} />
-          <p>{sendRefereeScheduleCreateMessage}</p>
-        </>
+      <Modal toggleOpen={() => setModalOpen(!modalOpen)} open={modalOpen} title={selectedDate}>
+        <ScheduleDayWrapper
+          day={selectedDay}
+          date={selectedDate}
+          fromTime={selectedFromTime}
+          toTime={selectedToTime}
+        />
       </Modal>
       <div className="flex flex-col px-4 items-center text-gray-900 dark:text-white">
         {!loaded ? (
@@ -93,7 +81,7 @@ const MyScheduleContainer = () => {
                 <Card key={day.day} className="p-2 h-40 w-full md:w-1/6 lg:w-1/10">
                   <div className="flex">
                     <Button
-                      text="Lägg till"
+                      text="Öppna"
                       small
                       onClick={() => {
                         // Add leading zeroes to single digit months and days.
@@ -102,13 +90,9 @@ const MyScheduleContainer = () => {
                             currentMonth,
                           )}-${AddLeadingZeroLessThatTenAsString(day.day)}`,
                         );
+                        setSelecedDay(day);
                         setModalOpen(true);
                       }}
-                    />
-                    <Button
-                      text="Ta bort"
-                      small
-                      onClick={() => sendRefereeScheduleDelete(day.id)}
                     />
                   </div>
                   {currentYear}-{AddLeadingZeroLessThatTenAsString(currentMonth)}-
