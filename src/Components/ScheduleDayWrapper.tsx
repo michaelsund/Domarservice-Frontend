@@ -42,30 +42,31 @@ export const ScheduleDayWrapper = (props: IProps) => {
       <Button text="Lägg till" onClick={() => handleCreateNewAvailableDay()} />
       <p>{sendRefereeScheduleCreateMessage}</p>
       {props.day.availableTimes.length > 0 && <p>Tillgängliga tider</p>}
-      {props.day.availableTimes.map((availableDay: Available) => (
-        <div className="my-2" key={availableDay.id}>
+      {props.day.availableTimes.map((availableTimeslot: Available) => (
+        <div className="my-2" key={availableTimeslot.id}>
           <p>
-            {moment(availableDay.from).format('DD/MM HH:mm')} -{' '}
-            {moment(availableDay.to).format('HH:mm')} scheduleId: {availableDay.id}
+            {moment(availableTimeslot.from).format('DD/MM HH:mm')} -{' '}
+            {moment(availableTimeslot.to).format('HH:mm')} scheduleId: {availableTimeslot.id}
           </p>
+          <Button
+            text="Ta bort tiden"
+            small
+            onClick={() => sendRefereeScheduleDelete(availableTimeslot.id)}
+          />
           <>
             {props.day.bookingRequestByCompanys.map(
               (request: BookingRequestByCompanyDto) =>
-                request.schedule.id === availableDay.id && (
-                  <p key={request.id}>{request.requestingCompany.name} {request.accepted ? 'är accepterad.' : 'har gjort en förfrågan.'}</p>
+                request.schedule.id === availableTimeslot.id && (
+                  <p key={request.id}>
+                    {request.requestingCompany.name}{' '}
+                    {request.accepted ? 'är accepterad.' : 'har gjort en förfrågan.'} på schemaId{' '}
+                    {request.schedule.id} med eget id: {request.id}
+                  </p>
                 ),
-                // <p key={request.id}>{request.requestingCompany.name} på scheduleId: {request.schedule.id}</p>
             )}
           </>
         </div>
       ))}
-      {/* {canBeRemoved && (
-        <Button
-          text="Ta bort schemadagen"
-          small
-          onClick={() => sendRefereeScheduleDelete(props.day.id)}
-        />
-      )} */}
     </>
   );
 };
