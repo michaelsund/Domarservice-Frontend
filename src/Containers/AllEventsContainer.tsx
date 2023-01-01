@@ -115,6 +115,7 @@ const AllEventsContainer = () => {
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
                 type="date"
+                min={moment().format('YYYY-MM-DD')}
               />
             </div>
           </div>

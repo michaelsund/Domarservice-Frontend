@@ -53,6 +53,7 @@ const NewCompanyEventContainer = () => {
               value={data?.date}
               onChange={(e) => setData({ ...data, date: e.target.value })}
               type="date"
+              min={moment().format('YYYY-MM-DD')}
             />
           </div>
           <div className="mb-4">

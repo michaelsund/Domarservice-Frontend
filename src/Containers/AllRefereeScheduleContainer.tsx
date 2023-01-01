@@ -108,6 +108,7 @@ const AllRefereeScheduleContainer = () => {
                 value={availableFromDate}
                 onChange={(e) => setAvailableFromDate(e.target.value)}
                 type="date"
+                min={moment().format('YYYY-MM-DD')}
               />
             </div>
           </div>
