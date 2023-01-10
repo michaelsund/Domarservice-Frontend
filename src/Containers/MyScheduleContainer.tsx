@@ -21,8 +21,8 @@ const MyScheduleContainer = () => {
   const [selectedDay, setSelecedDay] = useState<RefereeMonthScheduleDto>(
     {} as RefereeMonthScheduleDto,
   );
-  const [selectedFromTime, setSelectedFromTime] = useState<string>('12:00');
-  const [selectedToTime, setSelectedToTime] = useState<string>('13:00');
+  const [selectedFromTime, setSelectedFromTime] = useState<string>('07:00');
+  const [selectedToTime, setSelectedToTime] = useState<string>('08:00');
 
   const { sendMonthScheduleRequest, data, success, error, loaded }: any =
     usePostRefereeScheduleMonth();

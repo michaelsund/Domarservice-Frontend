@@ -7,8 +7,8 @@ export interface ExtendedCompanyEventDto {
   name: string;
   location: string;
   date: Date;
-  startTime: string;
-  endTime: string;
+  durationHours: number;
+  durationMinutes: number;
   company: SimpleCompanyDto;
   sportType: number;
   refereeTypesForEvent: RefereeType[];

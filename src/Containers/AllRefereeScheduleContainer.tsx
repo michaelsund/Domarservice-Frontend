@@ -79,7 +79,7 @@ const AllRefereeScheduleContainer = () => {
       <Card className="mb-6 w-full lg:w-2/3 p-6">
         <div className="flex justify-center">
           <h1 className="flex-1 text-2xl font-normal tracking-tight">
-            Hitta domare till din match
+            Domarscheman
           </h1>
           <div
             className="flex justify-center  items-center h-8 w-8"

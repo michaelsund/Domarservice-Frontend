@@ -42,7 +42,8 @@ const CompanyEventContainer = () => {
           <p>
             Id: {data?.id} Name: {data?.name}
           </p>
-          <p>{moment(data?.date).format('MMM-DD')}</p>
+          <p>{moment(data?.date).format('MMM-DD HH:mm')} till {moment(data?.date).add(data?.durationHours, 'hours').add(data?.durationMinutes, 'minutes').format('HH:mm')}</p>
+          <p>Pågår i: {data?.durationHours} timar och {data?.durationMinutes} minuter.</p>
           <p>{data?.location}</p>
           <p>Sport: {Object.values(SportType)[data?.sportType as any]}</p>
           {data?.bookingRequestByReferees !== undefined && (

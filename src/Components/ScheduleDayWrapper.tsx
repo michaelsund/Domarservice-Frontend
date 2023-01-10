@@ -30,15 +30,17 @@ export const ScheduleDayWrapper = (props: IProps) => {
   }, []);
 
   const handleCreateNewAvailableDay = () => {
+      console.log(moment.utc(props.date + ' ' + props.fromTime));
+      console.log(moment.utc(props.date + ' ' + props.toTime));
     sendRefereeScheduleCreate(
-      moment(props.date + ' ' + props.fromTime).utcOffset(+1),
-      moment(props.date + ' ' + props.toTime).utcOffset(+1),
+      moment.utc(props.date + ' ' + props.fromTime),
+      moment.utc(props.date + ' ' + props.toTime),
     );
   };
 
   return (
     <>
-      <p>Lägg till en ny tid den {props.date}</p>
+      <p>Lägg till en ny tid den {props.date} {props.fromTime} till {props.toTime}</p>
       <Button text="Lägg till" onClick={() => handleCreateNewAvailableDay()} />
       <p>{sendRefereeScheduleCreateMessage}</p>
       {props.day.availableTimes.length > 0 && <p>Tillgängliga tider</p>}
